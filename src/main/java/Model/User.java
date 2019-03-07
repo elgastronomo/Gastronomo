@@ -32,7 +32,7 @@ public class User {
 	/**
 	 * @return the valorations
 	 */
-	@OneToMany
+	@OneToMany(targetEntity=Valoration.class)
 	public List<Valoration> getValorations() {
 		return valorations;
 	}
@@ -140,7 +140,7 @@ public class User {
 	/**
 	 * @return the recipes
 	 */
-	@ManyToMany
+	@ManyToMany(targetEntity=Recipe.class)
 	public List<Recipe> getRecipes() {
 		return recipes;
 	}

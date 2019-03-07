@@ -41,7 +41,7 @@ public class Comment {
 	/**
 	 * @return the recipe
 	 */
-	@ManyToOne
+	@ManyToOne(targetEntity=Recipe.class)
 	public Recipe getRecipe() {
 		return recipe;
 	}
@@ -79,7 +79,7 @@ public class Comment {
 	/**
 	 * @return the user
 	 */
-	@ManyToOne
+	@ManyToOne(targetEntity=User.class)
 	public User getUser() {
 		return user;
 	}

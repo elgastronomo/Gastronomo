@@ -35,7 +35,7 @@ public class Valoration {
 	/**
 	 * @return the recipe
 	 */
-	@ManyToOne
+	@ManyToOne(targetEntity=Recipe.class)
 	public Recipe getRecipe() {
 		return recipe;
 	}
@@ -73,7 +73,7 @@ public class Valoration {
 	/**
 	 * @return the user
 	 */
-	@ManyToOne
+	@ManyToOne(targetEntity=User.class)
 	public User getUser() {
 		return user;
 	}

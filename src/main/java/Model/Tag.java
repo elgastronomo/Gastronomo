@@ -36,7 +36,7 @@ public class Tag {
 	/**
 	 * @return the recipe
 	 */
-	@ManyToMany
+	@ManyToMany(targetEntity=Recipe.class)
 	public List<Recipe> getRecipe() {
 		return recipe;
 	}

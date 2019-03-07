@@ -31,7 +31,7 @@ public class Portion {
 	/**
 	 * @return the recipe
 	 */
-	@ManyToOne
+	@ManyToOne(targetEntity=Recipe.class)
 	public Recipe getRecipe() {
 		return recipe;
 	}
@@ -44,7 +44,7 @@ public class Portion {
 	/**
 	 * @return the ingredient
 	 */
-	@ManyToOne
+	@ManyToOne(targetEntity=Ingredient.class)
 	public Ingredient getIngredient() {
 		return ingredient;
 	}

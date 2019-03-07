@@ -187,7 +187,7 @@ public class Recipe {
 	/**
 	 * @return the comments
 	 */
-	@OneToMany
+	@OneToMany(targetEntity=Comment.class)
 	public List<Comment> getComments() {
 		return comments;
 	}
@@ -200,7 +200,7 @@ public class Recipe {
 	/**
 	 * @return the valorations
 	 */
-	@OneToMany
+	@OneToMany(targetEntity=Valoration.class)
 	public List<Valoration> getValorations() {
 		return valorations;
 	}
@@ -213,7 +213,7 @@ public class Recipe {
 	/**
 	 * @return the tags
 	 */
-	@ManyToMany
+	@ManyToMany(targetEntity=Tag.class)
 	public List<Tag> getTags() {
 		return tags;
 	}
@@ -224,7 +224,7 @@ public class Recipe {
 		this.tags = tags;
 	}
 	
-	@OneToMany
+	@OneToMany(targetEntity=Portion.class)
 	public List<Portion> getPortions() {
 		return portions;
 	}

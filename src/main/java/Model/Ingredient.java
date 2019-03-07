@@ -104,7 +104,7 @@ public class Ingredient {
 	/**
 	 * @return the recipes
 	 */
-	@ManyToMany
+	@ManyToMany(targetEntity=Recipe.class)
 	public List<Recipe> getRecipes() {
 		return recipes;
 	}
@@ -117,7 +117,7 @@ public class Ingredient {
 	/**
 	 * @return the portions
 	 */
-	@OneToMany
+	@OneToMany(targetEntity=Portion.class)
 	public List<Portion> getPortions() {
 		return portions;
 	}
