@@ -35,8 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    http
 	        .authorizeRequests()
 	            .antMatchers("/css/**", "/js/**", "/img/**", "/").permitAll()
-	            .antMatchers("/vote/enter").permitAll() 		// <-- only when logging in to vote 
 	            .antMatchers("/admin**").hasRole("ADMIN")
+	            .antMatchers("/buscar").permitAll()
+	            .antMatchers("/receta").permitAll()
 	            .anyRequest().authenticated()
 	            .and()
 	        .formLogin();

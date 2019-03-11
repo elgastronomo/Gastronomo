@@ -1,7 +1,4 @@
-/**
- * 
- */
-package Model;
+package es.ucm.fdi.iw.model;
 
 import java.util.Date;
 
@@ -11,18 +8,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-/**
- * @author roberto
- *
- */
 @Entity
-public class Comment {
+public class Valoration {
 
 	private Long id;
 	private Recipe recipe;
 	private Date date;
-	private String comment;
+	private Double score;
 	private User user;
+	
 	
 	/**
 	 * @return the id
@@ -64,17 +58,17 @@ public class Comment {
 		this.date = date;
 	}
 	/**
-	 * @return the comment
+	 * @return the score
 	 */
-	@ManyToOne
-	public String getComment() {
-		return comment;
+	
+	public Double getScore() {
+		return score;
 	}
 	/**
-	 * @param comment the comment to set
+	 * @param score the score to set
 	 */
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setScore(Double score) {
+		this.score = score;
 	}
 	/**
 	 * @return the user
@@ -89,5 +83,7 @@ public class Comment {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	
 	
 }

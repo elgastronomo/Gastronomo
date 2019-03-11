@@ -1,43 +1,312 @@
 <!DOCTYPE html>
-<html 
-	xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/head.html :: head">
-	<meta charset="utf-8">
-	<title>Title goes here</title>
-	<link rel="stylesheet" th:href="@{/css/main.css}" href="../static/css/main.css" type="text/css"/>
 </head>
 <body>
-	<nav th:replace="fragments/nav.html :: nav">
-		Nav goes here
-	</nav>
-	
+	<nav th:replace="fragments/nav.html :: nav"></nav>
+
+	<div class="section section-search no-pad-bot" id="index-banner">
+		<div class="container">
+			<br>
+			<br>
+			<h2 class="header center red-text text-accent-3 logo">Gastrónomo</h2>
+			<div class="row center">
+				<h5 class="header col s12 light">Buscador de recetas por
+					ingredientes que tienes en la nevera</h5>
+			</div>
+			<div class="row center">
+				<div class="col s12">
+					<form th:action="@{/buscar}" method="GET">
+						<div class="chips">
+							<div class="search">
+								<input class="white grey-text" placeholder="  +Ingrediente"
+									type="text">
+								<button
+									class="btn-floating btn-large waves-effect waves-light red enviar"
+									type="submit" name="action">
+									<i class="material-icons">search</i><i
+										class="material-icons right">send</i>
+								</button>
+							</div>
+						</div>
+					</form>
+
+				</div>
+			</div>
+
+			<div class="container">
+				<div class="row">
+					<div class="col s12">
+						<ul class="tabs tabs-fixed-width tab-demo z-depth-1">
+							<li class="tab col s4"><a class="active" href="#test1">Dificultad</a></li>
+							<li class="tab col s4"><a href="#test2">Tiempo</a></li>
+							<li class="tab col s4"><a href="#test3">Cocina</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row center">
+					<div class="col s12">
+						<div id="test1" class="col s12 options">
+
+							<div class="row">
+
+								<div class="col s4">
+									<img th:src="@{/img/home-icons/easy.png}" width="50" alt="">
+									<p>
+										<strong>Fácil</strong>
+									</p>
+								</div>
+
+								<div class="col s4">
+									<img th:src="@{/img/home-icons/medium.png}" width="50" alt="">
+									<p>
+										<strong>Medio</strong>
+									</p>
+								</div>
+
+								<div class="col s4">
+									<img th:src="@{/img/home-icons/hard.png}" width="50" alt="">
+									<p>
+										<strong>Difícil</strong>
+									</p>
+								</div>
+
+							</div>
+
+						</div>
+						<div id="test2" class="col s12 options">
+
+							<div clas="row">
+
+								<div class="col s4">
+									<img th:src="@{/img/home-icons/time.png}" width="50" alt="">
+									<p>
+										<strong>¡Lo quiero ya!</strong>
+									</p>
+								</div>
+
+								<div class="col s4">
+									<img th:src="@{/img/home-icons/time.png}" width="50" alt="">
+									<p>
+										<strong>Tengo tiempo</strong>
+									</p>
+								</div>
+
+								<div class="col s4">
+									<img th:src="@{/img/home-icons/time.png}" width="50" alt="">
+									<p>
+										<strong>Puedo esperar...</strong>
+									</p>
+								</div>
+
+							</div>
+
+						</div>
+						<div id="test3" class="col s12 options">
+
+							<div clas="row">
+
+								<div class="col s3">
+									<img th:src="@{/img/home-icons/spain.png}" width="50" alt="">
+									<p>
+										<strong>Española</strong>
+									</p>
+								</div>
+
+								<div class="col s3">
+									<img th:src="@{/img/home-icons/italy.png}" width="50" alt="">
+									<p>
+										<strong>Italiana</strong>
+									</p>
+								</div>
+
+								<div class="col s3">
+									<img th:src="@{/img/home-icons/greece.png}" width="50" alt="">
+									<p>
+										<strong>Griega</strong>
+									</p>
+								</div>
+
+								<div class="col s3">
+									<img th:src="@{/img/home-icons/mexico.png}" width="50" alt="">
+									<p>
+										<strong>Mejicana</strong>
+									</p>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			<br>
+		</div>
+	</div>
+
+	<div class="section section-ingredients no-pad-bot">
+		<div class="container">
+			<div class="row center">
+				<div class="col m2">
+					<img th:src="@{/img/home-icons/ingredients/arroz.jpg}"
+						class="circle z-depth-2" width="80" alt="">
+					<p>
+						<strong>Arroz</strong>
+					</p>
+				</div>
+				<div class="col m2">
+					<img th:src="@{/img/home-icons/ingredients/pasta.jpg}"
+						class="circle z-depth-2" width="80" alt="">
+					<p>
+						<strong>Pasta</strong>
+					</p>
+				</div>
+				<div class="col m2">
+					<img th:src="@{/img/home-icons/ingredients/pescado.jpg}"
+						class="circle z-depth-2" width="80" alt="">
+					<p>
+						<strong>Pescado y marisco</strong>
+					</p>
+				</div>
+				<div class="col m2">
+					<img th:src="@{/img/home-icons/ingredients/pollo.jpg}"
+						class="circle z-depth-2" width="80" alt="">
+					<p>
+						<strong>Pollo y otras carnes</strong>
+					</p>
+				</div>
+				<div class="col m2">
+					<img th:src="@{/img/home-icons/ingredients/ensalada.jpg}"
+						class="circle z-depth-2" width="80" alt="">
+					<p>
+						<strong>Ensaladas y verduras</strong>
+					</p>
+				</div>
+				<div class="col m2">
+					<img th:src="@{/img/home-icons/ingredients/postre.jpeg}"
+						class="circle z-depth-2" width="80" alt="">
+					<p>
+						<strong>Postres y dulces</strong>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="container">
-	<div class="main">
-	<h1 th:text="#{index.welcome}">Bienvenido a la plantilla de IW</h1>
-		
-	<h4>Información de Login</h4>
-	<ul>
-	<li>Logged user: <span sec:authentication="name">Bob</span>
-	<li>Roles: 
-	<ul>
-	<li>Admin? <span th:text="${#authorization.expression('hasRole(''ROLE_ADMIN'')')?'Si':'No'}">Puede</span>
-	<li>User? <span th:text="${#authorization.expression('hasRole(''ROLE_USER'')')?'Si':'No'}">Quizás</span>
-	</ul>
-	</ul>
+
+		<div class="row">
+			<div class="col s12 m4">
+				<div class="card">
+					<div class="card-image">
+						<a th:href="@{/receta}"> <img class="img-recortada"
+							th:src="@{/img/home-icons/food/pizza.jpg}">
+						</a> <span class="card-title"> <a th:href="@{/receta}">Receta
+								6</a>
+						</span> <a class="btn-floating halfway-fab waves-effect waves-light red"><i
+							class="material-icons">favorite</i></a>
+					</div>
+					<div class="card-content">
+						<p>Aquí iría una pequeña descripción de la receta de no muchas
+							líneas para que los usuarios se hagan una idea de lo que se van a
+							encontrar cuando accedan a ella.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col s12 m4">
+				<div class="card">
+					<div class="card-image">
+						<a th:href="@{/receta}"> <img class="img-recortada"
+							th:src="@{/img/home-icons/food/pizza.jpg}">
+						</a> <span class="card-title"> <a th:href="@{/receta}">Receta
+								6</a>
+						</span> <a class="btn-floating halfway-fab waves-effect waves-light red"><i
+							class="material-icons">favorite</i></a>
+					</div>
+					<div class="card-content">
+						<p>Aquí iría una pequeña descripción de la receta de no muchas
+							líneas para que los usuarios se hagan una idea de lo que se van a
+							encontrar cuando accedan a ella.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col s12 m4">
+				<div class="card">
+					<div class="card-image">
+						<a th:href="@{/receta}"> <img class="img-recortada"
+							th:src="@{/img/home-icons/food/pizza.jpg}">
+						</a> <span class="card-title"> <a th:href="@{/receta}">Receta
+								6</a>
+						</span> <a class="btn-floating halfway-fab waves-effect waves-light red"><i
+							class="material-icons">favorite</i></a>
+					</div>
+					<div class="card-content">
+						<p>Aquí iría una pequeña descripción de la receta de no muchas
+							líneas para que los usuarios se hagan una idea de lo que se van a
+							encontrar cuando accedan a ella.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col s12 m4">
+				<div class="card">
+					<div class="card-image">
+						<a th:href="@{/receta}"> <img class="img-recortada"
+							th:src="@{/img/home-icons/food/pizza.jpg}">
+						</a> <span class="card-title"> <a th:href="@{/receta}">Receta
+								6</a>
+						</span> <a class="btn-floating halfway-fab waves-effect waves-light red"><i
+							class="material-icons">favorite</i></a>
+					</div>
+					<div class="card-content">
+						<p>Aquí iría una pequeña descripción de la receta de no muchas
+							líneas para que los usuarios se hagan una idea de lo que se van a
+							encontrar cuando accedan a ella.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col s12 m4">
+				<div class="card">
+					<div class="card-image">
+						<a th:href="@{/receta}"> <img class="img-recortada"
+							th:src="@{/img/home-icons/food/pizza.jpg}">
+						</a> <span class="card-title"> <a th:href="@{/receta}">Receta
+								6</a>
+						</span> <a class="btn-floating halfway-fab waves-effect waves-light red"><i
+							class="material-icons">favorite</i></a>
+					</div>
+					<div class="card-content">
+						<p>Aquí iría una pequeña descripción de la receta de no muchas
+							líneas para que los usuarios se hagan una idea de lo que se van a
+							encontrar cuando accedan a ella.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col s12 m4">
+				<div class="card">
+					<div class="card-image">
+						<a th:href="@{/receta}"> <img class="img-recortada"
+							th:src="@{/img/home-icons/food/pizza.jpg}">
+						</a> <span class="card-title"> <a th:href="@{/receta}">Receta
+								6</a>
+						</span> <a class="btn-floating halfway-fab waves-effect waves-light red"><i
+							class="material-icons">favorite</i></a>
+					</div>
+					<div class="card-content">
+						<p>Aquí iría una pequeña descripción de la receta de no muchas
+							líneas para que los usuarios se hagan una idea de lo que se van a
+							encontrar cuando accedan a ella.</p>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="sidebar">
-	<table>
-		<tr th:each="x, i: ${xs}">
-		    <td th:text="|${i.index} ${i.count} ${i.size} ${i.current}|"
-		    th:class="|c${i.odd}-${i.first}-${i.last}|">hola!</td>
-		</tr>
-	</table>
-	</div>
-	</div>
-	
-	<footer th:replace="fragments/footer.html :: footer">
-		Footer goes here
-	</footer>
+
+	<footer th:replace="fragments/footer.html :: footer"></footer>
 </body>
 </html>

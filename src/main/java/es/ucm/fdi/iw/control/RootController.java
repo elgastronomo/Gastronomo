@@ -28,8 +28,17 @@ public class RootController {
 	
 	@GetMapping("/")
 	public String index(Model model) {
-		model.addAttribute("xs", "uno dos tres cuatro cinco".split(" "));
 		return "index";
+	}
+	
+	@GetMapping("/buscar")
+	public String buscar(Model model) {
+		return "buscar";
+	}
+	
+	@GetMapping("/receta")
+	public String receta(Model model) {
+		return "receta";
 	}
 	
 	@GetMapping("/admin")
@@ -42,11 +51,4 @@ public class RootController {
 		return "index";
 	}
 	
-	@GetMapping("/chat")
-	public String chat(Model model, HttpServletRequest request) {
-		model.addAttribute("socketUrl", request.getRequestURL().toString()
-				.replaceFirst("[^:]*", "ws")
-				.replace("chat", "ws"));
-		return "chat";
-	} 
 }

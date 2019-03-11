@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head.html :: head">
+</head>
+<body>
+	<nav th:replace="fragments/nav.html :: nav"></nav>
+
+	<div class="pr50 pl50 mt30 mb30">
+
+		<div class="row section-search">
+
+			<input class="white grey-text" placeholder="  Buscar una receta..."
+				type="text">
+			<button
+				class="btn-floating btn-large waves-effect waves-light red enviar"
+				type="submit" name="action">
+				<i class="material-icons">search</i><i class="material-icons right">send</i>
+			</button>
+
+
+		</div>
+
+		<div class="row">
+			<div class="col l10">
+				6 resultados que <strong>incluyen "XXX"</strong> <a
+					class="waves-effect waves-light btn-small red ml10">Editar</a>
+			</div>
+
+			<div class="input-field col l2">
+				<select>
+					<option value="1">Más relevantes</option>
+					<option value="2">Nuevos</option>
+					<option value="3">Populares</option>
+				</select> <label>Ordenar por</label>
+			</div>
+
+		</div>
+
+
+		<div class="row">
+
+			<div class="col s12 m4 l3">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title">Filtrar resultados</span>
+
+						<div class="mb10">
+							<strong>Tiempo</strong>
+							<p>Máximo de tiempo que quieres dedicar</p>
+							<form action="#">
+								<p class="range-field">
+									<input type="range" id="test5" min="0" max="100" />
+								</p>
+							</form>
+						</div>
+
+						<div class="mb10">
+							<strong>Dificultad</strong>
+							<form action="#">
+								<p>
+									<label> <input type="checkbox" /> <span>Fácil</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" /> <span>Medio</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" /> <span>Difícil</span>
+									</label>
+								</p>
+							</form>
+						</div>
+
+						<div class="mb10">
+							<strong>Tipo de cocina</strong>
+							<form action="#">
+								<p>
+									<label> <input type="checkbox" /> <span>Española</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" /> <span>Italiana</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" /> <span>Griega</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" /> <span>Mejicana</span>
+									</label>
+								</p>
+							</form>
+						</div>
+
+						<div class="mb10">
+							<strong>Dieta</strong>
+							<form action="#">
+								<p>
+									<label> <input type="checkbox" /> <span>Bajo en
+											carbohidratos</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" /> <span>Bajo en
+											sodio</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" /> <span>Mucha
+											fibra</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" /> <span>Alto
+											valor protéico</span>
+									</label>
+								</p>
+
+								<p>
+									<label> <input type="checkbox" /> <span>Poca
+											grasa</span>
+									</label>
+								</p>
+
+							</form>
+						</div>
+
+						<div class="mb10">
+							<strong>Alérgenos</strong>
+							<form action="#">
+								<p>
+									<label> <input type="checkbox" /> <span>Sin
+											gluten</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" /> <span>Sin
+											huevo</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" /> <span>Sin
+											azúcar</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" /> <span>Sin
+											cacahuetes</span>
+									</label>
+								</p>
+
+							</form>
+
+							<a class="mt20 waves-effect waves-light red btn"><i
+								class="material-icons left">search</i>Filtrar</a>
+						</div>
+
+
+					</div>
+				</div>
+
+			</div>
+
+			<div class="col s12 m8 l9">
+				<div class="row">
+					<div class="col s12 m4">
+						<div class="card">
+							<div class="card-image">
+								<a th:href="@{/receta}"> <img class="img-recortada"
+									th:src="@{/img/home-icons/food/pizza.jpg}">
+								</a> <span class="card-title"> <a href="receta.html">Receta
+										1</a>
+								</span> <a
+									class="btn-floating halfway-fab waves-effect waves-light red"><i
+									class="material-icons">favorite</i></a>
+							</div>
+							<div class="card-content">
+								<i class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star_border</i>
+								<p>Aquí iría una pequeña descripción de la receta de no
+									muchas líneas para que los usuarios se hagan una idea de lo que
+									se van a encontrar cuando accedan a ella.</p>
+							</div>
+							<div class="card-action">
+								<span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 1</span> <span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 2</span> <span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 3</span>
+							</div>
+							<div class="card-action">
+								<span><i class="tiny material-icons">person</i> Creado
+									por Anónimo</span>
+							</div>
+						</div>
+					</div>
+					<div class="col s12 m4">
+						<div class="card">
+							<div class="card-image">
+								<a th:href="@{/receta}"> <img class="img-recortada"
+									th:src="@{/img/home-icons/food/pizza.jpg}">
+								</a> <span class="card-title"> <a href="receta.html">Receta
+										1</a>
+								</span> <a
+									class="btn-floating halfway-fab waves-effect waves-light red"><i
+									class="material-icons">favorite</i></a>
+							</div>
+							<div class="card-content">
+								<i class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star_border</i>
+								<p>Aquí iría una pequeña descripción de la receta de no
+									muchas líneas para que los usuarios se hagan una idea de lo que
+									se van a encontrar cuando accedan a ella.</p>
+							</div>
+							<div class="card-action">
+								<span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 1</span> <span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 2</span> <span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 3</span>
+							</div>
+							<div class="card-action">
+								<span><i class="tiny material-icons">person</i> Creado
+									por Anónimo</span>
+							</div>
+						</div>
+					</div>
+					<div class="col s12 m4">
+						<div class="card">
+							<div class="card-image">
+								<a th:href="@{/receta}"> <img class="img-recortada"
+									th:src="@{/img/home-icons/food/pizza.jpg}">
+								</a> <span class="card-title"> <a href="receta.html">Receta
+										1</a>
+								</span> <a
+									class="btn-floating halfway-fab waves-effect waves-light red"><i
+									class="material-icons">favorite</i></a>
+							</div>
+							<div class="card-content">
+								<i class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star_border</i>
+								<p>Aquí iría una pequeña descripción de la receta de no
+									muchas líneas para que los usuarios se hagan una idea de lo que
+									se van a encontrar cuando accedan a ella.</p>
+							</div>
+							<div class="card-action">
+								<span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 1</span> <span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 2</span> <span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 3</span>
+							</div>
+							<div class="card-action">
+								<span><i class="tiny material-icons">person</i> Creado
+									por Anónimo</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col s12 m4">
+						<div class="card">
+							<div class="card-image">
+								<a th:href="@{/receta}"> <img class="img-recortada"
+									th:src="@{/img/home-icons/food/pizza.jpg}">
+								</a> <span class="card-title"> <a href="receta.html">Receta
+										1</a>
+								</span> <a
+									class="btn-floating halfway-fab waves-effect waves-light red"><i
+									class="material-icons">favorite</i></a>
+							</div>
+							<div class="card-content">
+								<i class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star_border</i>
+								<p>Aquí iría una pequeña descripción de la receta de no
+									muchas líneas para que los usuarios se hagan una idea de lo que
+									se van a encontrar cuando accedan a ella.</p>
+							</div>
+							<div class="card-action">
+								<span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 1</span> <span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 2</span> <span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 3</span>
+							</div>
+							<div class="card-action">
+								<span><i class="tiny material-icons">person</i> Creado
+									por Anónimo</span>
+							</div>
+						</div>
+					</div>
+					<div class="col s12 m4">
+						<div class="card">
+							<div class="card-image">
+								<a th:href="@{/receta}"> <img class="img-recortada"
+									th:src="@{/img/home-icons/food/pizza.jpg}">
+								</a> <span class="card-title"> <a href="receta.html">Receta
+										1</a>
+								</span> <a
+									class="btn-floating halfway-fab waves-effect waves-light red"><i
+									class="material-icons">favorite</i></a>
+							</div>
+							<div class="card-content">
+								<i class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star_border</i>
+								<p>Aquí iría una pequeña descripción de la receta de no
+									muchas líneas para que los usuarios se hagan una idea de lo que
+									se van a encontrar cuando accedan a ella.</p>
+							</div>
+							<div class="card-action">
+								<span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 1</span> <span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 2</span> <span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 3</span>
+							</div>
+							<div class="card-action">
+								<span><i class="tiny material-icons">person</i> Creado
+									por Anónimo</span>
+							</div>
+						</div>
+					</div>
+					<div class="col s12 m4">
+						<div class="card">
+							<div class="card-image">
+								<a th:href="@{/receta}"> <img class="img-recortada"
+									th:src="@{/img/home-icons/food/pizza.jpg}">
+								</a> <span class="card-title"> <a href="receta.html">Receta
+										1</a>
+								</span> <a
+									class="btn-floating halfway-fab waves-effect waves-light red"><i
+									class="material-icons">favorite</i></a>
+							</div>
+							<div class="card-content">
+								<i class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star_border</i>
+								<p>Aquí iría una pequeña descripción de la receta de no
+									muchas líneas para que los usuarios se hagan una idea de lo que
+									se van a encontrar cuando accedan a ella.</p>
+							</div>
+							<div class="card-action">
+								<span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 1</span> <span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 2</span> <span><i class="tiny material-icons">restaurant_menu</i>
+									Tag 3</span>
+							</div>
+							<div class="card-action">
+								<span><i class="tiny material-icons">person</i> Creado
+									por Anónimo</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+
+	</div>
+
+	<footer th:replace="fragments/footer.html :: footer"></footer>
+</body>
+</html>
