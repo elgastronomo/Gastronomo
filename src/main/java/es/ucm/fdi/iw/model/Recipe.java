@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -22,6 +24,11 @@ import javax.persistence.OneToMany;
  *
  */
 @Entity
+@NamedQueries(
+		@NamedQuery(name="Recipe.AllRecipes",
+					query="SELECT r FROM Recipe r"
+		)
+)
 public class Recipe {
 
 	private long id;
@@ -36,7 +43,7 @@ public class Recipe {
 	private String steps;
 	private String difficulty;
 	private String cuisine;
-	private List<Ingredient> ingredients = new ArrayList<>();
+	private Set<RecipeIngredient> recipeIngredients = new HashSet<>();
 	private List<Comment> comments = new ArrayList<>();
 	private List<Valoration> valorations = new ArrayList<>();
 	private List<Tag> tags = new ArrayList<>();
@@ -177,13 +184,17 @@ public class Recipe {
 		this.user = user;
 	}
 
-	@ManyToMany(targetEntity = Ingredient.class)
-	public List<Ingredient> getIngredients() {
-		return ingredients;
+	@OneToMany(mappedBy = "recipe")
+	public Set<RecipeIngredient> getRecipeIngredients() {
+		return recipeIngredients;
 	}
 
-	public void setIngredients(List<Ingredient> ingredients) {
-		this.ingredients = ingredients;
+	public void setRecipeIngredients(Set<RecipeIngredient> recipeIngredients) {
+		this.recipeIngredients = recipeIngredients;
+	}
+	
+	public void addRecipeIngredient(RecipeIngredient recipeIngredient) {
+		this.recipeIngredients.add(recipeIngredient);
 	}
 
 	/**

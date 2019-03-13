@@ -3,14 +3,14 @@
  */
 package es.ucm.fdi.iw.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  * @author roberto
@@ -18,10 +18,12 @@ import javax.persistence.ManyToMany;
  */
 @Entity
 public class Ingredient {
-	
+
 	private long id;
 	private String name;
-	private List<Recipe> recipes = new ArrayList<>();
+
+	private Set<RecipeIngredient> recipeIngredients = new HashSet<>();
+
 	/**
 	 * @return the id
 	 */
@@ -30,35 +32,39 @@ public class Ingredient {
 	public long getId() {
 		return id;
 	}
+
 	/**
 	 * @param id the id to set
 	 */
 	public void setId(long id) {
 		this.id = id;
 	}
+
 	/**
 	 * @return the name
 	 */
 	public String getName() {
 		return name;
 	}
+
 	/**
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-	/**
-	 * @return the recipes
-	 */
-	@ManyToMany(targetEntity=Recipe.class, mappedBy = "ingredients")
-	public List<Recipe> getRecipes() {
-		return recipes;
+
+	@OneToMany(mappedBy = "ingredient")
+	public Set<RecipeIngredient> getRecipeIngredients() {
+		return recipeIngredients;
 	}
-	/**
-	 * @param recipes the recipes to set
-	 */
-	public void setRecipes(List<Recipe> recipes) {
-		this.recipes = recipes;
+
+	public void setRecipeIngredients(Set<RecipeIngredient> recipeIngredients) {
+		this.recipeIngredients = recipeIngredients;
 	}
+	
+	public void addRecipeIngredient(RecipeIngredient recipeIngredient) {
+		this.recipeIngredients.add(recipeIngredient);
+	}
+
 }
