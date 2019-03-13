@@ -19,9 +19,9 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Tag {
 
-	private Long id;
+	private long id;
 	private String tag;
-	private List<Recipe> recipe = new ArrayList<>(); ;
+	private List<Recipe> recipe = new ArrayList<>();
 	/**
 	 * @return the tag
 	 */
@@ -37,7 +37,7 @@ public class Tag {
 	/**
 	 * @return the recipe
 	 */
-	@ManyToMany(targetEntity=Recipe.class)
+	@ManyToMany(targetEntity=Recipe.class, mappedBy = "tags")
 	public List<Recipe> getRecipe() {
 		return recipe;
 	}
@@ -51,14 +51,14 @@ public class Tag {
 	 * @return the id
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long getId() {
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	public long getId() {
 		return id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	

@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Valoration {
 
-	private Long id;
+	private long id;
 	private Recipe recipe;
 	private Date date;
 	private Double score;
@@ -22,14 +22,14 @@ public class Valoration {
 	 * @return the id
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long getId() {
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	public long getId() {
 		return id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	/**

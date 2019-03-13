@@ -18,7 +18,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Comment {
 
-	private Long id;
+	private long id;
 	private Recipe recipe;
 	private Date date;
 	private String comment;
@@ -28,14 +28,14 @@ public class Comment {
 	 * @return the id
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long getId() {
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	public long getId() {
 		return id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	/**

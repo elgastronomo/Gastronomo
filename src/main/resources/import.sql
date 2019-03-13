@@ -43,3 +43,28 @@ INSERT INTO user(id,enabled,login,password,roles) VALUES (
 	3, 1, 'q', 
 	'{bcrypt}$2a$04$9rrSETFYL/gqiBxBCy3DMOIZ6qmLigzjqnOGbsNji/bt65q.YBfjK', 'USER');
 
+INSERT INTO recipe(id, attribution, calories, cuisine, difficulty, duration, name, rations, steps, url, weight, user_id) VALUES (
+0, 'Ninguna', 100, 'Italiana', 'Medio', 10, 'Tortilla de patatas', 4, 'Vacío', 'Ninguna', 500, 1
+);
+
+INSERT INTO ingredient(id, name) VALUES (0, 'Patata');
+INSERT INTO ingredient(id, name) VALUES (1, 'Aceite');
+INSERT INTO ingredient(id, name) VALUES (2, 'Sal');
+
+INSERT INTO nutrient(id, nutrient) VALUES (0, 'Calcio');
+INSERT INTO nutrient(id, nutrient) VALUES (1, 'Carbohidratos');
+
+INSERT INTO recipe_ingredients(recipes_id, ingredients_id) VALUES(0, 0);
+INSERT INTO recipe_ingredients(recipes_id, ingredients_id) VALUES(0, 1);
+INSERT INTO recipe_ingredients(recipes_id, ingredients_id) VALUES(0, 2);
+
+INSERT INTO recipe_nutrient(id, cuantity, daily_percentage, unit, nutrient_id, recipe_id) VALUES(
+0, 100, 10, 'g', 0, 0
+);
+INSERT INTO recipe_nutrient(id, cuantity, daily_percentage, unit, nutrient_id, recipe_id) VALUES(
+1, 200, 5, 'g', 1, 0
+);
+
+INSERT INTO tag(id, tag) VALUES(0, 'Sano');
+INSERT INTO recipe_tags(recipe_id, tags_id) VALUES (0, 0);
+

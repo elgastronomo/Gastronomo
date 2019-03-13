@@ -1,14 +1,18 @@
 package es.ucm.fdi.iw.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 /**
  * A user.
@@ -41,6 +45,11 @@ public class User {
 		return Arrays.stream(roles.split(","))
 				.anyMatch(r -> r.equals(requested));
 	}
+	// app specific fields
+	private String email;
+	private List<Comment> comments = new ArrayList<>();
+	private List<Valoration> valorations = new ArrayList<>();
+	private List<Recipe> recipes = new ArrayList<>();
 	
 	
 	@Id
@@ -86,6 +95,50 @@ public class User {
 		this.enabled = enabled;
 	}
 	
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	@OneToMany(targetEntity=Comment.class)
+	@JoinColumn(name = "user_id")
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+	
+	/**
+	 * @return the valorations
+	 */
+	@OneToMany(targetEntity=Valoration.class)
+	@JoinColumn(name = "user_id")
+	public List<Valoration> getValorations() {
+		return valorations;
+	}
+
+	public void setValorations(List<Valoration> valorations) {
+		this.valorations = valorations;
+	}
+
+	/**
+	 * @return the recipes
+	 */
+	@OneToMany(targetEntity=Recipe.class)
+	@JoinColumn(name = "user_id")
+	public List<Recipe> getRecipes() {
+		return recipes;
+	}
+
+	public void setRecipes(List<Recipe> recipes) {
+		this.recipes = recipes;
+	}
 
 	@Override
 	public String toString() {
