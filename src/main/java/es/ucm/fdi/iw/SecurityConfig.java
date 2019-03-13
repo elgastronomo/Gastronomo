@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -8,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 /**
  * Security configuration.
@@ -34,13 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 	    http
 	        .authorizeRequests()
-	            .antMatchers("/css/**", "/js/**", "/img/**", "/").permitAll()
+	            .antMatchers("/css/**", "/js/**", "/img/**", "/*").permitAll()
+	            .antMatchers("/vote/enter").permitAll() 		// <-- only when logging in to vote 
 	            .antMatchers("/admin**").hasRole("ADMIN")
-	            .antMatchers("/buscar").permitAll()
-	            .antMatchers("/receta").permitAll()
 	            .anyRequest().authenticated()
 	            .and()
-	        .formLogin();
+	        .formLogin()
+	        	.permitAll().successHandler(loginSuccessHandler);// <-- called when login Ok; can redirect
 	}
 	
 	/**
@@ -76,4 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 public AuthenticationManager authenticationManagerBean() throws Exception {
 	     return super.authenticationManagerBean();
 	 }
+	 
+	 @Autowired
+	 private LoginSuccessHandler loginSuccessHandler;
 }

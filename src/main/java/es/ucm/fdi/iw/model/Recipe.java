@@ -3,6 +3,7 @@
  */
 package es.ucm.fdi.iw.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -12,8 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-import es.ucm.fdi.iw.model.User;
 
 
 
@@ -35,11 +34,11 @@ public class Recipe {
 	private int carbohydrates;
 	private int fats;
 	private String description;
-	private List<Ingredient> ingredients;
-	private List<Comment> comments;
-	private List<Valoration> valorations;
-	private List<Tag> tags;
-	private List<Portion> portions;
+	private List<Ingredient> ingredients = new ArrayList<>(); ;
+	private List<Comment> comments = new ArrayList<>(); ;
+	private List<Valoration> valorations = new ArrayList<>(); ;
+	private List<Tag> tags = new ArrayList<>(); ;
+	private List<Portion> portions = new ArrayList<>(); ;
 	
 	/**
 	 * @return the id

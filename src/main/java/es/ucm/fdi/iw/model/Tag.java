@@ -3,6 +3,7 @@
  */
 package es.ucm.fdi.iw.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -20,7 +21,7 @@ public class Tag {
 
 	private Long id;
 	private String tag;
-	private List<Recipe> recipe;
+	private List<Recipe> recipe = new ArrayList<>(); ;
 	/**
 	 * @return the tag
 	 */

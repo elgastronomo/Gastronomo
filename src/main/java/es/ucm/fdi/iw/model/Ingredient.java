@@ -3,6 +3,7 @@
  */
 package es.ucm.fdi.iw.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -25,8 +26,8 @@ public class Ingredient {
 	private int protein;
 	private int carbohydrates;
 	private int fats;
-	private List<Recipe> recipes;
-	private List<Portion> portions;
+	private List<Recipe> recipes = new ArrayList<>(); ;
+	private List<Portion> portions = new ArrayList<>(); ;
 	/**
 	 * @return the id
 	 */
