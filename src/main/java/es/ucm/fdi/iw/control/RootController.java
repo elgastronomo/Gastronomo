@@ -29,7 +29,7 @@ public class RootController {
 	@GetMapping("/")
 	public String index(Model model) {
 		// esto es de prueba
-		model.addAttribute("recetas", entityManager.createNamedQuery("Recipe.AllRecipes").getResultList());
+		model.addAttribute("recetas", entityManager.createNamedQuery("Recipe.AllRecipes").setMaxResults(9).getResultList());
 		
 		return "index";
 	}

@@ -33,7 +33,7 @@ public class Recipe {
 
 	private long id;
 	private String name;
-	private int duration;
+	private String duration;
 	private String url;
 	private String attribution;
 	private float calories;
@@ -82,14 +82,14 @@ public class Recipe {
 	/**
 	 * @return the duration
 	 */
-	public int getDuration() {
+	public String getDuration() {
 		return duration;
 	}
 
 	/**
 	 * @param duration the duration to set
 	 */
-	public void setDuration(int duration) {
+	public void setDuration(String duration) {
 		this.duration = duration;
 	}
 

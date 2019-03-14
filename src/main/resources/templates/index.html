@@ -8,8 +8,7 @@
 
 	<div class="section section-search no-pad-bot" id="index-banner">
 		<div class="container">
-			<br>
-			<br>
+			<br> <br>
 			<h2 class="header center red-text text-accent-3 logo">Gastrónomo</h2>
 			<div class="row center">
 				<h5 class="header col s12 light">Buscador de recetas por
@@ -203,16 +202,48 @@
 				<div class="card">
 					<div class="card-image">
 						<a th:href="@{/receta}"> <img class="img-recortada"
-							th:src="@{/img/home-icons/food/pizza.jpg}">
-						</a> <span class="card-title"> <a th:href="@{/receta}" th:text="${receta .name}">Receta
-								6</a>
+							th:src="@{/img/recetas/} + ${receta.id} + .jpg">
+						</a> <span class="card-title"> <a th:href="@{/receta}"
+							th:text="${receta.name}">Receta 6</a>
 						</span> <a class="btn-floating halfway-fab waves-effect waves-light red"><i
 							class="material-icons">favorite</i></a>
 					</div>
 					<div class="card-content">
-						<p>Aquí iría una pequeña descripción de la receta de no muchas
-							líneas para que los usuarios se hagan una idea de lo que se van a
-							encontrar cuando accedan a ella.</p>
+
+						<strong>Información</strong>
+						<ul class="collection">
+							<li class="collection-item"><div>
+									<strong>Categoría: </strong><span th:text="${receta.cuisine}"></span>
+									<i class="secondary-content material-icons">restaurant</i>
+								</div></li>
+							<li class="collection-item"><div>
+									<strong>Dificultad: </strong><span
+										th:text="${receta.difficulty}"></span> <i
+										class="secondary-content material-icons">thumb_up</i>
+								</div></li>
+							<li class="collection-item"><div>
+									<strong>Duración: </strong><span th:text="${receta.duration}"></span>
+									<i class="secondary-content material-icons">timer</i>
+								</div></li>
+							<li class="collection-item"><div>
+									<strong>Raciones: </strong><span th:text="${receta.rations}"></span>
+									<i class="secondary-content material-icons">people</i>
+								</div></li>
+
+							<li class="collection-item"><div>
+									<strong>Calorías: </strong><span
+										th:text="|${receta.calories} kcal|"></span> <i
+										class="secondary-content material-icons">fastfood</i>
+								</div></li>
+
+							<li class="collection-item"><div>
+									<strong>Tags: </strong><span th:each="tag, i: ${receta.tags}"
+										th:text="${tag.tag} + (${i.index} eq ${i.size} - 1 ? '' : ', ')"></span>
+									<i class="secondary-content material-icons">label</i>
+								</div></li>
+
+						</ul>
+
 					</div>
 				</div>
 			</div>
