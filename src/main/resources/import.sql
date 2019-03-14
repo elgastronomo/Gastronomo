@@ -111,16 +111,17 @@ INSERT INTO recipe(id,name,url,attribution,duration,calories,weight,rations,diff
 INSERT INTO recipe(id,name,url,attribution,duration,calories,weight,rations,difficulty,cuisine,steps,user_id) VALUES (61,'Ensalada de Col China con Aderezo de Ajonjolí','http://www.quericavida.com/recetas/ensalada-de-col-china-con-aderezo-de-ajonjoli/','Que Rica Vida','15 min',228.122709,401.2499,4.0,'Difícil','China','{"1": "En un recipiente herméticamente tapado, agita todos los ingredientes para el aderezo.", "2": "En un tazón mediano de cristal o de plástico, revuelve los ingredientes para la ensalada y el aderezo. Tapa y refrigera hasta la hora de servir."}',1);
 INSERT INTO recipe(id,name,url,attribution,duration,calories,weight,rations,difficulty,cuisine,steps,user_id) VALUES (62,'Sopa de Papas','http://www.quericavida.com/recetas/sopa-de-papas/','Que Rica Vida','30 min',2193.35592,2685.216,6.0,'Difícil','China','{"1": "Pela, lava, y corta las papas en rodajas. Ponlas a hervir en una olla con agua hasta que las papas estén suaves.", "2": "Una vez hervidas las papas retira la mayor parte del agua (no toda), asegurándote que  quede un poco en la olla. Añade el litro de leche.", "3": "Pon las papas y la leche a hervir nuevamente, y revuelve hasta que las papas comiencen a deshacerse.", "4": "Sazona al gusto. Yo utilicé 1 cucharada de sal, 2 cucharaditas de pimienta y 2 cucharaditas de ajo en polvo.", "5": "Sirve la sopa con un poco de queso cheddar rallado y cebollas verdes picadas."}',1);
 
-INSERT INTO nutrient(id,nutrient) VALUES (1,'Calcium');
-INSERT INTO nutrient(id,nutrient) VALUES (2,'Carbs');
-INSERT INTO nutrient(id,nutrient) VALUES (3,'Cholesterol');
-INSERT INTO nutrient(id,nutrient) VALUES (4,'Fat');
-INSERT INTO nutrient(id,nutrient) VALUES (5,'Iron');
-INSERT INTO nutrient(id,nutrient) VALUES (6,'Fiber');
-INSERT INTO nutrient(id,nutrient) VALUES (7,'Potassium');
-INSERT INTO nutrient(id,nutrient) VALUES (8,'Magnesium');
-INSERT INTO nutrient(id,nutrient) VALUES (9,'Sodium');
-INSERT INTO nutrient(id,nutrient) VALUES (10,'Vitamin B6');
+INSERT INTO nutrient(id,nutrient) VALUES (1,'Calcio');
+INSERT INTO nutrient(id,nutrient) VALUES (2,'Carbohidratos');
+INSERT INTO nutrient(id,nutrient) VALUES (3,'Colesterol');
+INSERT INTO nutrient(id,nutrient) VALUES (4,'Grasa');
+INSERT INTO nutrient(id,nutrient) VALUES (5,'Hierro');
+INSERT INTO nutrient(id,nutrient) VALUES (6,'Fibra');
+INSERT INTO nutrient(id,nutrient) VALUES (7,'Potasio');
+INSERT INTO nutrient(id,nutrient) VALUES (8,'Magnesio');
+INSERT INTO nutrient(id,nutrient) VALUES (9,'Sodio');
+INSERT INTO nutrient(id,nutrient) VALUES (10,'Vitamina B6');
+
 INSERT INTO ingredient(id,name) VALUES (1,'1 calabacita amarilla, cortada por la mitad a lo largo y luego, a lo ancho en rebanadas de 1/2 pulg. de grosor');
 INSERT INTO ingredient(id,name) VALUES (2,'2 pimientos (pimentones) verdes, cortados en tiras de 1/2 pulg. de ancho');
 INSERT INTO ingredient(id,name) VALUES (3,'2/3 taza de cuñas de cebolla morada');
