@@ -19,6 +19,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+import org.json.JSONObject;
+
 /**
  * @author roberto
  *
@@ -48,6 +50,18 @@ public class Recipe {
 	private List<Valoration> valorations = new ArrayList<>();
 	private List<Tag> tags = new ArrayList<>();
 	private Set<RecipeNutrient> recipeNutrients = new HashSet<>();
+	
+	public List<String> parseSteps() {
+		List<String> parsedSteps = new ArrayList<>();
+		
+		JSONObject jSteps = new JSONObject(steps);
+		
+		for (String key : jSteps.keySet()) {
+			parsedSteps.add(jSteps.getString(key));
+		}
+		
+		return parsedSteps;
+	}
 
 	/**
 	 * @return the id

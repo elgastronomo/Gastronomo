@@ -15,42 +15,13 @@
 				<div class="card">
 					<div class="card-content">
 						<div class="card-title">Valores nutricionales</div>
-						<p>
-							<strong>Raciones por receta:</strong> 15
-						</p>
-						<p>
-							<strong>Calorías por ración:</strong> 119 kcal
-						</p>
 
 						<ul class="collection">
-							<li class="collection-item"><strong>Grasa total:</strong>
-								2,1g (3%)</li>
-							<li class="collection-item"><strong>Colesterol:</strong> 0mg
-								(0%)</li>
-							<li class="collection-item"><strong>Sodio:</strong> 157mg
-								(6%)</li>
-							<li class="collection-item"><strong>Potasio:</strong> 42mg
-								(1%)</li>
-							<li class="collection-item"><strong>Total
-									carbohidratos:</strong> 21,6g (7%)</li>
-							<li class="collection-item"><strong>Fibra:</strong> 0,9g
-								(4%)</li>
-							<li class="collection-item"><strong>Proteína:</strong> 3,1g
-								(6%)</li>
-							<li class="collection-item"><strong>Azúcares:</strong> 0g</li>
-							<li class="collection-item"><strong>Vitamina A:</strong> 0IU</li>
-							<li class="collection-item"><strong>Vitamina C:</strong> 0mg</li>
-							<li class="collection-item"><strong>Calcio:</strong> 6mg</li>
-							<li class="collection-item"><strong>Hierro:</strong> 1mg</li>
-							<li class="collection-item"><strong>Vitamina B1:</strong>
-								0mg</li>
-							<li class="collection-item"><strong>Vitamina B3:</strong>
-								3mg</li>
-							<li class="collection-item"><strong>Vitamina B6:</strong>
-								0mg</li>
-							<li class="collection-item"><strong>Magnesio:</strong> 7mg</li>
-							<li class="collection-item"><strong>Ácido fólico:</strong>
-								65mcg</li>
+							<li th:each="nutrient: ${recipe.recipeNutrients}"
+								class="collection-item"><strong
+								th:text="|${nutrient.nutrient.nutrient}: |"></strong>
+								[[|${nutrient.cuantity}${nutrient.unit}
+								(${nutrient.dailyPercentage}%)|]]</li>
 						</ul>
 					</div>
 
@@ -65,7 +36,7 @@
 						<div class="row">
 							<div class="col s12 m7">
 
-								<h4>Pizza margarita</h4>
+								<h4 th:text="${recipe.name}">Pizza margarita</h4>
 
 								<p class="mb10">
 									<i class="tiny material-icons">person</i> Creado por Anónimo
@@ -75,13 +46,39 @@
 									class="tiny material-icons">star</i> <i
 									class="tiny material-icons">star</i> <i
 									class="tiny material-icons">star_border</i>
-								<p>En la cocina, como en casi cualquier cosa en la vida,
-									podemos llegar a complicarnos tanto como queramos, pero también
-									ocurre al revés. Podemos hacer las cosas tan sencillas como
-									queramos sin necesidad de sacrificar en calidad final. Una de
-									las recetas que más me gusta hacer en casa es la receta de
-									pizza casera, pero casera no significa hacerla de tal forma que
-									no merezca un puesto de honor en nuestra mesa.</p>
+
+								<ul class="collection">
+									<li class="collection-item"><div>
+											<strong>Categoría: </strong><span th:text="${recipe.cuisine}"></span>
+											<i class="secondary-content material-icons">restaurant</i>
+										</div></li>
+									<li class="collection-item"><div>
+											<strong>Dificultad: </strong><span
+												th:text="${recipe.difficulty}"></span> <i
+												class="secondary-content material-icons">thumb_up</i>
+										</div></li>
+									<li class="collection-item"><div>
+											<strong>Duración: </strong><span th:text="${recipe.duration}"></span>
+											<i class="secondary-content material-icons">timer</i>
+										</div></li>
+									<li class="collection-item"><div>
+											<strong>Raciones: </strong><span th:text="${recipe.rations}"></span>
+											<i class="secondary-content material-icons">people</i>
+										</div></li>
+
+									<li class="collection-item"><div>
+											<strong>Calorías: </strong><span
+												th:text="|${recipe.calories} kcal|"></span> <i
+												class="secondary-content material-icons">fastfood</i>
+										</div></li>
+
+									<li class="collection-item"><div>
+											<strong>Tags: </strong><span th:each="tag, i: ${recipe.tags}"
+												th:text="${tag.tag} + (${i.index} eq ${i.size} - 1 ? '' : ', ')"></span>
+											<i class="secondary-content material-icons">label</i>
+										</div></li>
+
+								</ul>
 
 								<p class="mt10">
 									<i class="tiny material-icons">people</i> 300 personas la han
@@ -92,12 +89,7 @@
 
 							<div class="col s12 m5">
 								<img class="responsive-img z-depth-2 mb10" width="400"
-									th:src="@{/img/home-icons/food/pizza.jpg}">
-								<p>
-									1 hora 50 min <i class="material-icons">access_time</i> | Fácil
-									<i class="material-icons">restaurant_menu</i> | 4 a 6 personas
-									<i class="material-icons">people</i>
-								</p>
+									th:src="@{/img/recetas/} + ${recipe.id} + .jpg">
 							</div>
 						</div>
 
@@ -116,59 +108,26 @@
 							<h5>Ingredientes</h5>
 							<div class="col s12 m6">
 								<ul class="collection">
-									<li class="collection-item avatar"><i
+									<li th:each="ing: ${firstIngredients}"
+										class="collection-item avatar"><i
 										class="material-icons circle">restaurant_menu</i> <span
-										class="title">Harina</span>
-										<p>300g</p> <a href="#!" class="tooltipped secondary-content"
-										data-position="bottom" data-tooltip="Ingrediente habitual"><i
-											class="material-icons">grade</i></a></li>
-									<li class="collection-item avatar"><i
-										class="material-icons circle">restaurant_menu</i> <span
-										class="title">Agua</span>
-										<p>160g</p> <a href="#!" class="tooltipped secondary-content"
-										data-position="bottom" data-tooltip="Ingrediente habitual"><i
-											class="material-icons">grade</i></a></li>
-									<li class="collection-item avatar"><i
-										class="material-icons circle">restaurant_menu</i> <span
-										class="title">Levadura de panadería instantánea</span>
-										<p>5g</p> <a href="#!" class="tooltipped secondary-content"
-										data-position="bottom" data-tooltip="Ingrediente habitual"><i
-											class="material-icons">grade</i></a></li>
-									<li class="collection-item avatar"><i
-										class="material-icons circle">restaurant_menu</i> <span
-										class="title">Aceite de oliva virgen extra</span>
-										<p>20g</p> <a href="#!" class="tooltipped secondary-content"
-										data-position="bottom" data-tooltip="Ingrediente habitual"><i
+										class="title">[[${ing.ingredient.name}]]</span>
+										<p>[[${ing.weight}]]g</p> <a href="#!"
+										class="tooltipped secondary-content" data-position="bottom"
+										data-tooltip="Ingrediente habitual"><i
 											class="material-icons">grade</i></a></li>
 								</ul>
 							</div>
 
 							<div class="col s12 m6">
 								<ul class="collection">
-									<li class="collection-item avatar"><i
+									<li th:each="ing: ${secondIngredients}"
+										class="collection-item avatar"><i
 										class="material-icons circle">restaurant_menu</i> <span
-										class="title">Sal</span>
-										<p>1 cucharadita</p> <a href="#!"
+										class="title">[[${ing.ingredient.name}]]</span>
+										<p>[[${ing.weight}]]g</p> <a href="#!"
 										class="tooltipped secondary-content" data-position="bottom"
 										data-tooltip="Ingrediente habitual"><i
-											class="material-icons">grade</i></a></li>
-									<li class="collection-item avatar"><i
-										class="material-icons circle">restaurant_menu</i> <span
-										class="title">Salsa de tomate</span>
-										<p>200g</p> <a href="#!" class="tooltipped secondary-content"
-										data-position="bottom" data-tooltip="Ingrediente habitual"><i
-											class="material-icons">grade</i></a></li>
-									<li class="collection-item avatar"><i
-										class="material-icons circle">restaurant_menu</i> <span
-										class="title">Mozzarella</span>
-										<p>100g</p> <a href="#!" class="tooltipped secondary-content"
-										data-position="bottom" data-tooltip="Ingrediente habitual"><i
-											class="material-icons">grade</i></a></li>
-									<li class="collection-item avatar"><i
-										class="material-icons circle">restaurant_menu</i> <span
-										class="title">Jamón de york</span>
-										<p>100g</p> <a href="#!" class="tooltipped secondary-content"
-										data-position="bottom" data-tooltip="Ingrediente habitual"><i
 											class="material-icons">grade</i></a></li>
 								</ul>
 							</div>
@@ -184,61 +143,16 @@
 						</div>
 
 						<ul class="collection clear">
-							<li class="collection-item avatar"><i
-								class="material-icons circle">done</i> En un bol ponemos todos
-								los ingredientes de la masa: harina, agua, levadura, aceite y
-								sal y mezclamos bien con una cuchara. Una masa de pizza es como
-								un pan sencillo. Se puede hacer con cualquier tipo de harina y
-								la cantidad de agua será aproximadamente de la mitad de la de
-								harina. Si usamos una harina con más cantidad de gluten (harina
-								de fuerza) entonces necesitaremos algo más de agua y si
-								utilizamos una harina normal (como la de hoy) con la mitad de
-								agua (por harina) y un poco más será suficiente.</li>
-							<li class="collection-item avatar"><i
-								class="material-icons circle">done</i> Acto seguido pasaremos a
-								amasar. Si tenemos una amasadora estupendo porque no tendremos
-								que hacer gran cosa. Si no tenemos lo unico que haremos será
-								estirar la masa y recoger con la palma de la mano hasta
-								conseguir una masa que no se pega a las manos ni a la mesa, es
-								una masa fina y elástica. Entre 5 y 10 minutos serán más que
-								suficientes. No hará falta enharinar la mesa.</li>
-							<li class="collection-item avatar"><i
-								class="material-icons circle">done</i>A continuación dejaremos
-								fermentar la masa tapada. El objetivo es que doble de volumen.
-								¿Y eso cuando lo hace? La respuesta es sencilla, si hace frio
-								tardará más que si hace calor. O al contrario, si hace calor
-								tardará menos. Las mejores masas cuanto más tarden mejor porque
-								la masa se desarrolla de otra forma, pero con nuestra pizza sin
-								complicaciones nos dará igual. Nosotros la dejamos y cuando suba
-								al doble seguiremos por el siguiente paso.</li>
-							<li class="collection-item avatar"><i
-								class="material-icons circle">done</i>Ahora que nuestra masa ha
-								crecido lo suficiente podemos continuar. Cogemos la masa y la
-								desgasificamos, es decir la amasamos ligeramente para que vuelva
-								a su volumen inicial. Podemos pasar a dividirla para hacer
-								pizzas pequeñas o hacer una grande. Para estirarla sin
-								complicaciones la estiramos con las manos como podamos o bien
-								con un rodillo, la forma es lo de menos, si sale cuadrada
-								adelante si conseguís una masa redonda genial. Le pondremos los
-								ingredientes, primero el tomate, después el queso y el resto de
-								cosas que queramos añadir.</li>
-							<li class="collection-item avatar"><i
-								class="material-icons circle">done</i>EL último paso es el del
-								horno, y no es el menos importante. Con el horno precalentado a
-								un mínimo de 230 ºC metemos la pizza. Podemos usar una piedra
-								para el horno o una bandeja. Si tenemos piedra la base de la
-								pizza quedará más crujiente pero no nos tenemos que complicar la
-								vida, quedan muy ricas en cualquier bandeja que tengáis.
-								Hornearemos durante unos 8-10 minutos, hasta que se dore
-								ligeramente.</li>
+							<li th:each="step: ${steps}" class="collection-item avatar"><i
+								class="material-icons circle">done</i>[[${step}]]</li>
 						</ul>
 
 
 						<h5>Comentarios</h5>
 						<ul class="collection">
-							<li class="collection-item avatar"><img src="img/avatar.png"
-								alt="" class="circle"> <span class="title">Muy
-									buena receta</span>
+							<li class="collection-item avatar"><img
+								th:src="@{/img/avatar.png}" alt="" class="circle"> <span
+								class="title">Muy buena receta</span>
 								<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
 									Laudantium non voluptates consectetur eius et, odit explicabo
 									ullam at fugiat dolor quidem autem. Est architecto voluptatum

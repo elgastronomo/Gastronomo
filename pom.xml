@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.1.2.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>es.ucm</groupId>
 	<artifactId>gastronomo</artifactId>
@@ -15,20 +16,13 @@
 	<description>Proyecto para Ingeniería Web de la UCM. Gastrónomo, te permite buscar recetas por ingredientes, tiempo de preparación, tipo de plato, etc.</description>
 	<packaging>jar</packaging>
 
-	<!--  
-		Primera configuración:
-			- cambia el valor de <name> a algo que te guste, y re-importa el proyecto
-			  (borra el proyecto sin destruir sus fuentes, y luego vuelve a importarlo)
-			
-		Uso desde consola (si tienes maven y java bien instalados, 
-		y estas en el mismo directorio que este pom.xml):
-			- compilar y ejecutar el proyecto:
-				mvn spring-boot:run
-			- crear un jar autoejecutable, incluyendo los últimos fuentes compilados:
-				mvn package 
-			- ejecutar un jar ejecutable ya creado:
-				java -jar <nombre-de-jar>
-	 -->
+	<!-- Primera configuración: - cambia el valor de <name> a algo que te guste, 
+		y re-importa el proyecto (borra el proyecto sin destruir sus fuentes, y luego 
+		vuelve a importarlo) Uso desde consola (si tienes maven y java bien instalados, 
+		y estas en el mismo directorio que este pom.xml): - compilar y ejecutar el 
+		proyecto: mvn spring-boot:run - crear un jar autoejecutable, incluyendo los 
+		últimos fuentes compilados: mvn package - ejecutar un jar ejecutable ya creado: 
+		java -jar <nombre-de-jar> -->
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -62,6 +56,11 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20180813</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -71,7 +70,7 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- Thymeleaf security extras (see github.com/thymeleaf/thymeleaf-extras-springsecurity) -->
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>

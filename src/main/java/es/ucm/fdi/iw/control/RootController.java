@@ -11,47 +11,49 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class RootController {
-	
+
 	private static final Logger log = LogManager.getLogger(RootController.class);
-	
+
 	@Autowired
 	private Environment env;
-	
-	@Autowired 
+
+	@Autowired
 	private EntityManager entityManager;
-	
+
 	@Autowired
 	private IwSocketHandler iwSocketHandler;
-	
+
+	@ModelAttribute
+	public void addAttributes(Model model) {
+		model.addAttribute("siteName", env.getProperty("es.ucm.fdi.site-title"));
+	}
+
 	@GetMapping("/")
 	public String index(Model model) {
-		// esto es de prueba
-		model.addAttribute("recetas", entityManager.createNamedQuery("Recipe.AllRecipes").setMaxResults(6).getResultList());
-		
+
+		model.addAttribute("recipes",
+				entityManager.createNamedQuery("Recipe.AllRecipes").setMaxResults(6).getResultList());
+
 		return "index";
 	}
-	
+
 	@GetMapping("/buscar")
 	public String buscar(Model model) {
 		return "buscar";
 	}
-	
-	@GetMapping("/receta")
-	public String receta(Model model) {
-		return "receta";
-	}
-	
+
 	@GetMapping("/admin")
 	public String admin(Model model, Principal principal) {
 		model.addAttribute("activeProfiles", env.getActiveProfiles());
 		model.addAttribute("basePath", env.getProperty("es.ucm.fdi.base-path"));
-		
+
 		log.info("let us all welcome this admin, {}", principal.getName());
-		
+
 		return "index";
 	}
-	
+
 }
