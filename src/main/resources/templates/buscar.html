@@ -29,7 +29,7 @@
 
 			<div class="input-field col l2">
 				<select>
-					<option value="1">Más relevantes</option>
+					<option value="1">M�s relevantes</option>
 					<option value="2">Nuevos</option>
 					<option value="3">Populares</option>
 				</select> <label>Ordenar por</label>
@@ -45,119 +45,111 @@
 					<div class="card-content">
 						<span class="card-title">Filtrar resultados</span>
 
+						<form th:action="@{/buscar_avanzado}" method="POST">
+
 						<div class="mb10">
 							<strong>Tiempo</strong>
-							<p>Máximo de tiempo que quieres dedicar</p>
-							<form action="#">
+							<p>M�ximo de tiempo que quieres dedicar</p>							
 								<p class="range-field">
-									<input type="range" id="test5" min="0" max="100" />
-								</p>
-							</form>
+									<input type="range" name="tiempo" id="test5" min="0" max="100" />
+								</p>							
 						</div>
 
 						<div class="mb10">
-							<strong>Dificultad</strong>
-							<form action="#">
+							<strong>Dificultad</strong>							
 								<p>
-									<label> <input type="checkbox" /> <span>Fácil</span>
+									<label> <input type="checkbox" name="facil" value="facil"/> <span>F�cil</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" /> <span>Medio</span>
+									<label> <input type="checkbox" name="Medio" value="Medio"/> <span>Medio</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" /> <span>Difícil</span>
+									<label> <input type="checkbox" name="Dif�cil" value="Dif�cil"/> <span>Dif�cil</span>
 									</label>
-								</p>
-							</form>
+								</p>							
 						</div>
 
 						<div class="mb10">
-							<strong>Tipo de cocina</strong>
-							<form action="#">
+							<strong>Tipo de cocina</strong>							
 								<p>
-									<label> <input type="checkbox" /> <span>Española</span>
+									<label> <input type="checkbox" name="Espa�ola" value="Espa�ola"/> <span>Espa�ola</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" /> <span>Italiana</span>
+									<label> <input type="checkbox" name="Italiana" value="Italiana"/> <span>Italiana</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" /> <span>Griega</span>
+									<label> <input type="checkbox" name="Griega" value="Griega"/> <span>Griega</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" /> <span>Mejicana</span>
+									<label> <input type="checkbox" name="Mejicana" value="Mejicana"/> <span>Mejicana</span>
 									</label>
-								</p>
-							</form>
+								</p>							
 						</div>
 
 						<div class="mb10">
-							<strong>Dieta</strong>
-							<form action="#">
+							<strong>Dieta</strong>							
 								<p>
-									<label> <input type="checkbox" /> <span>Bajo en
+									<label> <input type="checkbox" name="LowCH" value="LowCH"/> <span>Bajo en
 											carbohidratos</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" /> <span>Bajo en
+									<label> <input type="checkbox" name="LowSodium" value="LowSodium"/> <span>Bajo en
 											sodio</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" /> <span>Mucha
+									<label> <input type="checkbox" name="HighFibre" value="HighFibre"/> <span>Mucha
 											fibra</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" /> <span>Alto
-											valor protéico</span>
+									<label> <input type="checkbox" name="HighProtein" value="HighProtein"/> <span>Alto
+											valor prot�ico</span>
 									</label>
 								</p>
 
 								<p>
-									<label> <input type="checkbox" /> <span>Poca
+									<label> <input type="checkbox" name="LowFat" value="LowFat"/> <span>Poca
 											grasa</span>
 									</label>
 								</p>
-
-							</form>
+							
 						</div>
 
 						<div class="mb10">
-							<strong>Alérgenos</strong>
-							<form action="#">
+							<strong>Al�rgenos</strong>							
 								<p>
-									<label> <input type="checkbox" /> <span>Sin
+									<label> <input type="checkbox" name="NoGluten" value="NoGluten"/> <span>Sin
 											gluten</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" /> <span>Sin
+									<label> <input type="checkbox" name="NoEgg" value="NoEgg"/> <span>Sin
 											huevo</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" /> <span>Sin
-											azúcar</span>
+									<label> <input type="checkbox" name="NoSugar" value="NoSugar"/> <span>Sin
+											az�car</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" /> <span>Sin
+									<label> <input type="checkbox" name="NoPenauts" value="NoPenauts"/> <span>Sin
 											cacahuetes</span>
 									</label>
 								</p>
+							
 
-							</form>
-
-							<a class="mt20 waves-effect waves-light red btn"><i
-								class="material-icons left">search</i>Filtrar</a>
+							<button class="mt20 waves-effect waves-light red btn" type="submit"><i
+								class="material-icons left">search</i>Filtrar</button>
 						</div>
-
+					</form>
 
 					</div>
 				</div>
@@ -166,204 +158,52 @@
 
 			<div class="col s12 m8 l9">
 				<div class="row">
-					<div class="col s12 m4">
+					<div th:each="receta: ${recipes}" class="col s12 m4">
 						<div class="card">
 							<div class="card-image">
-								<a th:href="@{/receta}"> <img class="img-recortada"
-									th:src="@{/img/home-icons/food/pizza.jpg}">
-								</a> <span class="card-title"> <a href="receta.html">Receta
-										1</a>
-								</span> <a
-									class="btn-floating halfway-fab waves-effect waves-light red"><i
+								<a th:href="@{/receta/} + ${receta.id}"> <img class="img-recortada"
+									th:src="@{/img/recetas/} + ${receta.id} + .jpg">
+								</a> <span class="card-title"> <a th:href="@{/receta/} + ${receta.id}"
+									th:text="${receta.name}">Receta 6</a>
+								</span> <a class="btn-floating halfway-fab waves-effect waves-light red"><i
 									class="material-icons">favorite</i></a>
 							</div>
 							<div class="card-content">
-								<i class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star_border</i>
-								<p>Aquí iría una pequeña descripción de la receta de no
-									muchas líneas para que los usuarios se hagan una idea de lo que
-									se van a encontrar cuando accedan a ella.</p>
-							</div>
-							<div class="card-action">
-								<span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 1</span> <span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 2</span> <span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 3</span>
-							</div>
-							<div class="card-action">
-								<span><i class="tiny material-icons">person</i> Creado
-									por Anónimo</span>
-							</div>
-						</div>
-					</div>
-					<div class="col s12 m4">
-						<div class="card">
-							<div class="card-image">
-								<a th:href="@{/receta}"> <img class="img-recortada"
-									th:src="@{/img/home-icons/food/pizza.jpg}">
-								</a> <span class="card-title"> <a href="receta.html">Receta
-										1</a>
-								</span> <a
-									class="btn-floating halfway-fab waves-effect waves-light red"><i
-									class="material-icons">favorite</i></a>
-							</div>
-							<div class="card-content">
-								<i class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star_border</i>
-								<p>Aquí iría una pequeña descripción de la receta de no
-									muchas líneas para que los usuarios se hagan una idea de lo que
-									se van a encontrar cuando accedan a ella.</p>
-							</div>
-							<div class="card-action">
-								<span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 1</span> <span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 2</span> <span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 3</span>
-							</div>
-							<div class="card-action">
-								<span><i class="tiny material-icons">person</i> Creado
-									por Anónimo</span>
-							</div>
-						</div>
-					</div>
-					<div class="col s12 m4">
-						<div class="card">
-							<div class="card-image">
-								<a th:href="@{/receta}"> <img class="img-recortada"
-									th:src="@{/img/home-icons/food/pizza.jpg}">
-								</a> <span class="card-title"> <a href="receta.html">Receta
-										1</a>
-								</span> <a
-									class="btn-floating halfway-fab waves-effect waves-light red"><i
-									class="material-icons">favorite</i></a>
-							</div>
-							<div class="card-content">
-								<i class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star_border</i>
-								<p>Aquí iría una pequeña descripción de la receta de no
-									muchas líneas para que los usuarios se hagan una idea de lo que
-									se van a encontrar cuando accedan a ella.</p>
-							</div>
-							<div class="card-action">
-								<span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 1</span> <span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 2</span> <span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 3</span>
-							</div>
-							<div class="card-action">
-								<span><i class="tiny material-icons">person</i> Creado
-									por Anónimo</span>
-							</div>
-						</div>
-					</div>
-				</div>
 
-				<div class="row">
-					<div class="col s12 m4">
-						<div class="card">
-							<div class="card-image">
-								<a th:href="@{/receta}"> <img class="img-recortada"
-									th:src="@{/img/home-icons/food/pizza.jpg}">
-								</a> <span class="card-title"> <a href="receta.html">Receta
-										1</a>
-								</span> <a
-									class="btn-floating halfway-fab waves-effect waves-light red"><i
-									class="material-icons">favorite</i></a>
-							</div>
-							<div class="card-content">
-								<i class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star_border</i>
-								<p>Aquí iría una pequeña descripción de la receta de no
-									muchas líneas para que los usuarios se hagan una idea de lo que
-									se van a encontrar cuando accedan a ella.</p>
-							</div>
-							<div class="card-action">
-								<span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 1</span> <span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 2</span> <span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 3</span>
-							</div>
-							<div class="card-action">
-								<span><i class="tiny material-icons">person</i> Creado
-									por Anónimo</span>
-							</div>
-						</div>
-					</div>
-					<div class="col s12 m4">
-						<div class="card">
-							<div class="card-image">
-								<a th:href="@{/receta}"> <img class="img-recortada"
-									th:src="@{/img/home-icons/food/pizza.jpg}">
-								</a> <span class="card-title"> <a href="receta.html">Receta
-										1</a>
-								</span> <a
-									class="btn-floating halfway-fab waves-effect waves-light red"><i
-									class="material-icons">favorite</i></a>
-							</div>
-							<div class="card-content">
-								<i class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star_border</i>
-								<p>Aquí iría una pequeña descripción de la receta de no
-									muchas líneas para que los usuarios se hagan una idea de lo que
-									se van a encontrar cuando accedan a ella.</p>
-							</div>
-							<div class="card-action">
-								<span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 1</span> <span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 2</span> <span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 3</span>
-							</div>
-							<div class="card-action">
-								<span><i class="tiny material-icons">person</i> Creado
-									por Anónimo</span>
-							</div>
-						</div>
-					</div>
-					<div class="col s12 m4">
-						<div class="card">
-							<div class="card-image">
-								<a th:href="@{/receta}"> <img class="img-recortada"
-									th:src="@{/img/home-icons/food/pizza.jpg}">
-								</a> <span class="card-title"> <a href="receta.html">Receta
-										1</a>
-								</span> <a
-									class="btn-floating halfway-fab waves-effect waves-light red"><i
-									class="material-icons">favorite</i></a>
-							</div>
-							<div class="card-content">
-								<i class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star</i> <i
-									class="tiny material-icons">star_border</i>
-								<p>Aquí iría una pequeña descripción de la receta de no
-									muchas líneas para que los usuarios se hagan una idea de lo que
-									se van a encontrar cuando accedan a ella.</p>
-							</div>
-							<div class="card-action">
-								<span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 1</span> <span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 2</span> <span><i class="tiny material-icons">restaurant_menu</i>
-									Tag 3</span>
-							</div>
-							<div class="card-action">
-								<span><i class="tiny material-icons">person</i> Creado
-									por Anónimo</span>
+								<strong>Informaci�n</strong>
+								<ul class="collection">
+									<li class="collection-item"><div>
+											<strong>Categor�a: </strong><span th:text="${receta.cuisine}"></span>
+											<i class="secondary-content material-icons">restaurant</i>
+										</div></li>
+									<li class="collection-item"><div>
+											<strong>Dificultad: </strong><span
+												th:text="${receta.difficulty}"></span> <i
+												class="secondary-content material-icons">thumb_up</i>
+										</div></li>
+									<li class="collection-item"><div>
+											<strong>Duraci�n: </strong><span th:text="${receta.duration}"></span>
+											<i class="secondary-content material-icons">timer</i>
+										</div></li>
+									<li class="collection-item"><div>
+											<strong>Raciones: </strong><span th:text="${receta.rations}"></span>
+											<i class="secondary-content material-icons">people</i>
+										</div></li>
+
+									<li class="collection-item"><div>
+											<strong>Calor�as: </strong><span
+												th:text="|${receta.calories} kcal|"></span> <i
+												class="secondary-content material-icons">fastfood</i>
+										</div></li>
+
+									<li class="collection-item"><div>
+											<strong>Tags: </strong><span th:each="tag, i: ${receta.tags}"
+												th:text="${tag.tag} + (${i.index} eq ${i.size} - 1 ? '' : ', ')"></span>
+											<i class="secondary-content material-icons">label</i>
+										</div></li>
+
+								</ul>
+
 							</div>
 						</div>
 					</div>

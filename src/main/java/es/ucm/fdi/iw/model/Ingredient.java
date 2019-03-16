@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -17,6 +19,14 @@ import javax.persistence.OneToMany;
  *
  */
 @Entity
+@NamedQueries({
+	@NamedQuery(name="Ingredient.AllIngredients",
+			query="SELECT i FROM Ingredient i"
+	),
+	@NamedQuery(name="Ingredient.ByName",
+				query="SELECT i FROM Ingredient i WHERE :names LIKE '%i.name%' "
+	)
+})
 public class Ingredient {
 
 	private long id;

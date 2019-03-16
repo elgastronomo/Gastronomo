@@ -16,10 +16,10 @@
 			</div>
 			<div class="row center">
 				<div class="col s12">
-					<form th:action="@{/buscar}" method="GET">
+					<form th:action="@{/buscar}" method="POST">
 						<div class="chips">
 							<div class="search">
-								<input class="white grey-text" placeholder="  +Ingrediente"
+								<input class="white grey-text" name="ingredientes" placeholder="  +Ingrediente"
 									type="text">
 								<button
 									class="btn-floating btn-large waves-effect waves-light red enviar"

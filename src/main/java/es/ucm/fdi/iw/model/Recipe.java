@@ -26,10 +26,13 @@ import org.json.JSONObject;
  *
  */
 @Entity
-@NamedQueries(
+@NamedQueries({
 		@NamedQuery(name="Recipe.AllRecipes",
 					query="SELECT r FROM Recipe r"
-		)
+		),
+		@NamedQuery(name="Recipe.Filter.Ingredients",
+					query="SELECT r FROM Recipe r WHERE :ingredients IN r.recipeIngredients"
+		)}
 )
 public class Recipe {
 
