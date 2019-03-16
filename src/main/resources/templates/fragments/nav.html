@@ -11,123 +11,12 @@
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
 				<li><a href="#"><i class="material-icons">notifications</i></a></li>
 				<li><a class="waves-effect waves-light modal-trigger"
-					th:href="@{/login}"><i class="material-icons right">person</i>Iniciar
-						sesión</a></li>
+					th:href="@{/login}"><i class="material-icons right">person</i><span th:text="${session.user != null} ? ${session.user.login} : 'Loggin'"></span> </a></li>
 			</ul>
 		</div>
 	</nav>
 
-	<div id="login" class="modal">
-		<div class="modal-content">
-			<form class="login-form">
-				<div class="row">
-					<div class="input-field col s12">
-						<i class="material-icons prefix">mail_outline</i> <input
-							class="validate" id="email" type="email"> <label
-							for="email" data-error="wrong" data-success="right">Email</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<i class="material-icons prefix">lock_outline</i> <input
-							id="password" type="password"> <label for="password">Contraseña</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<label> <input type="checkbox" id="remember-me" /> <span>Recordar</span>
-						</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<a href="#"
-							class="modal-close btn waves-effect waves-light col s12">Iniciar
-							sesión</a>
-					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s6 m6 l6">
-						<p class="margin medium-small">
-							<a class="modal-trigger modal-close" href="#register">Registrarme</a>
-						</p>
-					</div>
-					<div class="input-field col s6 m6 l6">
-						<p class="margin right-align medium-small">
-							<a class="modal-trigger modal-close" href="#forgot-password">¿Has
-								olvidado tu contraseña?</a>
-						</p>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
 
-	<div id="register" class="modal top-sheet">
-		<div class="modal-content">
-			<form class="login-form">
-				<div class="row">
-					<div class="input-field col s12">
-						<i class="material-icons prefix">person</i> <input
-							class="validate" id="username" type="text"> <label
-							for="username" data-error="wrong" data-success="right">Usuario</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<i class="material-icons prefix">mail_outline</i> <input
-							class="validate" id="email_register" type="email"> <label
-							for="email_register" data-error="wrong" data-success="right">Email</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<i class="material-icons prefix">lock_outline</i> <input
-							id="password_register" type="password"> <label
-							for="password_register">Contraseña</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<a href="#"
-							class="modal-close btn waves-effect waves-light col s12">Registrarse</a>
-					</div>
-				</div>
-				<div class="input-field col s6 m6 l6">
-					<p class="margin medium-small">
-						<a class="modal-trigger modal-close" href="#login">Volver</a>
-					</p>
-				</div>
-			</form>
-		</div>
-	</div>
-
-	<div id="forgot-password" class="modal">
-		<div class="modal-content">
-			<form class="login-form">
-				<div class="row"></div>
-				<div class="row">
-					<div class="input-field col s12">
-						<i class="material-icons prefix">mail_outline</i> <input
-							class="validate" id="email_remember" type="email"> <label
-							for="email_remember" data-error="wrong" data-success="right">Email</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<a href="#"
-							class="modal-close btn waves-effect waves-light col s12">Enviar
-							email</a>
-					</div>
-					<div class="input-field col s6 m6 l6">
-						<p class="margin medium-small">
-							<a class="modal-trigger modal-close" href="#login">Volver</a>
-						</p>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
 
 
 </body>
