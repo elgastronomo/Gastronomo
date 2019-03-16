@@ -38,7 +38,7 @@ import org.json.JSONObject;
 		),
 		@NamedQuery(name="Recipe.ByDifficulty",
 		query="SELECT r FROM Recipe r WHERE r.difficulty IN :difficulty"
-		)
+		)		
 })
 public class Recipe implements Comparable  {
 
@@ -259,7 +259,20 @@ public class Recipe implements Comparable  {
 	public List<Tag> getTags() {
 		return tags;
 	}
-
+	
+	/**
+	 * @return the tags names
+	 */
+	public List<String> tagsNames(){
+		List<String> tagsNames = new ArrayList<String>();
+		
+		for(Tag tag : getTags()) {
+			tagsNames.add(tag.getTag());
+		}
+		
+		return tagsNames;
+	}
+	
 	/**
 	 * @param tags the tags to set
 	 */
@@ -283,5 +296,6 @@ public class Recipe implements Comparable  {
 	@Override
 	public int compareTo(Object recipe) {
 	    return (((Recipe) recipe).getId() != this.id) ? 1 : 0;
-	}	
+	}
+
 }

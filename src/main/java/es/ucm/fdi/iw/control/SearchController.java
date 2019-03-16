@@ -69,31 +69,43 @@ public class SearchController {
 	@SuppressWarnings("unchecked")
 	public List<Recipe> getAdvancedFilterRecipes(int tiempo, String[] difficulty, String[] cuissine, String[] tag){			
 		
-		List<Recipe> recipes = new ArrayList<Recipe>();	
+		List<Recipe> recipes = new ArrayList<Recipe>();		
 		
 		if(difficulty != null && cuissine != null) {
 			recipes = entityManager.createNamedQuery("Recipe.ByDifficultyAndCuissine")
-			 				.setParameter("difficulty", Arrays.asList(difficulty).toString().replace("[", "(").replace("]", ")"))
-			 				.setParameter("cuissine", Arrays.asList(cuissine).toString().replace("[", "(").replace("]", ")"))
+			 				.setParameter("difficulty", Arrays.asList(difficulty))
+			 				.setParameter("cuissine", Arrays.asList(cuissine))
 			 				.getResultList();
 		}
 		else if(cuissine != null) {
-			recipes = entityManager.createNamedQuery("Recipe.ByCuissine")				
-							.setParameter("cuissine", Arrays.asList(cuissine).toString().replace("[", "").replace("]", ""))
+			recipes = entityManager.createNamedQuery("Recipe.ByCuissine")	
+							.setParameter("cuissine", Arrays.asList(cuissine))
 							.getResultList();
 		}
 		else if(difficulty != null) {			
 			recipes = entityManager.createNamedQuery("Recipe.ByDifficulty")
-							.setParameter("difficulty", Arrays.asList(difficulty).toString().replace("[", "(").replace("]", ")"))				
+							.setParameter("difficulty", Arrays.asList(difficulty))				
 							.getResultList();
 		}
+		else {
+			recipes = entityManager.createNamedQuery("Recipe.AllRecipes").getResultList();
+		}
 		
-		return recipes;
+		if(tag != null) {
+			return getAdvancedFilterRecipesTags(recipes, Arrays.asList(tag));
+		}
+		return recipes;		
 	}
 	
-	public String convertTimeToString(int time) {
+	public List<Recipe> getAdvancedFilterRecipesTags(List<Recipe> recipes, List<String> tags){		
+		List<Recipe> recipesWithSpecificTags = new ArrayList<Recipe>();
 		
-		return "";
+		for(Recipe recipe : recipes) {
+			if(recipe.tagsNames().containsAll(tags)) recipesWithSpecificTags.add(recipe);
+		
+		}
+		return recipesWithSpecificTags;		
 	}
+
 
 }
