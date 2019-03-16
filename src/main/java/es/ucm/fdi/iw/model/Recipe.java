@@ -30,11 +30,17 @@ import org.json.JSONObject;
 		@NamedQuery(name="Recipe.AllRecipes",
 					query="SELECT r FROM Recipe r"
 		),
-		@NamedQuery(name="Recipe.Filter.Ingredients",
-					query="SELECT r FROM Recipe r WHERE :ingredients IN r.recipeIngredients"
-		)}
-)
-public class Recipe {
+		@NamedQuery(name="Recipe.ByDifficultyAndCuissine",
+		query="SELECT r FROM Recipe r WHERE r.difficulty IN :difficulty AND r.cuisine IN :cuissine"
+		),
+		@NamedQuery(name="Recipe.ByCuissine",
+		query="SELECT r FROM Recipe r WHERE r.cuisine IN :cuissine"
+		),
+		@NamedQuery(name="Recipe.ByDifficulty",
+		query="SELECT r FROM Recipe r WHERE r.difficulty IN :difficulty"
+		)
+})
+public class Recipe implements Comparable  {
 
 	private long id;
 	private String name;
@@ -273,5 +279,9 @@ public class Recipe {
 	public void addRecipeNutrient(RecipeNutrient recipeNutrient) {
 		this.recipeNutrients.add(recipeNutrient);
 	}
-
+	
+	@Override
+	public int compareTo(Object recipe) {
+	    return (((Recipe) recipe).getId() != this.id) ? 1 : 0;
+	}	
 }

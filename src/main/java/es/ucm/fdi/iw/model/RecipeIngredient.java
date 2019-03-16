@@ -7,8 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name="RecipeIngredient.Filter.Ingredient",
+			query="SELECT ri.recipe FROM RecipeIngredient ri WHERE ri.ingredient.name LIKE :name")
+})
 public class RecipeIngredient {
 
 	private long id;
