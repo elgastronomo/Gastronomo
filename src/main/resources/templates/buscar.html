@@ -3,15 +3,14 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/head.html :: head">
 </head>
-<body>
+<body  onload="loadIngredients()">
 	<nav th:replace="fragments/nav.html :: nav"></nav>
 
 	<div class="pr50 pl50 mt30 mb30">
 
 		<div class="row section-search">
 
-			<form th:action="@{/buscar}" onsubmit="searchIngredients()"
-				name="buscador" method="POST">
+			<form th:action="@{/buscar}" onsubmit="searchIngredients()"	name="buscador" method="POST">
 				<div class="chips">
 					<div class="search">
 						<input id="buscador" class="white grey-text" name="ingredientes"
@@ -24,7 +23,7 @@
 						</button>
 					</div>
 				</div>
-			</form>
+			
 
 		</div>
 
@@ -33,7 +32,7 @@
 				<th:block th:if="${ingredients != null}">
 				6 resultados que incluyen <strong class="ingredientes"
 						th:each="ing: ${ingredients}">[[${ing}]] </strong>
-					<a onclick="editIngredients()"
+					<a onclick="loadIngredients()"
 						class="waves-effect waves-light btn-small red ml10">Editar</a>
 				</th:block>
 				<th:block th:if="${ingredients == null}">
@@ -59,8 +58,7 @@
 				<div class="card">
 					<div class="card-content">
 						<span class="card-title">Filtrar resultados</span>
-
-						<form th:action="@{/buscar_avanzado}" method="POST">
+						
 
 							<div class="mb10">
 								<strong>Tiempo</strong>
@@ -255,8 +253,7 @@
 								</p>
 
 
-								<button class="mt20 waves-effect waves-light red btn"
-									type="submit">
+								<button class="mt20 waves-effect waves-light red btn" type="submit">
 									<i class="material-icons left">search</i>Filtrar
 								</button>
 							</div>

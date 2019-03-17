@@ -13,7 +13,16 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="RecipeIngredient.Filter.Ingredient",
-			query="SELECT ri.recipe FROM RecipeIngredient ri WHERE ri.ingredient.name LIKE :name")
+			query="SELECT ri.recipe FROM RecipeIngredient ri WHERE ri.ingredient.name LIKE :name"),
+	
+	@NamedQuery(name="RecipeIngredient.Filter.IngredientAndCuisine",
+			query="SELECT ri.recipe FROM RecipeIngredient ri WHERE ri.ingredient.name LIKE :name AND ri.recipe.cuisine IN :cuisine"),
+	
+	@NamedQuery(name="RecipeIngredient.Filter.IngredientAndDifficulty",
+			query="SELECT ri.recipe FROM RecipeIngredient ri WHERE ri.ingredient.name LIKE :name AND ri.recipe.difficulty IN :difficulty"),
+	
+	@NamedQuery(name="RecipeIngredient.Filter.IngredientAndDifficultyAndCuisine",
+	query="SELECT ri.recipe FROM RecipeIngredient ri WHERE ri.ingredient.name LIKE :name AND ri.recipe.cuisine IN :cuisine AND ri.recipe.difficulty IN :difficulty"),
 })
 public class RecipeIngredient {
 

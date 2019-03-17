@@ -49,7 +49,9 @@ function searchIngredients() {
 	document.buscador.submit();
 }
 
-function editIngredients() {
+
+
+function loadIngredients() {
 	let ingredients = $(".ingredientes")
 	let instance = M.Chips.getInstance($(".chips"));
 	
