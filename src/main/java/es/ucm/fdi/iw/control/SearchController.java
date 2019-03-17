@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -32,6 +33,12 @@ public class SearchController {
 	@Autowired
 	private EntityManager entityManager;
 
+	@GetMapping("/buscar")
+	public String buscar(Model model) {
+
+		return "buscar";
+	}
+
 	@PostMapping("/buscar")
 	public String getRecipesSearch(@RequestParam(required = false) String ingredientes, Model model) {
 		List<String> ingredients = Arrays.asList(ingredientes.split(" "));
@@ -47,6 +54,9 @@ public class SearchController {
 			@RequestParam(required = false) String[] tag, Model model) {
 
 		model.addAttribute("recipes", getAdvancedFilterRecipes(tiempo, difficulty, cuissine, tag));
+		model.addAttribute("difficulty", difficulty);
+		model.addAttribute("cuissine", cuissine);
+		model.addAttribute("tag", tag);
 
 		return "buscar";
 	}

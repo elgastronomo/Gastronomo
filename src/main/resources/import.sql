@@ -604,7 +604,7 @@ INSERT INTO tag(id,tag) VALUES (7,'Bajo en carbohidratos');
 INSERT INTO tag(id,tag) VALUES (8,'Vegetariano');
 INSERT INTO tag(id,tag) VALUES (9,'Sin glutén');
 INSERT INTO tag(id,tag) VALUES (10,'Equilibrada');
-INSERT INTO tag(id,tag) VALUES (11,'Alto en fibra');
+INSERT INTO tag(id,tag) VALUES (11,'Mucha fibra');
 INSERT INTO tag(id,tag) VALUES (12,'Bajo en sodio');
 INSERT INTO tag(id,tag) VALUES (13,'Vegano');
 INSERT INTO tag(id,tag) VALUES (14,'Sin lácteos');

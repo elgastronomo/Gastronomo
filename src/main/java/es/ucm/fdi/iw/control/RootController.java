@@ -41,10 +41,6 @@ public class RootController {
 		return "index";
 	}
 
-	@GetMapping("/buscar")
-	public String buscar(Model model) {
-		return "buscar";
-	}
 
 	@GetMapping("/admin")
 	public String admin(Model model, Principal principal) {

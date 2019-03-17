@@ -10,7 +10,8 @@
 
 		<div class="row section-search">
 
-			<form th:action="@{/buscar}" onsubmit="searchIngredients()" name="buscador" method="POST">
+			<form th:action="@{/buscar}" onsubmit="searchIngredients()"
+				name="buscador" method="POST">
 				<div class="chips">
 					<div class="search">
 						<input id="buscador" class="white grey-text" name="ingredientes"
@@ -30,8 +31,10 @@
 		<div class="row">
 			<div class="col l10">
 				<th:block th:if="${ingredients != null}">
-				6 resultados que incluyen <strong class="ingredientes" th:each="ing: ${ingredients}">[[${ing}]]
-				</strong> <a onclick="editIngredients()" class="waves-effect waves-light btn-small red ml10">Editar</a>
+				6 resultados que incluyen <strong class="ingredientes"
+						th:each="ing: ${ingredients}">[[${ing}]] </strong>
+					<a onclick="editIngredients()"
+						class="waves-effect waves-light btn-small red ml10">Editar</a>
 				</th:block>
 				<th:block th:if="${ingredients == null}">
 				Mostrando <strong>todas</strong> las recetas
@@ -68,20 +71,26 @@
 							</div>
 
 							<div class="mb10">
-								<strong>Dificultad</strong>
+								<strong>Dificultad </strong>
 								<p>
 									<label> <input type="checkbox" name="difficulty"
-										value="Fácil" /> <span>Fácil</span>
+										value="Fácil"
+										th:checked="${difficulty} ? ${#arrays.contains(difficulty, 'Fácil')} : 'false'" />
+										<span>Fácil</span>
 									</label>
 								</p>
 								<p>
 									<label> <input type="checkbox" name="difficulty"
-										value="Medio" /> <span>Medio</span>
+										value="Medio"
+										th:checked="${difficulty} ? ${#arrays.contains(difficulty, 'Medio')} : 'false'" />
+										<span>Medio</span>
 									</label>
 								</p>
 								<p>
 									<label> <input type="checkbox" name="difficulty"
-										value="Difícil" /> <span>Difícil</span>
+										value="Difícil"
+										th:checked="${difficulty} ? ${#arrays.contains(difficulty, 'Difícil')} : 'false'" />
+										<span>Difícil</span>
 									</label>
 								</p>
 							</div>
@@ -90,22 +99,30 @@
 								<strong>Tipo de cocina</strong>
 								<p>
 									<label> <input type="checkbox" name="cuissine"
-										value="Española" /> <span>Española</span>
+										value="Española"
+										th:checked="${cuissine} ? ${#arrays.contains(cuissine, 'Española')} : 'false'" />
+										<span>Española</span>
 									</label>
 								</p>
 								<p>
 									<label> <input type="checkbox" name="cuissine"
-										value="Italiana" /> <span>Italiana</span>
+										value="Italiana"
+										th:checked="${cuissine} ? ${#arrays.contains(cuissine, 'Italiana')} : 'false'" />
+										<span>Italiana</span>
 									</label>
 								</p>
 								<p>
 									<label> <input type="checkbox" name="cuissine"
-										value="Griega" /> <span>Griega</span>
+										value="Griega"
+										th:checked="${cuissine} ? ${#arrays.contains(cuissine, 'Griega')} : 'false'" />
+										<span>Griega</span>
 									</label>
 								</p>
 								<p>
 									<label> <input type="checkbox" name="cuissine"
-										value="Mejicana" /> <span>Mejicana</span>
+										value="Mejicana"
+										th:checked="${cuissine} ? ${#arrays.contains(cuissine, 'Mejicana')} : 'false'" />
+										<span>Mejicana</span>
 									</label>
 								</p>
 							</div>
@@ -114,30 +131,58 @@
 								<strong>Dieta</strong>
 								<p>
 									<label> <input type="checkbox" name="tag"
-										value="Bajo en carbohidratos" /> <span>Bajo en
-											carbohidratos</span>
+										value="Bajo en carbohidratos"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Bajo en carbohidratos')} : 'false'" />
+										<span>Bajo en carbohidratos</span>
 									</label>
 								</p>
 								<p>
 									<label> <input type="checkbox" name="tag"
-										value="Bajo en sodio" /> <span>Bajo en sodio</span>
+										value="Bajo en sodio"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Bajo en sodio')} : 'false'" />
+										<span>Bajo en sodio</span>
 									</label>
 								</p>
 								<p>
 									<label> <input type="checkbox" name="tag"
-										value="Mucha fibra" /> <span>Mucha fibra</span>
+										value="Mucha fibra"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Mucha fibra')} : 'false'" />
+										<span>Mucha fibra</span>
 									</label>
 								</p>
 								<p>
 									<label> <input type="checkbox" name="tag"
-										value="Alto valor protéico" /> <span>Alto valor
-											protéico</span>
+										value="Alto valor protéico"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Alto valor protéico')} : 'false'" />
+										<span>Alto valor protéico</span>
 									</label>
 								</p>
 
 								<p>
 									<label> <input type="checkbox" name="tag"
-										value="Poca grasa" /> <span>Poca grasa</span>
+										value="Bajo en grasas"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Bajo en grasas')} : 'false'" />
+										<span>Poca grasa</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" name="tag"
+										value="Equilibrada"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Equilibrada')} : 'false'" />
+										<span>Equilibrada</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" name="tag"
+										value="Vegetariano"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Vegetariano')} : 'false'" />
+										<span>Vegetariano</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" name="tag" value="Paleo"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Paleo')} : 'false'" />
+										<span>Paleo</span>
 									</label>
 								</p>
 
@@ -147,22 +192,65 @@
 								<strong>Alérgenos</strong>
 								<p>
 									<label> <input type="checkbox" name="tag"
-										value="Sin glutén" /> <span>Sin gluten</span>
+										value="Sin glutén"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Sin glutén')} : 'false'" />
+										<span>Sin gluten</span>
 									</label>
 								</p>
 								<p>
 									<label> <input type="checkbox" name="tag"
-										value="Sin huevo" /> <span>Sin huevo</span>
+										value="Sin huevo"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Sin huevo')} : 'false'" />
+										<span>Sin huevo</span>
 									</label>
 								</p>
 								<p>
 									<label> <input type="checkbox" name="tag"
-										value="Sin azucar" /> <span>Sin azúcar</span>
+										value="Sin lácteos"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Sin lácteos')} : 'false'" />
+										<span>Sin lácteos</span>
 									</label>
 								</p>
 								<p>
 									<label> <input type="checkbox" name="tag"
-										value="Sin cachuetes" /> <span>Sin cacahuetes</span>
+										value="Sin azucar"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Sin azucar')} : 'false'" />
+										<span>Sin azúcar</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" name="tag"
+										value="Sin soja"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Sin soja')} : 'false'" />
+										<span>Sin soja</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" name="tag"
+										value="Sin frutos secos"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Sin frutos secos')} : 'false'" />
+										<span>Sin frutos secos</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" name="tag"
+										value="Libre de nueces y de cacahuetes"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Libre de nueces y de cacahuetes')} : 'false'" />
+										<span>Libre de nueces y de cacahuetes</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" name="tag"
+										value="Sin pescado"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Sin pescado')} : 'false'" />
+										<span>Sin pescado</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" name="tag"
+										value="Sin mariscos"
+										th:checked="${tag} ? ${#arrays.contains(tag, 'Sin mariscos')} : 'false'" />
+										<span>Sin mariscos</span>
 									</label>
 								</p>
 
