@@ -46,12 +46,12 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	    
 	    // add a 'u' session variable, accessible from thymeleaf via ${session.u}
 	    log.info("Storing user info for {} in session {}", login, session.getId());
-		User u = entityManager.createNamedQuery("User.ByLogin", User.class)
+		User user = entityManager.createNamedQuery("User.ByLogin", User.class)
 		        .setParameter("userLogin", login)
 		        .getSingleResult();			   	
-		session.setAttribute("u", u);
+		session.setAttribute("user", user);
 		
 		// redirects to 'admin' or 'user/{id}', depending on the user
-		response.sendRedirect(u.hasRole("ADMIN") ? "admin" : "user/" + u.getId());
+		response.sendRedirect("");
 	}
 }
