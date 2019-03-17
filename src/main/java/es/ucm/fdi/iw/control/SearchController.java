@@ -116,12 +116,14 @@ public class SearchController {
 			}
 		}
 		
-		if(recipes.size() == 0) {
-			recipes = (Set<Recipe>) entityManager.createNamedQuery("Recipe.AllRecipes").getResultList();
-		}
+		if(recipes.size() == 0) {			
+			
+			recipes.addAll(entityManager.createNamedQuery("Recipe.AllRecipes").setMaxResults(6).getResultList());
 		
-		if (tag != null) {
+		}else if (tag != null) {
+			
 			return getFilterRecipesTags(new ArrayList<Recipe>(recipes), Arrays.asList(tag));
+		
 		}
 		
 		return new ArrayList<Recipe>(recipes);
