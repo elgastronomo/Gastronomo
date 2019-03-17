@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import es.ucm.fdi.iw.model.Recipe;
 
-
 @Controller
 public class SearchController {
 
@@ -34,78 +33,74 @@ public class SearchController {
 	private EntityManager entityManager;
 
 	@PostMapping("/buscar")
-	public String getRecipesSearch(@RequestParam(required = false) String ingredientes, Model model) {				
+	public String getRecipesSearch(@RequestParam(required = false) String ingredientes, Model model) {
 		List<String> ingredients = Arrays.asList(ingredientes.split(" "));
-		model.addAttribute("recipes",getFilterRecipeByIngredients(ingredients));
-		
+		model.addAttribute("recipes", getFilterRecipeByIngredients(ingredients));
+		model.addAttribute("ingredients", ingredients);
+
 		return "buscar";
-	}	
-	
-	@PostMapping("/buscar_avanzado")
-	public String getRecipesSearchAdvanced(@RequestParam int tiempo, @RequestParam(required = false) String[] difficulty, @RequestParam(required = false) String[] cuissine, @RequestParam(required = false) String[] tag, Model model) {	
-		
-		model.addAttribute("recipes",getAdvancedFilterRecipes(tiempo, difficulty, cuissine, tag));
-		
-		return "buscar";
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Recipe> getFilterRecipeByIngredients(List<String> ingredients){
-		Set<Recipe> recipes = new TreeSet<Recipe>();
-		
-		if(ingredients == null) {
-			recipes = (Set<Recipe>) entityManager.createNamedQuery("Recipe.AllRecipes").getResultList();
-		}
-		else {
-			for(String ingredientName : ingredients) {
-				recipes.addAll(entityManager.createNamedQuery("RecipeIngredient.Filter.Ingredient").setParameter("name", "%"+ingredientName+"%").getResultList());				
-			}			
-		}
-		
-		return new ArrayList<Recipe>(recipes);
-	}
-		
-	
-	@SuppressWarnings("unchecked")
-	public List<Recipe> getAdvancedFilterRecipes(int tiempo, String[] difficulty, String[] cuissine, String[] tag){			
-		
-		List<Recipe> recipes = new ArrayList<Recipe>();		
-		
-		if(difficulty != null && cuissine != null) {
-			recipes = entityManager.createNamedQuery("Recipe.ByDifficultyAndCuissine")
-			 				.setParameter("difficulty", Arrays.asList(difficulty))
-			 				.setParameter("cuissine", Arrays.asList(cuissine))
-			 				.getResultList();
-		}
-		else if(cuissine != null) {
-			recipes = entityManager.createNamedQuery("Recipe.ByCuissine")	
-							.setParameter("cuissine", Arrays.asList(cuissine))
-							.getResultList();
-		}
-		else if(difficulty != null) {			
-			recipes = entityManager.createNamedQuery("Recipe.ByDifficulty")
-							.setParameter("difficulty", Arrays.asList(difficulty))				
-							.getResultList();
-		}
-		else {
-			recipes = entityManager.createNamedQuery("Recipe.AllRecipes").getResultList();
-		}
-		
-		if(tag != null) {
-			return getAdvancedFilterRecipesTags(recipes, Arrays.asList(tag));
-		}
-		return recipes;		
-	}
-	
-	public List<Recipe> getAdvancedFilterRecipesTags(List<Recipe> recipes, List<String> tags){		
-		List<Recipe> recipesWithSpecificTags = new ArrayList<Recipe>();
-		
-		for(Recipe recipe : recipes) {
-			if(recipe.tagsNames().containsAll(tags)) recipesWithSpecificTags.add(recipe);
-		
-		}
-		return recipesWithSpecificTags;		
 	}
 
+	@PostMapping("/buscar_avanzado")
+	public String getRecipesSearchAdvanced(@RequestParam int tiempo,
+			@RequestParam(required = false) String[] difficulty, @RequestParam(required = false) String[] cuissine,
+			@RequestParam(required = false) String[] tag, Model model) {
+
+		model.addAttribute("recipes", getAdvancedFilterRecipes(tiempo, difficulty, cuissine, tag));
+
+		return "buscar";
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Recipe> getFilterRecipeByIngredients(List<String> ingredients) {
+		Set<Recipe> recipes = new TreeSet<Recipe>();
+
+		if (ingredients == null) {
+			recipes = (Set<Recipe>) entityManager.createNamedQuery("Recipe.AllRecipes").getResultList();
+		} else {
+			for (String ingredientName : ingredients) {
+				recipes.addAll(entityManager.createNamedQuery("RecipeIngredient.Filter.Ingredient")
+						.setParameter("name", "%" + ingredientName + "%").getResultList());
+			}
+		}
+
+		return new ArrayList<Recipe>(recipes);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Recipe> getAdvancedFilterRecipes(int tiempo, String[] difficulty, String[] cuissine, String[] tag) {
+
+		List<Recipe> recipes = new ArrayList<Recipe>();
+
+		if (difficulty != null && cuissine != null) {
+			recipes = entityManager.createNamedQuery("Recipe.ByDifficultyAndCuissine")
+					.setParameter("difficulty", Arrays.asList(difficulty))
+					.setParameter("cuissine", Arrays.asList(cuissine)).getResultList();
+		} else if (cuissine != null) {
+			recipes = entityManager.createNamedQuery("Recipe.ByCuissine")
+					.setParameter("cuissine", Arrays.asList(cuissine)).getResultList();
+		} else if (difficulty != null) {
+			recipes = entityManager.createNamedQuery("Recipe.ByDifficulty")
+					.setParameter("difficulty", Arrays.asList(difficulty)).getResultList();
+		} else {
+			recipes = entityManager.createNamedQuery("Recipe.AllRecipes").getResultList();
+		}
+
+		if (tag != null) {
+			return getAdvancedFilterRecipesTags(recipes, Arrays.asList(tag));
+		}
+		return recipes;
+	}
+
+	public List<Recipe> getAdvancedFilterRecipesTags(List<Recipe> recipes, List<String> tags) {
+		List<Recipe> recipesWithSpecificTags = new ArrayList<Recipe>();
+
+		for (Recipe recipe : recipes) {
+			if (recipe.tagsNames().containsAll(tags))
+				recipesWithSpecificTags.add(recipe);
+
+		}
+		return recipesWithSpecificTags;
+	}
 
 }

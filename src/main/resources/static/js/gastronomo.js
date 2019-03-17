@@ -24,9 +24,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-// Color rojo en vez del azul por defecto
+// Red color instead of default blue
 function changeColor() {
     document.querySelectorAll('.chip').forEach(chip => {
         chip.classList.add('red');
     })
+}
+
+/*
+ * Extracts ingredients inside chips search bar
+ */
+function searchIngredients() {
+	let chips = M.Chips.getInstance($(".chips")).chipsData;
+	let ingredientes = "";
+	
+	chips.forEach(function(ingredient) {
+		ingredientes += ingredient.tag + " ";
+	});
+	
+	ingredientes = ingredientes.trim();
+	
+	document.buscador.ingredientes.value = ingredientes;
+	
+	document.buscador.submit();
+}
+
+function editIngredients() {
+	let ingredients = $(".ingredientes")
+	let instance = M.Chips.getInstance($(".chips"));
+	
+	
+	$.each(ingredients, function(key, ingredient) {
+		instance.addChip({
+		    tag: ingredient.textContent.trim()
+		  });
+	});
 }

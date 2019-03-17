@@ -10,34 +10,38 @@
 
 		<div class="row section-search">
 
-			<form th:action="@{/buscar}" method="POST">
-						<div class="chips">
-							<div class="search">
-								<input class="white grey-text" name="ingredientes" placeholder="  +Ingrediente"
-									type="text">
-								<button
-									class="btn-floating btn-large waves-effect waves-light red enviar"
-									type="submit" name="action">
-									<i class="material-icons">search</i><i
-										class="material-icons right">send</i>
-								</button>
-							</div>
-						</div>
-					</form>
-			</button>
-
+			<form th:action="@{/buscar}" onsubmit="searchIngredients()" name="buscador" method="POST">
+				<div class="chips">
+					<div class="search">
+						<input id="buscador" class="white grey-text" name="ingredientes"
+							placeholder="  +Ingrediente" type="text">
+						<button
+							class="btn-floating btn-large waves-effect waves-light red enviar"
+							type="submit" name="action">
+							<i class="material-icons">search</i><i
+								class="material-icons right">send</i>
+						</button>
+					</div>
+				</div>
+			</form>
 
 		</div>
 
 		<div class="row">
 			<div class="col l10">
-				6 resultados que <strong>incluyen "XXX"</strong> <a
-					class="waves-effect waves-light btn-small red ml10">Editar</a>
+				<th:block th:if="${ingredients != null}">
+				6 resultados que incluyen <strong class="ingredientes" th:each="ing: ${ingredients}">[[${ing}]]
+				</strong> <a onclick="editIngredients()" class="waves-effect waves-light btn-small red ml10">Editar</a>
+				</th:block>
+				<th:block th:if="${ingredients == null}">
+				Mostrando <strong>todas</strong> las recetas
+				<a class="waves-effect waves-light btn-small red ml10">Editar</a>
+				</th:block>
 			</div>
 
 			<div class="input-field col l2">
 				<select>
-					<option value="1">Más relevantes</option>
+					<option value="1">MÃ¡s relevantes</option>
 					<option value="2">Nuevos</option>
 					<option value="3">Populares</option>
 				</select> <label>Ordenar por</label>
@@ -55,109 +59,120 @@
 
 						<form th:action="@{/buscar_avanzado}" method="POST">
 
-						<div class="mb10">
-							<strong>Tiempo</strong>
-							<p>Máximo de tiempo que quieres dedicar</p>							
+							<div class="mb10">
+								<strong>Tiempo</strong>
+								<p>MÃ¡ximo de tiempo que quieres dedicar</p>
 								<p class="range-field">
 									<input type="range" name="tiempo" id="test5" min="0" max="100" />
-								</p>							
-						</div>
+								</p>
+							</div>
 
-						<div class="mb10">
-							<strong>Dificultad</strong>							
+							<div class="mb10">
+								<strong>Dificultad</strong>
 								<p>
-									<label> <input type="checkbox" name="difficulty" value="Fácil"/> <span>Fácil</span>
+									<label> <input type="checkbox" name="difficulty"
+										value="FÃ¡cil" /> <span>FÃ¡cil</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" name="difficulty" value="Medio"/> <span>Medio</span>
+									<label> <input type="checkbox" name="difficulty"
+										value="Medio" /> <span>Medio</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" name="difficulty" value="Difícil"/> <span>Difícil</span>
+									<label> <input type="checkbox" name="difficulty"
+										value="DifÃ­cil" /> <span>DifÃ­cil</span>
 									</label>
-								</p>							
-						</div>
+								</p>
+							</div>
 
-						<div class="mb10">
-							<strong>Tipo de cocina</strong>							
+							<div class="mb10">
+								<strong>Tipo de cocina</strong>
 								<p>
-									<label> <input type="checkbox" name="cuissine" value="Española"/> <span>Española</span>
+									<label> <input type="checkbox" name="cuissine"
+										value="EspaÃ±ola" /> <span>EspaÃ±ola</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" name="cuissine" value="Italiana"/> <span>Italiana</span>
+									<label> <input type="checkbox" name="cuissine"
+										value="Italiana" /> <span>Italiana</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" name="cuissine" value="Griega"/> <span>Griega</span>
+									<label> <input type="checkbox" name="cuissine"
+										value="Griega" /> <span>Griega</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" name="cuissine" value="Mejicana"/> <span>Mejicana</span>
+									<label> <input type="checkbox" name="cuissine"
+										value="Mejicana" /> <span>Mejicana</span>
 									</label>
-								</p>							
-						</div>
+								</p>
+							</div>
 
-						<div class="mb10">
-							<strong>Dieta</strong>							
+							<div class="mb10">
+								<strong>Dieta</strong>
 								<p>
-									<label> <input type="checkbox" name="tag" value="Bajo en carbohidratos"/> <span>Bajo en
+									<label> <input type="checkbox" name="tag"
+										value="Bajo en carbohidratos" /> <span>Bajo en
 											carbohidratos</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" name="tag" value="Bajo en sodio"/> <span>Bajo en
-											sodio</span>
+									<label> <input type="checkbox" name="tag"
+										value="Bajo en sodio" /> <span>Bajo en sodio</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" name="tag" value="Mucha fibra"/> <span>Mucha
-											fibra</span>
+									<label> <input type="checkbox" name="tag"
+										value="Mucha fibra" /> <span>Mucha fibra</span>
 									</label>
 								</p>
 								<p>
-									<label> <input type="checkbox" name="tag" value="Alto valor protéico"/> <span>Alto
-											valor protéico</span>
+									<label> <input type="checkbox" name="tag"
+										value="Alto valor protÃ©ico" /> <span>Alto valor
+											protÃ©ico</span>
 									</label>
 								</p>
 
 								<p>
-									<label> <input type="checkbox" name="tag" value="Poca grasa"/> <span>Poca
-											grasa</span>
+									<label> <input type="checkbox" name="tag"
+										value="Poca grasa" /> <span>Poca grasa</span>
 									</label>
 								</p>
-							
-						</div>
 
-						<div class="mb10">
-							<strong>Alérgenos</strong>							
-								<p>
-									<label> <input type="checkbox" name="tag" value="Sin glutén"/> <span>Sin
-											gluten</span>
-									</label>
-								</p>
-								<p>
-									<label> <input type="checkbox" name="tag" value="Sin huevo"/> <span>Sin
-											huevo</span>
-									</label>
-								</p>
-								<p>
-									<label> <input type="checkbox" name="tag" value="Sin azucar"/> <span>Sin
-											azúcar</span>
-									</label>
-								</p>
-								<p>
-									<label> <input type="checkbox" name="tag" value="Sin cachuetes"/> <span>Sin
-											cacahuetes</span>
-									</label>
-								</p>
-							
+							</div>
 
-							<button class="mt20 waves-effect waves-light red btn" type="submit"><i
-								class="material-icons left">search</i>Filtrar</button>
-						</div>
-					</form>
+							<div class="mb10">
+								<strong>AlÃ©rgenos</strong>
+								<p>
+									<label> <input type="checkbox" name="tag"
+										value="Sin glutÃ©n" /> <span>Sin gluten</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" name="tag"
+										value="Sin huevo" /> <span>Sin huevo</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" name="tag"
+										value="Sin azucar" /> <span>Sin azÃºcar</span>
+									</label>
+								</p>
+								<p>
+									<label> <input type="checkbox" name="tag"
+										value="Sin cachuetes" /> <span>Sin cacahuetes</span>
+									</label>
+								</p>
+
+
+								<button class="mt20 waves-effect waves-light red btn"
+									type="submit">
+									<i class="material-icons left">search</i>Filtrar
+								</button>
+							</div>
+						</form>
 
 					</div>
 				</div>
@@ -169,19 +184,22 @@
 					<div th:each="receta: ${recipes}" class="col s12 m4">
 						<div class="card">
 							<div class="card-image">
-								<a th:href="@{/receta/} + ${receta.id}"> <img class="img-recortada"
+								<a th:href="@{/receta/} + ${receta.id}"> <img
+									class="img-recortada"
 									th:src="@{/img/recetas/} + ${receta.id} + .jpg">
-								</a> <span class="card-title"> <a th:href="@{/receta/} + ${receta.id}"
-									th:text="${receta.name}">Receta 6</a>
-								</span> <a class="btn-floating halfway-fab waves-effect waves-light red"><i
+								</a> <span class="card-title"> <a
+									th:href="@{/receta/} + ${receta.id}" th:text="${receta.name}">Receta
+										6</a>
+								</span> <a
+									class="btn-floating halfway-fab waves-effect waves-light red"><i
 									class="material-icons">favorite</i></a>
 							</div>
 							<div class="card-content">
 
-								<strong>Información</strong>
+								<strong>InformaciÃ³n</strong>
 								<ul class="collection">
 									<li class="collection-item"><div>
-											<strong>Categoría: </strong><span th:text="${receta.cuisine}"></span>
+											<strong>CategorÃ­a: </strong><span th:text="${receta.cuisine}"></span>
 											<i class="secondary-content material-icons">restaurant</i>
 										</div></li>
 									<li class="collection-item"><div>
@@ -190,7 +208,7 @@
 												class="secondary-content material-icons">thumb_up</i>
 										</div></li>
 									<li class="collection-item"><div>
-											<strong>Duración: </strong><span th:text="${receta.duration}"></span>
+											<strong>DuraciÃ³n: </strong><span th:text="${receta.duration}"></span>
 											<i class="secondary-content material-icons">timer</i>
 										</div></li>
 									<li class="collection-item"><div>
@@ -199,7 +217,7 @@
 										</div></li>
 
 									<li class="collection-item"><div>
-											<strong>Calorías: </strong><span
+											<strong>CalorÃ­as: </strong><span
 												th:text="|${receta.calories} kcal|"></span> <i
 												class="secondary-content material-icons">fastfood</i>
 										</div></li>
