@@ -34,19 +34,17 @@ ALTER TABLE recipe ALTER COLUMN steps SET DATA TYPE VARCHAR(10000);
 
 -- an admin with password 'a'
 
-INSERT INTO user(id,enabled,login,password,roles) VALUES (
-	1, 1, 'a', 
+INSERT INTO user(id,enabled,login,password,name,email,karma,roles) VALUES (
+	1, 1, 'admin', 
 	'{bcrypt}$2a$04$2ao4NQnJbq3Z6UeGGv24a.wRRX0FGq2l5gcy2Pjd/83ps7YaBXk9C',
-	'USER,ADMIN'
+	'Administrador','admin@ucm.es',0,'USER,ADMIN'
 );
--- a teacher with password 'p'
-INSERT INTO user(id,enabled,login,password,roles) VALUES (
-	2, 1, 'p', 
-	'{bcrypt}$2a$04$5v02dQ.kxt7B5tJIA4gh3u/JFQlxmoCadSnk76PnvoN35Oz.ge3GK', 'USER');
--- a teacher with password 'q'
-INSERT INTO user(id,enabled,login,password,roles) VALUES (
-	3, 1, 'q', 
-	'{bcrypt}$2a$04$9rrSETFYL/gqiBxBCy3DMOIZ6qmLigzjqnOGbsNji/bt65q.YBfjK', 'USER');
+-- a user with password 'p'
+INSERT INTO user(id,enabled,login,password,name,email,karma,roles) VALUES (
+	2, 1, 'usuario', 
+	'{bcrypt}$2a$04$2ao4NQnJbq3Z6UeGGv24a.wRRX0FGq2l5gcy2Pjd/83ps7YaBXk9C',
+	'Usuario','user@ucm.es',0,'USER'
+);
 
 INSERT INTO recipe(id,name,url,attribution,duration,calories,weight,rations,difficulty,cuisine,steps,user_id) VALUES (1,'Pasta con salchichas italianas','http://www.comidakraft.com/sp/recipes/pasta-con-salchichas-italianas-144663.aspx','Comida Kraft','35 Min',3569.632988,1516.75867,8.0,'Fácil','Italiana','{"1": "Calienta la parrilla a fuego medio-bajo.", "2": "Mezcla los vegetales; ponlos en una hoja grande de papel aluminio resistente. Rocíalos con 1/4 taza del aderezo. Dobla el papel para armar un paquete.", "3": "Asa el paquete y las salchichas de 15 a 20 min. o hasta que las salchichas estén cocidas; recuerda voltearlas de vez en cuando. Entretanto, cuece la pasta como se indica en el paquete, pero omite la sal.", "4": "Corta las salchichas por la mitad a lo largo y luego, a lo ancho en rebanadas finas; ponlas en una fuente grande. Haz pequeños cortes en el paquete antes de abrirlo para dejar salir el vapor. Añade los vegetales (con su jugo) a las salchichas. Escurre la pasta; agrégala a la fuente con el resto del aderezo. Revuelve hasta mezclar todo bien; espolvorea la pasta con el queso."}',1);
 INSERT INTO recipe(id,name,url,attribution,duration,calories,weight,rations,difficulty,cuisine,steps,user_id) VALUES (2,'Ensalada italiana','http://www.comidakraft.com/sp/recipes/ensalada-italiana-94949.aspx','Comida Kraft','25 Min',2030.4901114,986.01242,4.0,'Fácil','Italiana','{"1": "Coloca la lechuga en un platón para servir. Coloca los demás ingredientes, excepto el aderezo, sobre la lechuga.", "2": "Rocía la ensalada con el aderezo; mézclala justo antes de servir."}',1);

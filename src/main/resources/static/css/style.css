@@ -54,15 +54,6 @@ Roberto Fernández Correa
 /* ----------------------------*/
 /*     CAMBIOS MATERIALIZE     */
 /* ----------------------------*/
-.chips {
-	border-bottom: none;
-}
-
-.chips.focus {
-	border-bottom: none;
-	box-shadow: none;
-	-webkit-box-shadow: none;
-}
 
 #buscador.input:focus {
 	border: #f4f4f4 3px solid !important;
@@ -87,6 +78,16 @@ Roberto Fernández Correa
 
 input:focus+label {
 	color: red !important;
+}
+
+#index-banner .chips {
+    border-bottom: none;
+}
+
+#index-banner .chips.focus {
+    border-bottom: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
 }
 
 /* label underline focus color */
