@@ -115,7 +115,23 @@ public class Recipe implements Comparable  {
 	public void setDuration(String duration) {
 		this.duration = duration;
 	}
-
+	
+	public int durationInt() {
+		String[] d = duration.split(" ");
+		Integer durationInteger = 0;
+		if(d.length == 4) {
+			durationInteger += (Integer.parseInt(d[0])*60)+Integer.parseInt(d[2]);
+		}
+		else {
+			if(d[1].contains("H")) {
+				durationInteger += Integer.parseInt(d[0])*60;
+			}else {
+				durationInteger += Integer.parseInt(d[0]);
+			}			
+		}
+		return durationInteger;
+	}
+	
 	/**
 	 * @return the url
 	 */

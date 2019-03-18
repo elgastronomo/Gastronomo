@@ -2,10 +2,7 @@ package es.ucm.fdi.iw.control;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -66,6 +63,7 @@ public class SearchController {
 		model.addAttribute("difficulty", difficulty);
 		model.addAttribute("cuisine", cuisine);
 		model.addAttribute("ingredients", ingredients);
+		model.addAttribute("tiempo", tiempo);
 		model.addAttribute("tag", tag);
 
 		return "buscar";
@@ -75,28 +73,31 @@ public class SearchController {
 	public List<Recipe> getRecipes(Integer tiempo, List<String> ingredients, String[] difficulty, String[] cuisine,
 			String[] tag) {
 		Set<Recipe> recipes = new TreeSet<Recipe>();
+		
+		boolean filterYet = false;
 
 		if (ingredients == null) {
 
 			if (difficulty != null && cuisine != null) {
 
 				recipes = convertListToSet(entityManager.createNamedQuery("Recipe.ByDifficultyAndCuisine")
-						.setParameter("difficulty", Arrays.asList(difficulty))
-						.setParameter("cuisine", Arrays.asList(cuisine)).getResultList());
-
+								.setParameter("difficulty", Arrays.asList(difficulty))
+								.setParameter("cuisine", Arrays.asList(cuisine)).getResultList());
+				filterYet = true;
 			} else if (cuisine != null) {
 
 				recipes = convertListToSet(entityManager.createNamedQuery("Recipe.ByCuisine")
-						.setParameter("cuisine", Arrays.asList(cuisine)).getResultList());
-
+								.setParameter("cuisine", Arrays.asList(cuisine)).getResultList());
+				filterYet = true;
 			} else if (difficulty != null) {
 
 				recipes = convertListToSet(entityManager.createNamedQuery("Recipe.ByDifficulty")
-						.setParameter("difficulty", Arrays.asList(difficulty)).getResultList());
-
+								.setParameter("difficulty", Arrays.asList(difficulty)).getResultList());
+				filterYet = true;
 			}
 
 		} else {
+			filterYet = true;
 			for (String ingredientName : ingredients) {
 
 				if (difficulty != null && cuisine != null) {
@@ -110,44 +111,71 @@ public class SearchController {
 				} else if (cuisine != null) {
 
 					recipes.addAll(entityManager.createNamedQuery("RecipeIngredient.Filter.IngredientAndCuisine")
-							.setParameter("cuisine", Arrays.asList(cuisine))
-							.setParameter("name", "%" + ingredientName + "%").getResultList());
+									.setParameter("cuisine", Arrays.asList(cuisine))
+									.setParameter("name", "%" + ingredientName + "%").getResultList());
 
 				} else if (difficulty != null) {
 
 					recipes.addAll(entityManager.createNamedQuery("RecipeIngredient.Filter.IngredientAndDifficulty")
-							.setParameter("difficulty", Arrays.asList(difficulty))
-							.setParameter("name", "%" + ingredientName + "%").getResultList());
+									.setParameter("difficulty", Arrays.asList(difficulty))
+									.setParameter("name", "%" + ingredientName + "%").getResultList());
 
 				} else {
 					recipes.addAll(entityManager.createNamedQuery("RecipeIngredient.Filter.Ingredient")
-							.setParameter("name", "%" + ingredientName + "%").getResultList());
+									.setParameter("name", "%" + ingredientName + "%").getResultList());
 
 				}
 
 			}
 		}
-
-		if (recipes.size() != 0 && recipes.size() != 0 && tag != null) {
-
-			return getFilterRecipesTags(new ArrayList<Recipe>(recipes), Arrays.asList(tag));
+		
+		if ((recipes.size() != 0 || !filterYet) && (tiempo != null || tag != null)) {
+			
+			if(!filterYet) {
+				recipes.addAll(entityManager.createNamedQuery("Recipe.AllRecipes").getResultList());
+			}
+			
+			if(tag != null && tiempo != null) {
+				return getFilterRecipesExtra(new ArrayList<Recipe>(recipes), Arrays.asList(tag), tiempo);
+			}
+			else {
+				return getFilterRecipesExtra(new ArrayList<Recipe>(recipes), null, tiempo);
+			}
+			
 
 		}
 
 		return new ArrayList<Recipe>(recipes);
 	}
 
-	public List<Recipe> getFilterRecipesTags(List<Recipe> recipes, List<String> tags) {
-		List<Recipe> recipesWithSpecificTags = new ArrayList<Recipe>();
+	public List<Recipe> getFilterRecipesExtra(List<Recipe> recipes, List<String> tags, Integer tiempo) {
+		List<Recipe> recipesWithSpecificTagsAndTime = new ArrayList<Recipe>();
 
 		for (Recipe recipe : recipes) {
-			if (recipe.tagsNames().containsAll(tags))
-				recipesWithSpecificTags.add(recipe);
+			
+			if (tags != null && tiempo != null) {
+				
+				if(recipe.tagsNames().containsAll(tags) && recipe.durationInt() <= tiempo) {
+					
+					recipesWithSpecificTagsAndTime.add(recipe);
+					
+				}
+			}
+			else if(tiempo != null && recipe.durationInt() <= tiempo) {
+				
+				recipesWithSpecificTagsAndTime.add(recipe);
+				
+			}
+			else if(tags != null && recipe.tagsNames().containsAll(tags)) {
+				
+				recipesWithSpecificTagsAndTime.add(recipe);
+				
+			}	
 
 		}
-		return recipesWithSpecificTags;
+		return recipesWithSpecificTagsAndTime;
 	}
-
+	
 	// Generic function to convert list to set
 	public static <T> Set<T> convertListToSet(List<T> list) {
 		// create a set from the List

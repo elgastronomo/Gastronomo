@@ -68,7 +68,7 @@
 							<strong>Tiempo</strong>
 							<p>Máximo de tiempo que quieres dedicar</p>
 							<p class="range-field">
-								<input type="range" name="tiempo" id="test5" min="0" max="100" />
+								<input type="range" name="tiempo" id="rangeDuration" min="0" max="480" th:value="${tiempo} != null ? ${tiempo} : 480"/>
 							</p>
 						</div>
 
