@@ -11,7 +11,9 @@
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
 				<li><a href="#"><i class="material-icons">notifications</i></a></li>
 				<li><a class="waves-effect waves-light modal-trigger"
-					th:href="@{/login}"><i class="material-icons right">person</i><span th:text="${session.user != null} ? ${session.user.login} : 'Loggin'"></span> </a></li>
+					th:href="@{/login}"><i class="material-icons right">person</i><span
+						th:text="${session.user != null} ? ${session.user.login} : 'Iniciar sesión'"></span>
+				</a></li>
 			</ul>
 		</div>
 	</nav>

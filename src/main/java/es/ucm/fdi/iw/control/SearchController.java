@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import org.apache.logging.log4j.LogManager;
@@ -35,20 +36,35 @@ public class SearchController {
 
 	@GetMapping("/buscar")
 	public String buscar(Model model) {
+		model.addAttribute("recipes",
+				entityManager.createNamedQuery("Recipe.AllRecipes").setMaxResults(6).getResultList());
+		model.addAttribute("found", true);
 
 		return "buscar";
 	}
 
+	@SuppressWarnings("unchecked")
 	@PostMapping("/buscar")
-	public String getRecipesSearchAdvanced(@RequestParam(required = false) Integer tiempo, @RequestParam(required = false) String ingredientes,
-			@RequestParam(required = false) String[] difficulty, @RequestParam(required = false) String[] cuissine,
-			@RequestParam(required = false) String[] tag, Model model) {
+	public String getRecipesSearchAdvanced(@RequestParam(required = false) Integer tiempo,
+			@RequestParam(required = false) String ingredientes, @RequestParam(required = false) String[] difficulty,
+			@RequestParam(required = false) String[] cuisine, @RequestParam(required = false) String[] tag,
+			Model model) {
 
-		List<String> ingredients = Arrays.asList(ingredientes.split(" "));
-		
-		model.addAttribute("recipes", getRecipes(tiempo, ingredients, difficulty, cuissine, tag));
+		List<String> ingredients = ingredientes != "" ? Arrays.asList(ingredientes.split(" ")) : null;
+
+		List<Recipe> recipes = getRecipes(tiempo, ingredients, difficulty, cuisine, tag);
+		// Because we want to inform about the non matching query
+		boolean found = true;
+
+		if (recipes.size() == 0) {
+			recipes.addAll(entityManager.createNamedQuery("Recipe.AllRecipes").setMaxResults(6).getResultList());
+			found = false;
+		}
+
+		model.addAttribute("recipes", recipes);
+		model.addAttribute("found", found);
 		model.addAttribute("difficulty", difficulty);
-		model.addAttribute("cuissine", cuissine);
+		model.addAttribute("cuisine", cuisine);
 		model.addAttribute("ingredients", ingredients);
 		model.addAttribute("tag", tag);
 
@@ -56,76 +72,68 @@ public class SearchController {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Recipe> getRecipes(Integer tiempo, List<String> ingredients, String[] difficulty, String[] cuissine, String[] tag) {
+	public List<Recipe> getRecipes(Integer tiempo, List<String> ingredients, String[] difficulty, String[] cuisine,
+			String[] tag) {
 		Set<Recipe> recipes = new TreeSet<Recipe>();
 
 		if (ingredients == null) {
-			
-			if (difficulty != null && cuissine != null) {
-				
-				recipes = (Set<Recipe>) entityManager.createNamedQuery("Recipe.ByDifficultyAndCuissine")
+
+			if (difficulty != null && cuisine != null) {
+
+				recipes = convertListToSet(entityManager.createNamedQuery("Recipe.ByDifficultyAndCuisine")
 						.setParameter("difficulty", Arrays.asList(difficulty))
-						.setParameter("cuissine", Arrays.asList(cuissine)).getResultList();
-				
-			} else if (cuissine != null) {
-				
-				recipes = (Set<Recipe>) entityManager.createNamedQuery("Recipe.ByCuissine")
-						.setParameter("cuissine", Arrays.asList(cuissine)).getResultList();
-				
+						.setParameter("cuisine", Arrays.asList(cuisine)).getResultList());
+
+			} else if (cuisine != null) {
+
+				recipes = convertListToSet(entityManager.createNamedQuery("Recipe.ByCuisine")
+						.setParameter("cuisine", Arrays.asList(cuisine)).getResultList());
+
 			} else if (difficulty != null) {
-				
-				recipes = (Set<Recipe>) entityManager.createNamedQuery("Recipe.ByDifficulty")
-						.setParameter("difficulty", Arrays.asList(difficulty)).getResultList();
-				
-			} else {
-				
-				recipes = (Set<Recipe>) entityManager.createNamedQuery("Recipe.AllRecipes").getResultList();
-				
+
+				recipes = convertListToSet(entityManager.createNamedQuery("Recipe.ByDifficulty")
+						.setParameter("difficulty", Arrays.asList(difficulty)).getResultList());
+
 			}
-			
-		
+
 		} else {
 			for (String ingredientName : ingredients) {
-				
-				if (difficulty != null && cuissine != null) {
-					
-					recipes.addAll(entityManager.createNamedQuery("RecipeIngredient.Filter.IngredientAndDifficultyAndCuisine")
-							.setParameter("difficulty", Arrays.asList(difficulty))
-							.setParameter("cuisine", Arrays.asList(cuissine))
-							.setParameter("name", "%" + ingredientName + "%").getResultList());
-					
-				} else if (cuissine != null) {
-					
+
+				if (difficulty != null && cuisine != null) {
+
+					recipes.addAll(
+							entityManager.createNamedQuery("RecipeIngredient.Filter.IngredientAndDifficultyAndCuisine")
+									.setParameter("difficulty", Arrays.asList(difficulty))
+									.setParameter("cuisine", Arrays.asList(cuisine))
+									.setParameter("name", "%" + ingredientName + "%").getResultList());
+
+				} else if (cuisine != null) {
+
 					recipes.addAll(entityManager.createNamedQuery("RecipeIngredient.Filter.IngredientAndCuisine")
-							.setParameter("cuisine", Arrays.asList(cuissine))
+							.setParameter("cuisine", Arrays.asList(cuisine))
 							.setParameter("name", "%" + ingredientName + "%").getResultList());
-					
+
 				} else if (difficulty != null) {
-					
+
 					recipes.addAll(entityManager.createNamedQuery("RecipeIngredient.Filter.IngredientAndDifficulty")
 							.setParameter("difficulty", Arrays.asList(difficulty))
 							.setParameter("name", "%" + ingredientName + "%").getResultList());
-					
+
 				} else {
-					
 					recipes.addAll(entityManager.createNamedQuery("RecipeIngredient.Filter.Ingredient")
-							.setParameter("name", "%" + ingredientName + "%").getResultList());				
-					
-				}				
-				
+							.setParameter("name", "%" + ingredientName + "%").getResultList());
+
+				}
+
 			}
 		}
-		
-		if(recipes.size() == 0) {			
-			
-			recipes.addAll(entityManager.createNamedQuery("Recipe.AllRecipes").setMaxResults(6).getResultList());
-		
-		}else if (tag != null) {
-			
+
+		if (recipes.size() != 0 && recipes.size() != 0 && tag != null) {
+
 			return getFilterRecipesTags(new ArrayList<Recipe>(recipes), Arrays.asList(tag));
-		
+
 		}
-		
+
 		return new ArrayList<Recipe>(recipes);
 	}
 
@@ -138,6 +146,12 @@ public class SearchController {
 
 		}
 		return recipesWithSpecificTags;
+	}
+
+	// Generic function to convert list to set
+	public static <T> Set<T> convertListToSet(List<T> list) {
+		// create a set from the List
+		return list.stream().collect(Collectors.toSet());
 	}
 
 }

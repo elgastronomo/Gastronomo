@@ -30,10 +30,10 @@ import org.json.JSONObject;
 		@NamedQuery(name="Recipe.AllRecipes",
 					query="SELECT r FROM Recipe r"
 		),
-		@NamedQuery(name="Recipe.ByDifficultyAndCuissine",
+		@NamedQuery(name="Recipe.ByDifficultyAndCuisine",
 		query="SELECT r FROM Recipe r WHERE r.difficulty IN :difficulty AND r.cuisine IN :cuisine"
 		),
-		@NamedQuery(name="Recipe.ByCuissine",
+		@NamedQuery(name="Recipe.ByCuisine",
 		query="SELECT r FROM Recipe r WHERE r.cuisine IN :cuisine"
 		),
 		@NamedQuery(name="Recipe.ByDifficulty",
