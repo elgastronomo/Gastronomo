@@ -55,7 +55,7 @@ Roberto Fernández Correa
 /*     CAMBIOS MATERIALIZE     */
 /* ----------------------------*/
 
-#buscador.input:focus {
+.buscador .input:focus {
 	border: #f4f4f4 3px solid !important;
 	-webkit-border-radius: 50px !important;
 	-moz-border-radius: 50px !important;
@@ -80,11 +80,11 @@ input:focus+label {
 	color: red !important;
 }
 
-#index-banner .chips {
+.buscador .chips {
     border-bottom: none;
 }
 
-#index-banner .chips.focus {
+.buscador .chips.focus {
     border-bottom: none;
     box-shadow: none;
     -webkit-box-shadow: none;

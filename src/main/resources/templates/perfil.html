@@ -18,8 +18,9 @@
 						<div class="row">
 
 							<div class="col l3 s12">
-								<img src="img/avatar.png" class="circle responsive-img" alt=""
-									width="280"> <a class="waves-effect waves-light btn red"><i
+								<img th:src="@{/img/avatar.png}" class="circle responsive-img"
+									alt="" width="280"> <a
+									class="waves-effect waves-light btn red"><i
 									class="material-icons right">photo</i>Cambiar imagen</a>
 							</div>
 
@@ -29,13 +30,14 @@
 									<li class="collection-header">
 										<h4>Información de tu perfil</h4>
 									</li>
-									<li class="collection-item"><strong>Nombre: </strong>Pepito
-										Pérez</li>
-									<li class="collection-item"><strong>Karma: </strong>100</li>
+									<li class="collection-item"><strong>Nombre: </strong>
+										[[${user.name}]]</li>
+									<li class="collection-item"><strong>Karma: </strong>[[${user.karma}]]
+										puntos</li>
 									<li class="collection-item"><strong>Recetas
-											publicadas: </strong>5 recetas</li>
+											publicadas: </strong>[[${#lists.size(user.recipes)}]] recetas</li>
 									<li class="collection-item"><strong>Comentarios
-											publicados: </strong>12 comentarios</li>
+											publicados: </strong>[[${#lists.size(user.comments)}]] comentarios</li>
 								</ul>
 
 

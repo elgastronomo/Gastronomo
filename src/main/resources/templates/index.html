@@ -16,11 +16,11 @@
 			</div>
 			<div class="row center">
 				<div class="col s12">
-					<form th:action="@{/buscar}" onsubmit="searchIngredients()"
+					<form class="buscador" th:action="@{/buscar}" onsubmit="searchIngredients()"
 						name="buscador" method="POST">
 						<div class="chips">
 							<div class="search">
-								<input id="buscador" class="white grey-text" name="ingredientes"
+								<input class="white grey-text" name="ingredientes"
 									placeholder="+Ingrediente" type="text">
 								<button
 									class="btn-floating btn-large waves-effect waves-light red enviar"

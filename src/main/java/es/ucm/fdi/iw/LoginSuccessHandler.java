@@ -52,6 +52,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		session.setAttribute("user", user);
 		
 		// redirects to 'admin' or 'user/{id}', depending on the user
-		response.sendRedirect("user" + user.getId());
+		response.sendRedirect("user/" + user.getId());
 	}
 }
