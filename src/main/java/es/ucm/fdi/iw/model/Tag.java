@@ -11,15 +11,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 /**
  * @author roberto
  *
  */
 @Entity
+@NamedQueries({
+	@NamedQuery(name="Tag.ByName", query="SELECT t FROM Tag t WHERE t.tag = :tagName")
+})
 public class Tag {
-
+	
 	private long id;
+	@JsonView(Views.Public.class)
 	private String tag;
 	private List<Recipe> recipe = new ArrayList<>();
 	/**

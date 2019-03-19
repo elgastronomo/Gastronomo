@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	instances = M.Chips.init(elems, {
         placeholder: '+Alergia',
         secondaryPlaceholder: '+Alergia',
+        autocompleteOptions: autocompleteOptions
     });
 
 });
