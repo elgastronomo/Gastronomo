@@ -44,17 +44,19 @@ let autocompleteOptions = {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.chips');
-    var instances = M.Chips.init(elems, { onChipAdd: changeColor });
+	addIndexFiltersListeners();	
+	
+	let elems = document.querySelectorAll('.chips');
+	let instances = M.Chips.init(elems, { onChipAdd: changeColor });
 
-    var elems = document.querySelectorAll('.chips-ingredientes');
-    var instances = M.Chips.init(elems, {
+	elems = document.querySelectorAll('.chips-ingredientes');
+	instances = M.Chips.init(elems, {
         placeholder: '+Ingrediente',
         secondaryPlaceholder: '+Ingrediente',
     });
 
-    var elems = document.querySelectorAll('.chips-alergias');
-    var instances = M.Chips.init(elems, {
+	elems = document.querySelectorAll('.chips-alergias');
+	instances = M.Chips.init(elems, {
         placeholder: '+Alergia',
         secondaryPlaceholder: '+Alergia',
     });
@@ -95,6 +97,45 @@ function loadIngredients() {
 		instance.addChip({
 		    tag: ingredient.textContent.trim()
 		  });
+	});
+}
+
+function addIndexFiltersListeners() {
+	addFilter("difficulty", "facil", "Fácil");
+	addFilter("difficulty", "medio", "Medio");
+	addFilter("difficulty", "dificil", "Difícil");
+	
+	addFilter("tiempo", "tiempo-1", "20");
+	addFilter("tiempo", "tiempo-2", "40");
+	addFilter("tiempo", "tiempo-3", "80");
+	
+	addFilter("cuisine", "espanyola", "Española");
+	addFilter("cuisine", "italiana", "Italiana");
+	addFilter("cuisine", "griega", "Griega");
+	addFilter("cuisine", "mejicana", "Mejicana");
+}
+
+function addFilter(inputName, buttonId, value) {
+	let button = $("#" + buttonId);
+	button.click(() => {
+		let active = false;
+		$('form[name="buscador"] input[name=' + inputName + ']').each(
+			    function(index){  
+			        let input = $(this);
+			        active = input.val() == value;
+			    }
+			);
+		
+		if (active) {
+			button.parent().css("background-color", "");
+			button.parent().css("border-radius", "");
+			$('form[name="buscador"] input[name=difficulty]').remove();
+		}
+		else {
+			button.parent().css("background-color", "#ef5350");
+			button.parent().css("border-radius", "50px");
+			$('form[name="buscador"]').append('<input type="hidden" name="' + inputName + '" value="' + value + '" />');
+		}		
 	});
 }
 

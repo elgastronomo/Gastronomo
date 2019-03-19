@@ -51,6 +51,10 @@ Roberto Fernández Correa
 	object-fit: cover;
 }
 
+.index-filter:hover {
+	cursor: pointer;
+}
+
 /* ----------------------------*/
 /*     CAMBIOS MATERIALIZE     */
 /* ----------------------------*/

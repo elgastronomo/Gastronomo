@@ -16,8 +16,8 @@
 			</div>
 			<div class="row center">
 				<div class="col s12">
-					<form class="buscador" th:action="@{/buscar}" onsubmit="searchIngredients()"
-						name="buscador" method="POST">
+					<form class="buscador" th:action="@{/buscar}"
+						onsubmit="searchIngredients()" name="buscador" method="POST">
 						<div class="chips">
 							<div class="search">
 								<input class="white grey-text" name="ingredientes"
@@ -36,6 +36,7 @@
 			</div>
 
 			<div class="container">
+
 				<div class="row">
 					<div class="col s12">
 						<ul class="tabs tabs-fixed-width tab-demo z-depth-1">
@@ -52,21 +53,21 @@
 							<div class="row">
 
 								<div class="col s4">
-									<img th:src="@{/img/home-icons/easy.png}" width="50" alt="">
+									<img id="facil" class="index-filter" th:src="@{/img/home-icons/easy.png}" width="50" alt="">
 									<p>
 										<strong>Fácil</strong>
 									</p>
 								</div>
 
 								<div class="col s4">
-									<img th:src="@{/img/home-icons/medium.png}" width="50" alt="">
+									<img id="medio" class="index-filter" th:src="@{/img/home-icons/medium.png}" width="50" alt="">
 									<p>
 										<strong>Medio</strong>
 									</p>
 								</div>
 
 								<div class="col s4">
-									<img th:src="@{/img/home-icons/hard.png}" width="50" alt="">
+									<img id="dificil" class="index-filter" th:src="@{/img/home-icons/hard.png}" width="50" alt="">
 									<p>
 										<strong>Difícil</strong>
 									</p>
@@ -80,21 +81,21 @@
 							<div clas="row">
 
 								<div class="col s4">
-									<img th:src="@{/img/home-icons/time.png}" width="50" alt="">
+									<img id="tiempo-1" class="index-filter" th:src="@{/img/home-icons/time.png}" width="50" alt="">
 									<p>
 										<strong>¡Lo quiero ya!</strong>
 									</p>
 								</div>
 
 								<div class="col s4">
-									<img th:src="@{/img/home-icons/time.png}" width="50" alt="">
+									<img id="tiempo-2" class="index-filter" th:src="@{/img/home-icons/time.png}" width="50" alt="">
 									<p>
 										<strong>Tengo tiempo</strong>
 									</p>
 								</div>
 
 								<div class="col s4">
-									<img th:src="@{/img/home-icons/time.png}" width="50" alt="">
+									<img id="tiempo-3" class="index-filter" th:src="@{/img/home-icons/time.png}" width="50" alt="">
 									<p>
 										<strong>Puedo esperar...</strong>
 									</p>
@@ -108,28 +109,28 @@
 							<div clas="row">
 
 								<div class="col s3">
-									<img th:src="@{/img/home-icons/spain.png}" width="50" alt="">
+									<img id="espanyola" class="index-filter" th:src="@{/img/home-icons/spain.png}" width="50" alt="">
 									<p>
 										<strong>Española</strong>
 									</p>
 								</div>
 
 								<div class="col s3">
-									<img th:src="@{/img/home-icons/italy.png}" width="50" alt="">
+									<img id="italiana" class="index-filter" th:src="@{/img/home-icons/italy.png}" width="50" alt="">
 									<p>
 										<strong>Italiana</strong>
 									</p>
 								</div>
 
 								<div class="col s3">
-									<img th:src="@{/img/home-icons/greece.png}" width="50" alt="">
+									<img id="griega" class="index-filter" th:src="@{/img/home-icons/greece.png}" width="50" alt="">
 									<p>
 										<strong>Griega</strong>
 									</p>
 								</div>
 
 								<div class="col s3">
-									<img th:src="@{/img/home-icons/mexico.png}" width="50" alt="">
+									<img id="mejicana" class="index-filter" th:src="@{/img/home-icons/mexico.png}" width="50" alt="">
 									<p>
 										<strong>Mejicana</strong>
 									</p>
