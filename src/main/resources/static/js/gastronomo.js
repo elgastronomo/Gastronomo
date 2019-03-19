@@ -129,7 +129,7 @@ function addFilter(inputName, buttonId, value) {
 		if (active) {
 			button.parent().css("background-color", "");
 			button.parent().css("border-radius", "");
-			$('form[name="buscador"] input[name=difficulty]').remove();
+			$('form[name="buscador"] input[name=' + inputName + ']').remove();
 		}
 		else {
 			button.parent().css("background-color", "#ef5350");
