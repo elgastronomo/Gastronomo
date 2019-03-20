@@ -32,7 +32,7 @@ import javax.validation.constraints.Null;
 				@NamedQuery(name = "User.HasLogin", query = "SELECT COUNT(u) " + "FROM User u "
 				+ "WHERE u.login = :userLogin"),
 
-				@NamedQuery(name = "User.ByEmail", query = "SELECT u FROM User u " + "WHERE u.email = :email"),
+			    @NamedQuery(name = "User.ByEmail", query = "SELECT u FROM User u " + "WHERE u.email = :email"),
 				
 })
 public class User {

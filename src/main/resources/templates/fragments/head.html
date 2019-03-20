@@ -30,6 +30,18 @@
     <link rel="stylesheet" th:href="@{/css/materialize.min.css}">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/helpers.css}">
+    
+    <script type="text/javascript">
+		const gastronomo = {
+			csrf: {
+				name: "[[${_csrf.parameterName}]]",
+				value: "[[${_csrf.token}]]"
+			},
+			admin: [[${session.user != null && session.user.hasRole('admin')}?'true':'false']],
+			userId: [[${session.user != null}?${session.user.id}:-1]]
+		};
+	</script>
+	
 </head>
 
 <body>
