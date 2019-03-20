@@ -1,4 +1,4 @@
-/*
+	/*
    _____           _                                         
   / ____|         | |                                        
  | |  __  __ _ ___| |_ _ __ ___  _ __   ___  _ __ ___   ___  
@@ -18,186 +18,268 @@ Roberto Fernández Correa
 
 M.AutoInit();
 
+// Add recipe tags autocomplete
 let autocompleteOptions = {
-    data: {
-        'Sin huevo': null,
-        'Libre de nueces y de cacahuetes': null,
-        'Sin frutos secos': null,
-        'Sin soja': null,
-        'Sin pescado': null,
-        'Sin mariscos': null,
-        'Bajo en carbohidratos': null,
-        'Vegetariano': null,
-        'Sin glutén': null,
-        'Equilibrada': null,
-        'Alto en fibra': null,
-        'Bajo en sodio': null,
-        'Vegano': null,
-        'Sin lácteos': null,
-        'Paleo': null,
-        'Alto valor proteíco': null,
-        'Bajo en grasas': null
-    },
-    limit: Infinity,
-    minLength: 1
+	data: {
+		'Sin huevo': null,
+		'Libre de nueces y de cacahuetes': null,
+		'Sin frutos secos': null,
+		'Sin soja': null,
+		'Sin pescado': null,
+		'Sin mariscos': null,
+		'Bajo en carbohidratos': null,
+		'Vegetariano': null,
+		'Sin glutén': null,
+		'Equilibrada': null,
+		'Mucha fibra': null,
+		'Bajo en sodio': null,
+		'Vegano': null,
+		'Sin lácteos': null,
+		'Paleo': null,
+		'Alto valor proteíco': null,
+		'Bajo en grasas': null
+	},
+	limit: Infinity,
+	minLength: 1
 };
 
-
+// Initialize all elements
 document.addEventListener('DOMContentLoaded', function() {
-	addIndexFiltersListeners();	
+	addIndexFiltersListeners();
+	addFavTagListener();
 	
 	let elems = document.querySelectorAll('.chips');
 	let instances = M.Chips.init(elems, { onChipAdd: changeColor });
 
 	elems = document.querySelectorAll('.chips-ingredientes');
 	instances = M.Chips.init(elems, {
-        placeholder: '+Ingrediente',
-        secondaryPlaceholder: '+Ingrediente',
-    });
+		placeholder: '+Ingrediente',
+		secondaryPlaceholder: '+Ingrediente',
+	});
 
-	elems = document.querySelectorAll('.chips-alergias');
+	elems = document.querySelectorAll('.chips-tags');
 	instances = M.Chips.init(elems, {
-        placeholder: '+Alergia',
-        secondaryPlaceholder: '+Alergia',
-        autocompleteOptions: autocompleteOptions
-    });
-
+		placeholder: '+Tag',
+		secondaryPlaceholder: '+Tag',
+		autocompleteOptions: autocompleteOptions,
+		onChipDelete: removeFavTag
+	});
+	if (elems.length != 0){
+		getFavouriteTags();
+	}
+	
 });
 
-// Color rojo en vez del azul por defecto
-function changeColor() {
-    document.querySelectorAll('.buscador .chip').forEach(chip => {
-        chip.classList.add('red');
-    })
-}
+/*******************************************************
+ * MAIN INGREDIENT SEARCHER
+ *******************************************************/
 
 /*
  * Extracts ingredients inside chips search bar
  */
-function searchIngredients() {
-	let chips = M.Chips.getInstance($(".buscador .chips")).chipsData;
-	let ingredientes = "";
-	
-	chips.forEach(function(ingredient) {
-		ingredientes += ingredient.tag + " ";
-	});
-	
-	ingredientes = ingredientes.trim();
-	
-	document.buscador.ingredientes.value = ingredientes;
-	
-	document.buscador.submit();
-}
+ function searchIngredients() {
+ 	let chips = M.Chips.getInstance($(".buscador .chips")).chipsData;
+ 	let ingredientes = "";
+ 	
+ 	chips.forEach(function(ingredient) {
+ 		ingredientes += ingredient.tag + " ";
+ 	});
+ 	
+ 	ingredientes = ingredientes.trim();
+ 	
+ 	document.buscador.ingredientes.value = ingredientes;
+ 	
+ 	document.buscador.submit();
+ }
 
-function loadIngredients() {
-	let ingredients = $(".ingredientes")
-	let instance = M.Chips.getInstance($(".chips"));
-	
-	
-	$.each(ingredients, function(key, ingredient) {
-		instance.addChip({
-		    tag: ingredient.textContent.trim()
-		  });
-	});
-}
+ // Load ingredients and show red chips
+ function loadIngredients() {
+ 	let ingredients = $(".ingredientes")
+ 	let instance = M.Chips.getInstance($(".chips"));
+ 	
+ 	
+ 	$.each(ingredients, function(key, ingredient) {
+ 		instance.addChip({
+ 			tag: ingredient.textContent.trim()
+ 		});
+ 	});
+ }
 
-function addIndexFiltersListeners() {
-	addFilter("difficulty", "facil", "Fácil");
-	addFilter("difficulty", "medio", "Medio");
-	addFilter("difficulty", "dificil", "Difícil");
-	
-	addFilter("tiempo", "tiempo-1", "20");
-	addFilter("tiempo", "tiempo-2", "40");
-	addFilter("tiempo", "tiempo-3", "80");
-	
-	addFilter("cuisine", "espanyola", "Española");
-	addFilter("cuisine", "italiana", "Italiana");
-	addFilter("cuisine", "griega", "Griega");
-	addFilter("cuisine", "mejicana", "Mejicana");
-}
+ // Homepage filters
+ function addIndexFiltersListeners() {
+ 	addFilter("difficulty", "facil", "Fácil");
+ 	addFilter("difficulty", "medio", "Medio");
+ 	addFilter("difficulty", "dificil", "Difícil");
+ 	
+ 	addFilter("tiempo", "tiempo-1", "20");
+ 	addFilter("tiempo", "tiempo-2", "40");
+ 	addFilter("tiempo", "tiempo-3", "80");
+ 	
+ 	addFilter("cuisine", "espanyola", "Española");
+ 	addFilter("cuisine", "italiana", "Italiana");
+ 	addFilter("cuisine", "griega", "Griega");
+ 	addFilter("cuisine", "mejicana", "Mejicana");
+ }
 
-function addFilter(inputName, buttonId, value) {
-	let button = $("#" + buttonId);
-	button.click(() => {
-		let active = false;
-		$('form[name="buscador"] input[name=' + inputName + ']').each(
-			    function(index){  
-			        let input = $(this);
-			        active = input.val() == value;
-			    }
-			);
-		
-		if (active) {
-			button.parent().css("background-color", "");
-			button.parent().css("border-radius", "");
-			$('form[name="buscador"] input[name=' + inputName + ']').remove();
-		}
-		else {
-			button.parent().css("background-color", "#ef5350");
-			button.parent().css("border-radius", "50px");
-			$('form[name="buscador"]').append('<input type="hidden" name="' + inputName + '" value="' + value + '" />');
-		}		
-	});
-}
+ // Aux function homepage filters
+ function addFilter(inputName, buttonId, value) {
+ 	let button = $("#" + buttonId);
+ 	button.click(() => {
+ 		let active = false;
+ 		$('form[name="buscador"] input[name=' + inputName + ']').each(
+ 			function(index){  
+ 				let input = $(this);
+ 				active = input.val() == value;
+ 			}
+ 			);
+ 		
+ 		if (active) {
+ 			button.parent().css("background-color", "");
+ 			button.parent().css("border-radius", "");
+ 			$('form[name="buscador"] input[name=' + inputName + ']').remove();
+ 		}
+ 		else {
+ 			button.parent().css("background-color", "#ef5350");
+ 			button.parent().css("border-radius", "50px");
+ 			$('form[name="buscador"]').append('<input type="hidden" name="' + inputName + '" value="' + value + '" />');
+ 		}		
+ 	});
+ }
+ 
+ /*******************************************************
+  * NEW RECIPE. Add ingredients and steps
+  *******************************************************/
 
-function addIngredient() {
-    let elements = parseInt(document.getElementById('firstIngredients').childElementCount) +
-        parseInt(document.getElementById('secondIngredients').childElementCount);
+ function addIngredient() {
+ 	let elements = parseInt(document.getElementById('firstIngredients').childElementCount) +
+ 	parseInt(document.getElementById('secondIngredients').childElementCount);
 
-    let idx = elements + 1;
+ 	let idx = elements + 1;
 
-    let ingredientForm = `
-    <li id="ingredient_form_` + idx + `" class="collection-item avatar">
-    <i class="material-icons circle">restaurant_menu</i>
-    <span class="title">
-        <div class="input-field">
-    <input placeholder="Nombre del ingrediente" id="ingredient_` + idx + `" type="text" class="validate">
-    <label for="ingredient_` + idx + `">Ingrediente</label>
-    </div>
-</span>
-    <div class="input-field">
-        <input placeholder="Peso en gramos" id="ingredient_weight_` + idx + `" type="text" class="validate">
-        <label for="ingredient_weight_` + idx + `">Peso en gramos</label>
-    </div>
-    <a href="#!" onclick="removeIngredient(` + idx + `)" class="tooltipped secondary-content" data-position="bottom" data-tooltip="Eliminar ingrediente"><i class="material-icons">delete</i></a>
-</li>`;
+ 	let ingredientForm = `
+ 	<li id="ingredient_form_` + idx + `" class="collection-item avatar">
+ 	<i class="material-icons circle">restaurant_menu</i>
+ 	<span class="title">
+ 	<div class="input-field">
+ 	<input placeholder="Nombre del ingrediente" id="ingredient_` + idx + `" type="text" class="validate">
+ 	<label for="ingredient_` + idx + `">Ingrediente</label>
+ 	</div>
+ 	</span>
+ 	<div class="input-field">
+ 	<input placeholder="Peso en gramos" id="ingredient_weight_` + idx + `" type="text" class="validate">
+ 	<label for="ingredient_weight_` + idx + `">Peso en gramos</label>
+ 	</div>
+ 	<a href="#!" onclick="removeIngredient(` + idx + `)" class="tooltipped secondary-content" data-position="bottom" data-tooltip="Eliminar ingrediente"><i class="material-icons">delete</i></a>
+ 	</li>`;
 
-    if (Math.abs(elements % 2) == 1) {
-        document.getElementById('secondIngredients').innerHTML += ingredientForm;
-        M.updateTextFields();
-    } else {
-        document.getElementById('firstIngredients').innerHTML += ingredientForm;
-        M.updateTextFields();
-    }
-}
+ 	if (Math.abs(elements % 2) == 1) {
+ 		document.getElementById('secondIngredients').innerHTML += ingredientForm;
+ 		M.updateTextFields();
+ 	} else {
+ 		document.getElementById('firstIngredients').innerHTML += ingredientForm;
+ 		M.updateTextFields();
+ 	}
+ }
 
-function removeIngredient(ingredient) {
-    if (Math.abs(ingredient % 2) == 1) {
-        document.getElementById('firstIngredients').removeChild(document.getElementById('ingredient_form_' + ingredient));
-    } else {
-        document.getElementById('secondIngredients').removeChild(document.getElementById('ingredient_form_' + ingredient));
-    }
-}
+ function removeIngredient(ingredient) {
+ 	if (Math.abs(ingredient % 2) == 1) {
+ 		document.getElementById('firstIngredients').removeChild(document.getElementById('ingredient_form_' + ingredient));
+ 	} else {
+ 		document.getElementById('secondIngredients').removeChild(document.getElementById('ingredient_form_' + ingredient));
+ 	}
+ }
 
-function addStep() {
-    let steps = document.getElementById('stepsForm');
-    let idx = parseInt(steps.childElementCount) + 1;
+ function addStep() {
+ 	let steps = document.getElementById('stepsForm');
+ 	let idx = parseInt(steps.childElementCount) + 1;
 
-    let stepsForm = `
-    <li id="step_form_` + idx + `" class="collection-item avatar">
-        <i class="material-icons circle">done</i>
+ 	let stepsForm = `
+ 	<li id="step_form_` + idx + `" class="collection-item avatar">
+ 	<i class="material-icons circle">done</i>
 
-        <div class="input-field col s12">
-            <textarea id="step_` + idx + `" class="materialize-textarea"></textarea>
-            <label for="step_` + idx + `">Paso #` + idx + `</label>
-        </div>
-        <a href="#!" onclick="removeStep(` + idx + `)" class="tooltipped secondary-content" data-position="bottom" data-tooltip="Eliminar paso"><i class="material-icons">delete</i></a>
-    </li>`;
+ 	<div class="input-field col s12">
+ 	<textarea id="step_` + idx + `" class="materialize-textarea"></textarea>
+ 	<label for="step_` + idx + `">Paso #` + idx + `</label>
+ 	</div>
+ 	<a href="#!" onclick="removeStep(` + idx + `)" class="tooltipped secondary-content" data-position="bottom" data-tooltip="Eliminar paso"><i class="material-icons">delete</i></a>
+ 	</li>`;
 
-    steps.innerHTML += stepsForm;
+ 	steps.innerHTML += stepsForm;
 
-}
+ }
 
-function removeStep(step) {
-    document.getElementById('stepsForm').removeChild(document.getElementById('step_form_' + step));
-}
+ function removeStep(step) {
+ 	document.getElementById('stepsForm').removeChild(document.getElementById('step_form_' + step));
+ }
+ 
+ 
+ /*******************************************************
+  * AJAX API CALLS (/api)
+  *******************************************************/
+ 
+  function getFavouriteTags() {
+ 	let tags = [];
+ 	let instance = M.Chips.getInstance($(".chips-tags"));
+ 	
+ 	fetch('/api/users/' + gastronomo.userId + '/tags')
+ 	.then(res => res.json())
+ 	.then(data => {
+ 		$.each(data, function(key, t) {
+ 			instance.addChip({tag: t.tag})
+ 		})
+ 	});	
+ }
+
+ function addFavTagListener() {
+ 	const headers = {
+ 		"Content-Type": "application/json",				
+ 		"X-CSRF-TOKEN": gastronomo.csrf.value
+ 	};
+ 	
+ 	let button = $("#add-favourite-tag").click(() => {
+ 		let chips = M.Chips.getInstance($(".chips-tags")).chipsData;
+ 		
+ 		chips.forEach(function(t) {
+ 			fetch('/api/users/' + gastronomo.userId + '/tags', {
+ 				headers: headers,
+ 				method: 'POST',
+ 				body: JSON.stringify({ tag: t.tag })
+ 			}).then(function(response) {
+ 				console.log(response);
+ 			});
+ 		});
+ 		
+ 		M.toast({html: '¡Tags añadidos a favoritos!'});
+ 	});
+ }
+
+
+ function removeFavTag(element, chip) {
+ 	let tag = chip.innerText.split('close')[0];
+ 	
+ 	const headers = {
+ 		"Content-Type": "application/json",				
+ 		"X-CSRF-TOKEN": gastronomo.csrf.value
+ 	};
+ 	
+ 	fetch('/api/users/' + gastronomo.userId + '/tags', {
+ 		headers: headers,
+ 		method: 'DELETE',
+ 		body: JSON.stringify({ tag: tag })
+ 	}).then(function(response) {
+ 		console.log(response);
+ 	});
+ 	
+ 	M.toast({html: 'Tag eliminado de favoritos'});
+ }
+
+ /*******************************************************
+  * OTHER STUFF
+  *******************************************************/
+ 
+//Red chip color instead of blue
+ function changeColor() {
+ 	document.querySelectorAll('.buscador .chip').forEach(chip => {
+ 		chip.classList.add('red');
+ 	})
+ }

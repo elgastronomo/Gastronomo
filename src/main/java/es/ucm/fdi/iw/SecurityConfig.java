@@ -34,7 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 * login information available.
 	 */
 	protected void configure(HttpSecurity http) throws Exception {
-		// http.csrf().disable();
 	    http
 	        .authorizeRequests()
 	        	.antMatchers("**").permitAll() 
@@ -43,10 +42,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	            .antMatchers("/admin**").hasRole("ADMIN")
 	            .anyRequest().authenticated()
 	            .and()
-	        .formLogin()
-	        	.loginPage("/login.html")
-	        	.permitAll();
-	        	//.successHandler(loginSuccessHandler);// <-- called when login Ok; can redirect
+	         .formLogin()
+	        	.permitAll().successHandler(loginSuccessHandler);// <-- called when login Ok; can redirect
+	    
+	    /*
+	     * Rober
+	     * .loginPage("/login.html")
+	     *   	.permitAll();
+	     *   	//.successHandler(loginSuccessHandler);// <-- called when login Ok; can redirect
+	     */
 	}
 	
 	/**

@@ -2,7 +2,9 @@ package es.ucm.fdi.iw.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Null;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 /**
  * A user.
@@ -28,7 +31,7 @@ import javax.validation.constraints.Null;
  */
 @Entity
 @NamedQueries({ @NamedQuery(name = "User.ByLogin", query = "SELECT u FROM User u " + "WHERE u.login = :userLogin"),
-		@NamedQuery(name = "User.HasLogin", query = "SELECT COUNT(u) " + "FROM User u "
+				@NamedQuery(name = "User.HasLogin", query = "SELECT COUNT(u) " + "FROM User u "
 				+ "WHERE u.login = :userLogin") })
 public class User {
 	private long id;
@@ -49,11 +52,11 @@ public class User {
 	private List<Comment> comments = new ArrayList<>();
 	private List<Valoration> valorations = new ArrayList<>();
 	private List<Recipe> recipes = new ArrayList<>();
-	private List<Recipe> favRecipes = new ArrayList<>();
-	private List<Ingredient> favIngredients = new ArrayList<>();
-	private List<Tag> favTags = new ArrayList<>();
+	private Set<Recipe> favRecipes = new HashSet<>();
+	private Set<Ingredient> favIngredients = new HashSet<>();
+	private Set<Tag> favTags = new HashSet<>();
 	private List<Menu> menus = new ArrayList<>();
-	
+
 	public User() {
 		this.karma = 0;
 	}
@@ -161,38 +164,50 @@ public class User {
 		this.recipes = recipes;
 	}
 
-	@ManyToMany(targetEntity=Recipe.class)
-	public List<Recipe> getFavRecipes() {
+	@ManyToMany(targetEntity = Recipe.class)
+	public Set<Recipe> getFavRecipes() {
 		return favRecipes;
 	}
 
-	public void setFavRecipes(List<Recipe> favRecipes) {
+	public void setFavRecipes(Set<Recipe> favRecipes) {
 		this.favRecipes = favRecipes;
 	}
 
-	@ManyToMany(targetEntity=Ingredient.class)
-	public List<Ingredient> getFavIngredients() {
+	@ManyToMany(targetEntity = Ingredient.class)
+	public Set<Ingredient> getFavIngredients() {
 		return favIngredients;
 	}
 
-	public void setFavIngredients(List<Ingredient> favIngredients) {
+	public void setFavIngredients(Set<Ingredient> favIngredients) {
 		this.favIngredients = favIngredients;
 	}
 
-	@ManyToMany(targetEntity=Tag.class)
-	public List<Tag> getFavTags() {
+	public void addFavIngredient(Ingredient ingredient) {
+		this.favIngredients.add(ingredient);
+	}
+
+	public void removeFavIngredient(String ingredient) {
+		this.favIngredients.remove(ingredient);
+	}
+
+	@ManyToMany(targetEntity = Tag.class)
+	public Set<Tag> getFavTags() {
 		return favTags;
 	}
 
-	public void setFavTags(List<Tag> favTags) {
+	public void setFavTags(Set<Tag> favTags) {
 		this.favTags = favTags;
 	}
-	
+
 	public void addFavTag(Tag tag) {
 		this.favTags.add(tag);
 	}
 
-	@OneToMany(targetEntity=Menu.class)
+	public void removeFavTag(Tag tag) {
+		this.favTags.remove(tag);
+	}
+
+	@OneToMany(targetEntity = Menu.class)
 	@JoinColumn(name = "user_id")
 	public List<Menu> getMenus() {
 		return menus;
