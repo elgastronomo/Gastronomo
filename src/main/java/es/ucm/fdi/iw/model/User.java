@@ -196,6 +196,10 @@ public class User {
 	public void addFavTag(Tag tag) {
 		this.favTags.add(tag);
 	}
+	
+	public void removeFavTag(Tag tag) {
+		this.favTags.remove(tag);
+	}
 
 	@OneToMany(targetEntity=Menu.class)
 	@JoinColumn(name = "user_id")
