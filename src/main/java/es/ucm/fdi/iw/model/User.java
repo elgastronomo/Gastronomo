@@ -28,8 +28,13 @@ import javax.validation.constraints.Null;
  */
 @Entity
 @NamedQueries({ @NamedQuery(name = "User.ByLogin", query = "SELECT u FROM User u " + "WHERE u.login = :userLogin"),
-		@NamedQuery(name = "User.HasLogin", query = "SELECT COUNT(u) " + "FROM User u "
-				+ "WHERE u.login = :userLogin") })
+	
+				@NamedQuery(name = "User.HasLogin", query = "SELECT COUNT(u) " + "FROM User u "
+				+ "WHERE u.login = :userLogin"),
+
+				@NamedQuery(name = "User.ByEmail", query = "SELECT u FROM User u " + "WHERE u.email = :email"),
+				
+})
 public class User {
 	private long id;
 	private String login;

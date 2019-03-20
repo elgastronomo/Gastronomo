@@ -40,7 +40,7 @@ public class LoginAndRegistrationController {
 	
 	@GetMapping("/login")
 	public String login() {
-		return "registration";
+		return "loginAndRegistration";
 		
 	}
 	
@@ -48,9 +48,11 @@ public class LoginAndRegistrationController {
 	public String loggin(String username, String password, Model model, HttpSession session) {
 		try {
 			
-			User user = (User) userDetailsService.loadUserByUsername(username);
-			
-			if(bcrypt.matches(password, user.getPassword())) {
+			 User user = entityManager.createNamedQuery("User.ByLogin", User.class)
+	                    .setParameter("userLogin", username)
+	                    .getSingleResult();
+						 
+			 if(bcrypt.matches(password, user.getPassword())) {
 				session.setAttribute("user", user);
 				return "index";
 			}
@@ -58,46 +60,46 @@ public class LoginAndRegistrationController {
 		} catch (Exception e) {
 			model.addAttribute("error",true);
 		} 
-		return "login";
+		return "loginAndRegistration";
 	
 		
 	}
 	
 	@PostMapping("/login/registration")
-	public String registration(String username,String email, String password,String matchPassword,Model model, HttpSession session) {
+	public String registration(String name, String username, String email, String password,String matchPassword,Model model, HttpSession session) {
 		
 		//check if email exist		
 		if(checkExistUsername(username)) {
 			model.addAttribute("error", "username already exist");
-			return("registration");
+			return("loginAndRegistration");
 		}
 		
 		//check if email exist
 		if(checkExistEmail(email)) {
 			model.addAttribute("error", "email already exist");
-			return("registration");
+			return("loginAndRegistration");
 		}
 		
 		//check if passwords are equals
 		if(!password.equalsIgnoreCase(matchPassword)) {
 			model.addAttribute("error", "password are not equals");
-			return("registration");
+			return("loginAndRegistration");
 		}
 		
 		User user = new User();
 		String finalPass = bcrypt.encode(password);
-		user = new User();
+		user.setName(name);
 		user.setEmail(email);
 		user.setLogin(username);
 		user.setPassword(finalPass);
 		user.setRoles("USER");
 		if(persistUser(user)) {
 			session.setAttribute("user", user); 
+			System.out.println("conseguido");
 			return "index";
 		}
 		
-		return "registration";
-					
+		return "index";	
 	}
 	
 	private boolean checkExistUsername(String username) {
@@ -118,7 +120,7 @@ public class LoginAndRegistrationController {
 		
 		try {
 			User user = entityManager.createNamedQuery("User.ByEmail", User.class)
-			.setParameter("userLogin", username)
+			.setParameter("email", username)
 			.getSingleResult();		
 			return true;
 		} 
