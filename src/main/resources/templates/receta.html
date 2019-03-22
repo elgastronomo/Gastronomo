@@ -149,37 +149,37 @@
 
 
 						<h5>Comentarios</h5>
-						<ul class="collection">
-							<li class="collection-item avatar"><img
+						<ul th:if="${#lists.size(recipe.comments) != 0}"
+							class="collection">
+							<li th:each="c: ${recipe.comments}]"
+								class="collection-item avatar"><img
 								th:src="@{/img/avatar.png}" alt="" class="circle"> <span
 								class="title">Muy buena receta</span>
-								<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-									Laudantium non voluptates consectetur eius et, odit explicabo
-									ullam at fugiat dolor quidem autem. Est architecto voluptatum
-									eveniet ipsum tenetur eius nisi.</p> <a href="#!"
+								<p th:text="${c.comment}"></p> <a href="#!"
 								class="secondary-content"><i class="material-icons">mood_bad</i></a>
 							</li>
 						</ul>
 
-						<div class="row">
-							<form class="col s12">
+						<h6 th:if="${#lists.size(recipe.comments) == 0}">Todavía no
+							hay ningún comentario. ¡Anímate a dejar uno!</h6>
+
+						<div class="row mt20">
+							<form th:action="@{{id}/comentar(id=${recipe.id})}" method="POST" class="col s12">
 								<div class="row">
-									<div class="input-field col s6">
-										<input placeholder="Nombre" id="first_name" type="text"
-											class="validate"> <label for="first_name">Nombre</label>
-									</div>
-									<div class="input-field col s6">
-										<input placeholder="Título del comentario" id="first_name"
-											type="text" class="validate"> <label for="first_name">Título</label>
+
+									<div class="input-field col s12">
+										<input placeholder="Título del comentario"
+											id="tituloComentario" name="tituloComentario" type="text"
+											class="validate"> <label for="tituloComentario">Título</label>
 									</div>
 
 									<div class="input-field col s12">
-										<textarea id="textarea1" class="materialize-textarea"></textarea>
-										<label for="textarea1">Comentario</label>
+										<textarea id="comentario" name="comentario" class="materialize-textarea"></textarea>
+										<label for="comentario">Comentario</label>
 									</div>
 
-									<a class="waves-effect waves-light red btn right"><i
-										class="material-icons left">comment</i>Comentar</a>
+									<button class="waves-effect waves-light red btn right" type="submit" name="action"><i
+										class="material-icons left">comment</i>Comentar</button>
 								</div>
 							</form>
 						</div>

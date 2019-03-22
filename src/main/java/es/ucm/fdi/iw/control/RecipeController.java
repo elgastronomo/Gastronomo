@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,10 +15,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import es.ucm.fdi.iw.model.Recipe;
 import es.ucm.fdi.iw.model.RecipeIngredient;
+import es.ucm.fdi.iw.model.User;
 
 @Controller
 @RequestMapping("receta")
@@ -64,6 +68,19 @@ public class RecipeController {
 		else {
 			log.error("No such recipe: {}", id);
 		}
+
+		return "receta";
+	}
+
+	@PostMapping("/{id}/comentar")
+	@Transactional
+	public String comentar(@PathVariable long id, @RequestParam String tituloComentario,
+			@RequestParam String comentario, Model model, HttpSession session) {
+		
+		
+		User user = (User) session.getAttribute("user");
+		
+		// TODO: everything
 
 		return "receta";
 	}
