@@ -272,7 +272,7 @@
 			<div class="col s12 m8 l9">
 				<div class="row">
 					<div th:each="receta: ${recipes}" class="col s12 m4">
-						<div th:replace="fragments/receta_card.html"></div>
+						<div th:replace="fragments/receta_card.html :: div"></div>
 					</div>
 				</div>
 

@@ -47,6 +47,7 @@ let autocompleteOptions = {
 document.addEventListener('DOMContentLoaded', function() {
 	addIndexFiltersListeners();
 	addFavTagListener();
+	addDeleteCommentId();
 	
 	let elems = document.querySelectorAll('.chips');
 	let instances = M.Chips.init(elems, { onChipAdd: changeColor });
@@ -144,6 +145,20 @@ document.addEventListener('DOMContentLoaded', function() {
  			$('form[name="buscador"]').append('<input type="hidden" name="' + inputName + '" value="' + value + '" />');
  		}		
  	});
+ }
+ 
+ /*******************************************************
+  * SINGLE RECIPE PAGE
+  *******************************************************/
+ 
+ function addDeleteCommentId() {
+	 
+	 $("a[href$='#eliminar-comentario']").click((elem) => {
+		 let commentId;
+		 commentId = elem.currentTarget.id;
+		 
+		 $("#link-borrar-comentario").attr("href", recipeId + '/comentarios/' + commentId + '/borrar');
+	 });
  }
  
  /*******************************************************

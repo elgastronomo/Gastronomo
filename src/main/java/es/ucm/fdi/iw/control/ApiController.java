@@ -45,8 +45,9 @@ public class ApiController {
 	@JsonView(Views.Public.class)
 	public List<Tag> status(Model model, @PathVariable long id) {
 		User u = (User) session.getAttribute("user");
+		u = entityManager.find(User.class, u.getId());
 
-		return (List<Tag>) entityManager.createNamedQuery("Tag.ByUser").setParameter("userId", Long.parseLong("1"))
+		return (List<Tag>) entityManager.createNamedQuery("Tag.ByUser").setParameter("userId", u.getId())
 				.getResultList();
 	}
 
@@ -55,14 +56,14 @@ public class ApiController {
 	@Transactional
 	public String addFavouriteTag(Model model, @PathVariable long id, @RequestBody Tag tag)
 			throws JsonProcessingException {
-		User u = (User) entityManager.find(User.class, Long.parseLong("1"));
+		User u = (User) session.getAttribute("user");
+		u = entityManager.find(User.class, u.getId());
 
 		Tag t = (Tag) entityManager.createNamedQuery("Tag.ByName").setParameter("tagName", tag.getTag())
 				.getSingleResult();
 
 		if (u != null && t != null) {
 			u.addFavTag(t);
-			entityManager.persist(u);
 			return "Tag: " + t.getTag() + " añadadida a favoritos";
 		} else {
 			return "Error añadiendo tag a favoritos";
@@ -74,14 +75,14 @@ public class ApiController {
 	@Transactional
 	public String removeFavouriteTag(Model model, @PathVariable long id, @RequestBody Tag tag)
 			throws JsonProcessingException {
-		User u = (User) entityManager.find(User.class, Long.parseLong("1"));
+		User u = (User) session.getAttribute("user");
+		u = entityManager.find(User.class, u.getId());
 
 		Tag t = (Tag) entityManager.createNamedQuery("Tag.ByName").setParameter("tagName", tag.getTag())
 				.getSingleResult();
 
 		if (u != null && t != null) {
 			u.removeFavTag(t);
-			entityManager.persist(u);
 			return "Tag: " + t.getTag() + " eliminada de favoritos";
 		} else {
 			return "Error eliminando tag de favoritos";

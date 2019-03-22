@@ -28,12 +28,11 @@ import javax.validation.constraints.Null;
  */
 @Entity
 @NamedQueries({ @NamedQuery(name = "User.ByLogin", query = "SELECT u FROM User u " + "WHERE u.login = :userLogin"),
-	
-				@NamedQuery(name = "User.HasLogin", query = "SELECT COUNT(u) " + "FROM User u "
-				+ "WHERE u.login = :userLogin"),
 
-			    @NamedQuery(name = "User.ByEmail", query = "SELECT u FROM User u " + "WHERE u.email = :email"),
-				
+		@NamedQuery(name = "User.HasLogin", query = "SELECT COUNT(u) " + "FROM User u " + "WHERE u.login = :userLogin"),
+
+		@NamedQuery(name = "User.ByEmail", query = "SELECT u FROM User u " + "WHERE u.email = :email"),
+
 })
 public class User {
 	private long id;
@@ -58,7 +57,7 @@ public class User {
 	private List<Ingredient> favIngredients = new ArrayList<>();
 	private List<Tag> favTags = new ArrayList<>();
 	private List<Menu> menus = new ArrayList<>();
-	
+
 	public User() {
 		this.karma = 0;
 	}
@@ -166,7 +165,7 @@ public class User {
 		this.recipes = recipes;
 	}
 
-	@ManyToMany(targetEntity=Recipe.class)
+	@ManyToMany(targetEntity = Recipe.class)
 	public List<Recipe> getFavRecipes() {
 		return favRecipes;
 	}
@@ -175,7 +174,7 @@ public class User {
 		this.favRecipes = favRecipes;
 	}
 
-	@ManyToMany(targetEntity=Ingredient.class)
+	@ManyToMany(targetEntity = Ingredient.class)
 	public List<Ingredient> getFavIngredients() {
 		return favIngredients;
 	}
@@ -184,7 +183,7 @@ public class User {
 		this.favIngredients = favIngredients;
 	}
 
-	@ManyToMany(targetEntity=Tag.class)
+	@ManyToMany(targetEntity = Tag.class)
 	public List<Tag> getFavTags() {
 		return favTags;
 	}
@@ -192,16 +191,16 @@ public class User {
 	public void setFavTags(List<Tag> favTags) {
 		this.favTags = favTags;
 	}
-	
+
 	public void addFavTag(Tag tag) {
 		this.favTags.add(tag);
 	}
-	
+
 	public void removeFavTag(Tag tag) {
 		this.favTags.remove(tag);
 	}
 
-	@OneToMany(targetEntity=Menu.class)
+	@OneToMany(targetEntity = Menu.class)
 	@JoinColumn(name = "user_id")
 	public List<Menu> getMenus() {
 		return menus;

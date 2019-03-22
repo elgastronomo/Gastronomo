@@ -26,21 +26,11 @@ import org.json.JSONObject;
  *
  */
 @Entity
-@NamedQueries({
-		@NamedQuery(name="Recipe.AllRecipes",
-					query="SELECT r FROM Recipe r"
-		),
-		@NamedQuery(name="Recipe.ByDifficultyAndCuisine",
-		query="SELECT r FROM Recipe r WHERE r.difficulty IN :difficulty AND r.cuisine IN :cuisine"
-		),
-		@NamedQuery(name="Recipe.ByCuisine",
-		query="SELECT r FROM Recipe r WHERE r.cuisine IN :cuisine"
-		),
-		@NamedQuery(name="Recipe.ByDifficulty",
-		query="SELECT r FROM Recipe r WHERE r.difficulty IN :difficulty"
-		)		
-})
-public class Recipe implements Comparable  {
+@NamedQueries({ @NamedQuery(name = "Recipe.AllRecipes", query = "SELECT r FROM Recipe r"),
+		@NamedQuery(name = "Recipe.ByDifficultyAndCuisine", query = "SELECT r FROM Recipe r WHERE r.difficulty IN :difficulty AND r.cuisine IN :cuisine"),
+		@NamedQuery(name = "Recipe.ByCuisine", query = "SELECT r FROM Recipe r WHERE r.cuisine IN :cuisine"),
+		@NamedQuery(name = "Recipe.ByDifficulty", query = "SELECT r FROM Recipe r WHERE r.difficulty IN :difficulty") })
+public class Recipe implements Comparable {
 
 	private long id;
 	private String name;
@@ -59,16 +49,16 @@ public class Recipe implements Comparable  {
 	private List<Valoration> valorations = new ArrayList<>();
 	private List<Tag> tags = new ArrayList<>();
 	private Set<RecipeNutrient> recipeNutrients = new HashSet<>();
-	
+
 	public List<String> parseSteps() {
 		List<String> parsedSteps = new ArrayList<>();
-		
+
 		JSONObject jSteps = new JSONObject(steps);
-		
+
 		for (String key : jSteps.keySet()) {
 			parsedSteps.add(jSteps.getString(key));
 		}
-		
+
 		return parsedSteps;
 	}
 
@@ -115,23 +105,22 @@ public class Recipe implements Comparable  {
 	public void setDuration(String duration) {
 		this.duration = duration;
 	}
-	
+
 	public int durationInt() {
 		String[] d = duration.split(" ");
 		Integer durationInteger = 0;
-		if(d.length == 4) {
-			durationInteger += (Integer.parseInt(d[0])*60)+Integer.parseInt(d[2]);
-		}
-		else {
-			if(d[1].contains("H")) {
-				durationInteger += Integer.parseInt(d[0])*60;
-			}else {
+		if (d.length == 4) {
+			durationInteger += (Integer.parseInt(d[0]) * 60) + Integer.parseInt(d[2]);
+		} else {
+			if (d[1].contains("H")) {
+				durationInteger += Integer.parseInt(d[0]) * 60;
+			} else {
 				durationInteger += Integer.parseInt(d[0]);
-			}			
+			}
 		}
 		return durationInteger;
 	}
-	
+
 	/**
 	 * @return the url
 	 */
@@ -231,7 +220,7 @@ public class Recipe implements Comparable  {
 	public void setRecipeIngredients(Set<RecipeIngredient> recipeIngredients) {
 		this.recipeIngredients = recipeIngredients;
 	}
-	
+
 	public void addRecipeIngredient(RecipeIngredient recipeIngredient) {
 		this.recipeIngredients.add(recipeIngredient);
 	}
@@ -275,20 +264,20 @@ public class Recipe implements Comparable  {
 	public List<Tag> getTags() {
 		return tags;
 	}
-	
+
 	/**
 	 * @return the tags names
 	 */
-	public List<String> tagsNames(){
+	public List<String> tagsNames() {
 		List<String> tagsNames = new ArrayList<String>();
-		
-		for(Tag tag : getTags()) {
+
+		for (Tag tag : getTags()) {
 			tagsNames.add(tag.getTag());
 		}
-		
+
 		return tagsNames;
 	}
-	
+
 	/**
 	 * @param tags the tags to set
 	 */
@@ -308,10 +297,10 @@ public class Recipe implements Comparable  {
 	public void addRecipeNutrient(RecipeNutrient recipeNutrient) {
 		this.recipeNutrients.add(recipeNutrient);
 	}
-	
+
 	@Override
 	public int compareTo(Object recipe) {
-	    return (((Recipe) recipe).getId() != this.id) ? 1 : 0;
+		return (((Recipe) recipe).getId() != this.id) ? 1 : 0;
 	}
 
 }

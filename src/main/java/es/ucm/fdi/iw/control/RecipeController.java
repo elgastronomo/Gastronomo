@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import es.ucm.fdi.iw.model.Comment;
 import es.ucm.fdi.iw.model.Recipe;
 import es.ucm.fdi.iw.model.RecipeIngredient;
 import es.ucm.fdi.iw.model.User;
@@ -34,6 +35,9 @@ public class RecipeController {
 
 	@Autowired
 	private EntityManager entityManager;
+
+	@Autowired
+	private HttpSession session;
 
 	@GetMapping("/{id}")
 	public String getRecipe(@PathVariable long id, Model model, HttpSession session) {
@@ -72,17 +76,36 @@ public class RecipeController {
 		return "receta";
 	}
 
-	@PostMapping("/{id}/comentar")
+	@PostMapping("/{id}/comentarios")
 	@Transactional
 	public String comentar(@PathVariable long id, @RequestParam String tituloComentario,
 			@RequestParam String comentario, Model model, HttpSession session) {
-		
-		
-		User user = (User) session.getAttribute("user");
-		
-		// TODO: everything
 
-		return "receta";
+		User user = (User) session.getAttribute("user");
+		user = entityManager.find(User.class, user.getId());
+		Recipe recipe = entityManager.find(Recipe.class, id);
+
+		Comment comment = new Comment(recipe, tituloComentario, comentario, user);
+		entityManager.persist(comment);
+
+		return "redirect:/receta/" + id;
+	}
+
+	@GetMapping("/{idRecipe}/comentarios/{idComentario}/borrar")
+	@Transactional
+	public String borrarComentario(@PathVariable long idRecipe, @PathVariable long idComentario, Model model,
+			HttpSession session) {
+
+		User user = (User) session.getAttribute("user");
+		user = entityManager.find(User.class, user.getId());
+		
+		Comment comment = entityManager.find(Comment.class, idComentario);
+		
+		if (user.getComments().contains(comment)) {
+			entityManager.remove(comment);
+		}
+		
+		return "redirect:/receta/" + idRecipe;
 	}
 
 }

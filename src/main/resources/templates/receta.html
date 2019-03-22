@@ -4,6 +4,11 @@
 <head th:replace="fragments/head.html :: head">
 </head>
 <body>
+
+	<script>
+		const recipeId = [[${recipe.id}]];
+	</script>
+	
 	<nav th:replace="fragments/nav.html :: nav"></nav>
 
 	<div class="pr50 pl50 mt30 mb30">
@@ -39,7 +44,8 @@
 								<h4 th:text="${recipe.name}">Pizza margarita</h4>
 
 								<p class="mb10">
-									<i class="tiny material-icons">person</i> Creado por Anónimo
+									<i class="tiny material-icons">person</i> Creado por
+									[[${recipe.user.name}]]
 								</p>
 								<i class="tiny material-icons">star</i> <i
 									class="tiny material-icons">star</i> <i
@@ -94,7 +100,7 @@
 						</div>
 
 
-						<div class="mt20 mb40">
+						<div th:if="${session.user != null}" class="mt20 mb40">
 							<a class="waves-effect waves-light red btn"><i
 								class="material-icons left">save</i>Guardar</a> <a
 								class="waves-effect waves-light red btn"><i
@@ -112,9 +118,9 @@
 										class="collection-item avatar"><i
 										class="material-icons circle">restaurant_menu</i> <span
 										class="title">[[${ing.ingredient.name}]]</span>
-										<p>[[${ing.weight}]]g</p> <a href="#!"
-										class="tooltipped secondary-content" data-position="bottom"
-										data-tooltip="Ingrediente habitual"><i
+										<p>[[${ing.weight}]]g</p> <a th:if="${session.user != null}"
+										href="#!" class="tooltipped secondary-content"
+										data-position="bottom" data-tooltip="Ingrediente habitual"><i
 											class="material-icons">grade</i></a></li>
 								</ul>
 							</div>
@@ -125,9 +131,9 @@
 										class="collection-item avatar"><i
 										class="material-icons circle">restaurant_menu</i> <span
 										class="title">[[${ing.ingredient.name}]]</span>
-										<p>[[${ing.weight}]]g</p> <a href="#!"
-										class="tooltipped secondary-content" data-position="bottom"
-										data-tooltip="Ingrediente habitual"><i
+										<p>[[${ing.weight}]]g</p> <a th:if="${session.user != null}"
+										href="#!" class="tooltipped secondary-content"
+										data-position="bottom" data-tooltip="Ingrediente habitual"><i
 											class="material-icons">grade</i></a></li>
 								</ul>
 							</div>
@@ -149,37 +155,65 @@
 
 
 						<h5>Comentarios</h5>
+
+						<!-- Modal Structure -->
+						<div id="eliminar-comentario" class="modal">
+							<div class="modal-content">
+								<h4>Eliminar comentario</h4>
+								<p>¿Estás seguro de que quieres eliminar el comentario?</p>
+							</div>
+							<div class="modal-footer">
+								<a href="#!"
+									class="modal-close waves-effect waves-green btn-flat">No</a> <a
+									th:href="@{{idRecipe}/comentarios/(idRecipe=${recipe.id})}"
+									id="link-borrar-comentario"
+									class="modal-close waves-effect waves-green btn-flat">Sí</a>
+							</div>
+						</div>
+
+
 						<ul th:if="${#lists.size(recipe.comments) != 0}"
 							class="collection">
-							<li th:each="c: ${recipe.comments}]"
+							<li th:each="c: ${recipe.comments}"
 								class="collection-item avatar"><img
 								th:src="@{/img/avatar.png}" alt="" class="circle"> <span
-								class="title">Muy buena receta</span>
-								<p th:text="${c.comment}"></p> <a href="#!"
-								class="secondary-content"><i class="material-icons">mood_bad</i></a>
-							</li>
+								th:text="${c.title}" class="title">Muy buena receta</span>
+								<p th:text="${c.comment}"></p> <a
+								th:if="${session.user.id == c.user.id}" th:id="${c.id}"
+								href="#eliminar-comentario"
+								class="secondary-content modal-trigger"><i
+									class="material-icons">delete</i></a></li>
 						</ul>
 
-						<h6 th:if="${#lists.size(recipe.comments) == 0}">Todavía no
-							hay ningún comentario. ¡Anímate a dejar uno!</h6>
+						<h6
+							th:if="${#lists.size(recipe.comments) == 0 && session.user != null }">Todavía
+							no hay ningún comentario. ¡Anímate a dejar uno!</h6>
 
-						<div class="row mt20">
-							<form th:action="@{{id}/comentar(id=${recipe.id})}" method="POST" class="col s12">
+
+						<h6 th:if="${session.user == null}">¡Regístrate para poder
+							dejar un comentario!</h6>
+
+						<div th:if="${session.user} != null" class="row mt20">
+							<form th:action="@{{id}/comentarios(id=${recipe.id})}"
+								method="POST" class="col s12">
 								<div class="row">
 
 									<div class="input-field col s12">
 										<input placeholder="Título del comentario"
 											id="tituloComentario" name="tituloComentario" type="text"
-											class="validate"> <label for="tituloComentario">Título</label>
+											class="validate" required> <label for="tituloComentario">Título</label>
 									</div>
 
 									<div class="input-field col s12">
-										<textarea id="comentario" name="comentario" class="materialize-textarea"></textarea>
+										<textarea id="comentario" name="comentario"
+											class="materialize-textarea" required></textarea>
 										<label for="comentario">Comentario</label>
 									</div>
 
-									<button class="waves-effect waves-light red btn right" type="submit" name="action"><i
-										class="material-icons left">comment</i>Comentar</button>
+									<button class="waves-effect waves-light red btn right"
+										type="submit" name="action">
+										<i class="material-icons left">comment</i>Comentar
+									</button>
 								</div>
 							</form>
 						</div>

@@ -27,6 +27,16 @@ public class Comment {
 	private String title;
 	private String comment;
 	private User user;
+	
+	public Comment() {}
+
+	public Comment(Recipe recipe, String title, String comment, User user) {
+		this.recipe = recipe;
+		this.date = new Date();
+		this.title = title;
+		this.comment = comment;
+		this.user = user;
+	}
 
 	/**
 	 * @return the id
