@@ -1,35 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" id="login">
 <head th:replace="fragments/head.html :: head">
 </head>
-<body>
-<div class="mdl-layout mdl-js-layout mdl-color--cyan-100">
-  <main class="mdl-layout__content">
-    <div class="mdl-card mdl-shadow--16dp">
-      <div class="mdl-card__title mdl-color--accent mdl-color-text--white">
-        <h2 class="mdl-card__title-text">Login</h2>
-      </div>
-      <div class="mdl-card__supporting-text">
+<body id="login-container">
 
-        <form th:action="@{/login/in}" method="POST">
+	<div id="login-page" class="row">
+		<a th:href="@{/}" title="Gastrónomo">
+			<h2 class="header center white-text text-accent-3 logo">Gastrónomo</h2>
+		</a>
+		<div th:if="${error} != null" class="mt40 row">
+			<div class="col s12 m12">
+				<div class="card black darken-1">
+					<div class="row">
+						<div class="col s12 m10">
+							<div class="card-content white-text">
+								<p>Usuario y/o contraseña incorrectas</p>
+							</div>
+						</div>
+						<div class="col s12 m2">
+							<i class="fa fa-times icon_style" id="alert_close"
+								aria-hidden="true"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-          <div class="mdl-textfield mdl-js-textfield">
-            <input class="mdl-textfield__input" type="text" id="username" name="username" />
-            <label class="mdl-textfield__label" for="username">Username</label>
-          </div>
+		<div class="col s12 z-depth-6 card-panel">
+			<form th:action="@{/login}" method="POST" class="login-form">
+				<div class="row"></div>
+				<div class="row">
+					<div class="input-field col s12">
+						<i class="material-icons prefix">person</i> <input
+							class="validate" id="usuario" type="text" name="username">
+						<label for="usuario" data-error="wrong" data-success="right">Nombre
+							de usuario</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<i class="material-icons prefix">lock_outline</i> <input
+							id="password" type="password" name="password"> <label
+							for="password">Contraseña</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<button class="btn waves-effect waves-light red col s12"
+							type="submit">Iniciar sesión</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s6 m6 l6">
+						<p class="margin medium-small">
+							<a href="#">¡Regístrate!</a>
+						</p>
+					</div>
+					<div class="input-field col s6 m6 l6">
+						<p class="margin right-align medium-small">
+							<a href="#">Se me ha olvidado la contraseña</a>
+						</p>
+					</div>
+				</div>
 
-          <div class="mdl-textfield mdl-js-textfield">
-            <input class="mdl-textfield__input" type="password" id="password" name="password" />
-            <label class="mdl-textfield__label" for="userpass">Password</label>
-          </div>
-		<div class="mdl-card__actions mdl-card--border">
-       		 <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type ="submit">Entrar </button>
-     	 </div>
-      </form>
-      </div>
-    </div>
-  </main>
-</div>
- </body>
-	</html>
+			</form>
+		</div>
+	</div>
+
+
+	<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+	<!-- Compiled and minified JavaScript -->
+	<script th:src="@{/js/materialize.min.js}"></script>
+	<script th:src="@{/js/gastronomo.js}"></script>
+</body>
+</html>
