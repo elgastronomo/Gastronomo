@@ -2,7 +2,9 @@ package es.ucm.fdi.iw.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Null;
 
 /**
  * A user.
@@ -54,8 +55,8 @@ public class User {
 	private List<Valoration> valorations = new ArrayList<>();
 	private List<Recipe> recipes = new ArrayList<>();
 	private List<Recipe> favRecipes = new ArrayList<>();
-	private List<Ingredient> favIngredients = new ArrayList<>();
-	private List<Tag> favTags = new ArrayList<>();
+	private Set<UserIngredient> favIngredients = new HashSet<>();
+	private Set<Tag> favTags = new HashSet<>();
 	private List<Menu> menus = new ArrayList<>();
 
 	public User() {
@@ -174,21 +175,21 @@ public class User {
 		this.favRecipes = favRecipes;
 	}
 
-	@ManyToMany(targetEntity = Ingredient.class)
-	public List<Ingredient> getFavIngredients() {
+	@OneToMany(mappedBy = "user")
+	public Set<UserIngredient> getFavIngredients() {
 		return favIngredients;
 	}
 
-	public void setFavIngredients(List<Ingredient> favIngredients) {
+	public void setFavIngredients(Set<UserIngredient> favIngredients) {
 		this.favIngredients = favIngredients;
 	}
 
 	@ManyToMany(targetEntity = Tag.class)
-	public List<Tag> getFavTags() {
+	public Set<Tag> getFavTags() {
 		return favTags;
 	}
 
-	public void setFavTags(List<Tag> favTags) {
+	public void setFavTags(Set<Tag> favTags) {
 		this.favTags = favTags;
 	}
 

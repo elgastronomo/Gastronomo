@@ -25,9 +25,9 @@ import es.ucm.fdi.iw.IwUserDetailsService;
 import es.ucm.fdi.iw.model.User;
 
 @Controller
-public class LoginAndRegistrationController {
+public class AuthenticationController {
 
-	private static final Logger log = LogManager.getLogger(LoginAndRegistrationController.class);
+	private static final Logger log = LogManager.getLogger(AuthenticationController.class);
 
 	@Autowired
 	PasswordEncoder bcrypt;
@@ -43,7 +43,7 @@ public class LoginAndRegistrationController {
 
 	@GetMapping("/login")
 	public String login() {
-		return "loginAndRegistration";
+		return "login";
 
 	}
 
@@ -62,7 +62,7 @@ public class LoginAndRegistrationController {
 		} catch (Exception e) {
 			model.addAttribute("error", true);
 		}
-		return "loginAndRegistration";
+		return "login";
 
 	}
 
