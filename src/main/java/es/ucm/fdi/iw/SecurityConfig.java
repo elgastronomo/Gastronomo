@@ -42,16 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	            .antMatchers("/admin**").hasRole("ADMIN")
 	            .anyRequest().authenticated()
 	            .and()
+	            
 	         .formLogin()
-	         	.loginPage("/login.html")
-	        	.permitAll().successHandler(loginSuccessHandler);// <-- called when login Ok; can redirect
-	    
-	    /*
-	     * Rober
-	     * .loginPage("/login.html")
-	     *   	.permitAll();
-	     *   	//.successHandler(loginSuccessHandler);// <-- called when login Ok; can redirect
-	     */
+	         .loginPage("/loginAndRegistration")
+	         .permitAll().successHandler(loginSuccessHandler);// <-- called when login Ok; can redirect
 	}
 	
 	/**

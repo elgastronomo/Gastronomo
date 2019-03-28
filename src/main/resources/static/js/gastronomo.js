@@ -47,6 +47,7 @@ let autocompleteOptions = {
 document.addEventListener('DOMContentLoaded', function() {
 	addIndexFiltersListeners();
 	addFavTagListener();
+	addFavIngredientListener();
 	addDeleteCommentId();
 	
 	let elems = document.querySelectorAll('.chips');
@@ -56,7 +57,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	instances = M.Chips.init(elems, {
 		placeholder: '+Ingrediente',
 		secondaryPlaceholder: '+Ingrediente',
+		onChipDelete: removeFavIngredient
 	});
+	if (elems.length != 0){
+		getFavouriteIngredients();
+	}
 
 	elems = document.querySelectorAll('.chips-tags');
 	instances = M.Chips.init(elems, {
@@ -233,7 +238,6 @@ document.addEventListener('DOMContentLoaded', function() {
   *******************************************************/
  
   function getFavouriteTags() {
- 	let tags = [];
  	let instance = M.Chips.getInstance($(".chips-tags"));
  	
  	fetch('/api/users/' + gastronomo.userId + '/tags')
@@ -267,6 +271,41 @@ document.addEventListener('DOMContentLoaded', function() {
  		M.toast({html: '¡Tags añadidos a favoritos!'});
  	});
  }
+ 
+ function getFavouriteIngredients() {
+	 	let instance = M.Chips.getInstance($(".chips-ingredientes"));
+	 	
+	 	fetch('/api/users/' + gastronomo.userId + '/ingredients')
+	 	.then(res => res.json())
+	 	.then(data => {
+	 		$.each(data, function(key, t) {
+	 			instance.addChip({tag: t.customName})
+	 		})
+	 	});	
+	 }
+ 
+ function addFavIngredientListener() {
+	 	const headers = {
+	 		"Content-Type": "application/json",				
+	 		"X-CSRF-TOKEN": gastronomo.csrf.value
+	 	};
+	 	
+	 	let button = $("#add-favourite-ingredient").click(() => {
+	 		let chips = M.Chips.getInstance($(".chips-ingredientes")).chipsData;
+	 		
+	 		chips.forEach(function(t) {
+	 			fetch('/api/users/' + gastronomo.userId + '/ingredients', {
+	 				headers: headers,
+	 				method: 'POST',
+	 				body: JSON.stringify({ customName: t.tag })
+	 			}).then(function(response) {
+	 				console.log(response);
+	 			});
+	 		});
+	 		
+	 		M.toast({html: '¡Ingredientes añadidos a favoritos!'});
+	 	});
+	 }
 
 
  function removeFavTag(element, chip) {
@@ -286,6 +325,26 @@ document.addEventListener('DOMContentLoaded', function() {
  	});
  	
  	M.toast({html: 'Tag eliminado de favoritos'});
+ }
+ 
+ function removeFavIngredient(element, chip) {
+ 	let ingredient = chip.innerText.split('close')[0];
+ 	console.log(ingredient);
+ 	
+ 	const headers = {
+ 		"Content-Type": "application/json",				
+ 		"X-CSRF-TOKEN": gastronomo.csrf.value
+ 	};
+ 	
+ 	fetch('/api/users/' + gastronomo.userId + '/ingredients', {
+ 		headers: headers,
+ 		method: 'DELETE',
+ 		body: JSON.stringify({ customName: ingredient })
+ 	}).then(function(response) {
+ 		console.log(response);
+ 	});
+ 	
+ 	M.toast({html: 'Ingrediente eliminado de favoritos'});
  }
 
  /*******************************************************

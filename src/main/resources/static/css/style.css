@@ -55,6 +55,24 @@ Roberto Fernández Correa
 	cursor: pointer;
 }
 
+html#login {
+	height: 100%;
+	display: table;
+    margin: auto;
+}
+
+body#login-container {
+	height: 100%;
+	display: table-cell;
+    vertical-align: middle;
+    background: rgb(238, 110, 115);
+}
+
+#login-page {
+	width: 450px;
+}
+
+
 /* ----------------------------*/
 /*     CAMBIOS MATERIALIZE     */
 /* ----------------------------*/
