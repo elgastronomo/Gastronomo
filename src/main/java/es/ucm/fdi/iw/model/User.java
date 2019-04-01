@@ -58,13 +58,15 @@ public class User {
 	private Set<UserIngredient> favIngredients = new HashSet<>();
 	private Set<Tag> favTags = new HashSet<>();
 	private List<Menu> menus = new ArrayList<>();
+	
+	public User() {}
 
-	public User() {
+	public User(int karma) {
 		this.karma = 0;
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public long getId() {
 		return id;
 	}

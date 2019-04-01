@@ -85,6 +85,7 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/register")
+	@Transactional
 	public String registration(String name, String username, String email, String password, String matchPassword,
 			Model model, HttpSession session) {
 		
@@ -109,21 +110,21 @@ public class AuthenticationController {
 			model.addAttribute("errors", errors);
 			return "register";
 		}
-
-		User user = new User();
-		String finalPass = bcrypt.encode(password);
-		user.setName(name);
-		user.setEmail(email);
-		user.setLogin(username);
-		user.setPassword(finalPass);
-		user.setRoles("USER");
+		else {
+			User user = new User();
+			String finalPass = bcrypt.encode(password);
+			user.setName(name);
+			user.setEmail(email);
+			user.setLogin(username);
+			user.setPassword(finalPass);
+			user.setRoles("USER");
+			
+			entityManager.persist(user);
 		
-		if (persistUser(user)) {
 			session.setAttribute("user", user);
-			return "index";
-		}		
-
-		return "index";
+			return "redirect:/";
+		}
+		
 	}
 
 	private boolean checkExistUsername(String username) {
@@ -150,7 +151,7 @@ public class AuthenticationController {
 
 	}
 
-	@Transactional
+	
 	private boolean persistUser(User user) {
 		try {
 			entityManager.persist(user);
