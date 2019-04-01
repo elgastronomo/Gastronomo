@@ -72,6 +72,10 @@ body#login-container {
 	width: 450px;
 }
 
+#register-page {
+	width: 650px;
+}
+
 
 /* ----------------------------*/
 /*     CAMBIOS MATERIALIZE     */

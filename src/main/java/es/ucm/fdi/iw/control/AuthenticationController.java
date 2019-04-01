@@ -1,5 +1,7 @@
 package es.ucm.fdi.iw.control;
 
+import java.util.ArrayList;
+
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -75,27 +77,37 @@ public class AuthenticationController {
 		return "redirect:/login?logout";// You can redirect wherever you want, but generally it's a good practice to
 										// show login screen again.
 	}
+	
+	@GetMapping("/register")
+	public String register() {
+		return "register";
+
+	}
 
 	@PostMapping("/register")
 	public String registration(String name, String username, String email, String password, String matchPassword,
 			Model model, HttpSession session) {
+		
+		ArrayList<String> errors = new ArrayList<>();
 
 		// check if email exist
 		if (checkExistUsername(username)) {
-			model.addAttribute("error", "username already exist");
-			return ("loginAndRegistration");
+			errors.add("username already exist");
 		}
 
 		// check if email exist
 		if (checkExistEmail(email)) {
-			model.addAttribute("error", "email already exist");
-			return ("loginAndRegistration");
+			errors.add("email already exist");
 		}
 
 		// check if passwords are equals
 		if (!password.equalsIgnoreCase(matchPassword)) {
-			model.addAttribute("error", "password are not equals");
-			return ("loginAndRegistration");
+			errors.add("password are not equals");
+		}
+		
+		if (errors.size() != 0) {
+			model.addAttribute("errors", errors);
+			return "register";
 		}
 
 		User user = new User();
@@ -105,11 +117,11 @@ public class AuthenticationController {
 		user.setLogin(username);
 		user.setPassword(finalPass);
 		user.setRoles("USER");
+		
 		if (persistUser(user)) {
 			session.setAttribute("user", user);
-			System.out.println("conseguido");
 			return "index";
-		}
+		}		
 
 		return "index";
 	}
