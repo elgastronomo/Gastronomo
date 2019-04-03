@@ -107,5 +107,15 @@ public class RecipeController {
 		
 		return "redirect:/receta/" + idRecipe;
 	}
+	
+	@GetMapping("/nueva")
+	public String nuevaForm() {
+		return "nueva";
+	}
+	
+	@PostMapping("/nueva")
+	public String nueva() {
+		return "nueva";
+	}
 
 }
