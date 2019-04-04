@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import es.ucm.fdi.iw.model.Recipe;
 import es.ucm.fdi.iw.model.Tag;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.UserIngredient;
@@ -151,4 +152,29 @@ public class ApiController {
 
 		return "Ingrediente: " + ingredient.getCustomName() + " eliminado de favoritos";
 	}
+	
+	@PostMapping("/users/{id}/addRecipe")
+	@JsonView(Views.Public.class)
+	@Transactional
+	public void addFavouriteRecipe(Model model, @PathVariable Long id) throws JsonProcessingException {
+		
+		
+ 		User user = (User) session.getAttribute("user");
+		user = entityManager.find(User.class, user.getId());
+		
+		Recipe recipe = entityManager.find(Recipe.class, id);
+		user.getFavRecipes().add(recipe);
+	}
+	
+	@PostMapping("/users/{id}/isAddedRecipe")
+	@JsonView(Views.Public.class)
+	@Transactional
+	public Boolean isAddedRecipe(Model model, @PathVariable long id) throws JsonProcessingException {
+		User user = (User) session.getAttribute("user");
+		user = entityManager.find(User.class, user.getId());
+		
+		return user.getFavRecipes().stream().anyMatch( re -> re.getId()==id);
+		
+	}
+	
 }

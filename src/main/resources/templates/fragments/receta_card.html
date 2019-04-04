@@ -13,8 +13,12 @@
 			</a> <span class="card-title"> <a
 				th:href="@{/receta/} + ${receta.id}" th:text="${receta.name}">Receta
 					6</a>
-			</span> <a class="btn-floating halfway-fab waves-effect waves-light red"><i
-				class="material-icons">favorite</i></a>
+			</span> <button th:id="'recipeButton\'' + ${receta.id} + '\''" class="btn-floating halfway-fab waves-effect waves-light red" 
+						th:onclick="'addRecipeToFavourite(\'' + ${receta.id} + '\');'"
+						th:onLoad="'disableButtonAlreadyAdded(\'' + ${receta.id} + '\');'"
+						><i
+									
+						class="material-icons">favorite</i></button>
 		</div>
 		<div class="card-content">
 
