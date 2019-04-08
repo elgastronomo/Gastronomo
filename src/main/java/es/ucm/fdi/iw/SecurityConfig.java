@@ -36,18 +36,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 	    http
 	        .authorizeRequests()
-	        	.antMatchers("**").permitAll() 
+	        .antMatchers("**").permitAll()
 	            .antMatchers("/css/**", "/js/**", "/img/**", "/").permitAll()
-	            .antMatchers("/vote/enter").permitAll() 		// <-- only when logging in to vote 
 	            .antMatchers("/admin**").hasRole("ADMIN")
+	            .antMatchers("/receta/**").permitAll()
 	            .anyRequest().authenticated()
 	            .and()
 	            
 	         .formLogin()
-	         .loginPage("/loginAndRegistration")
-	         .permitAll().successHandler(loginSuccessHandler);// <-- called when login Ok; can redirect
-	    	
-        
+	         .loginPage("/login")
+	         .permitAll().successHandler(loginSuccessHandler);// <-- called when login Ok; can redirect        
 	}
 	
 	/**

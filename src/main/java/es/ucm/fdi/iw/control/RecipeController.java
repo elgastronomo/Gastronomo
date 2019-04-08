@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -20,8 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.ucm.fdi.iw.model.Comment;
+import es.ucm.fdi.iw.model.Ingredient;
+import es.ucm.fdi.iw.model.Nutrient;
 import es.ucm.fdi.iw.model.Recipe;
 import es.ucm.fdi.iw.model.RecipeIngredient;
+import es.ucm.fdi.iw.model.RecipeNutrient;
+import es.ucm.fdi.iw.model.Tag;
 import es.ucm.fdi.iw.model.User;
 
 @Controller
@@ -114,8 +119,86 @@ public class RecipeController {
 	}
 	
 	@PostMapping("/nueva")
-	public String nueva() {
+	@Transactional
+	public String nueva(@RequestParam String[] nutriente, @RequestParam String nombre_receta,
+					    @RequestParam String cocina, @RequestParam String dificultad,
+					    @RequestParam String duracion, @RequestParam int raciones,
+					    @RequestParam Float calorias, @RequestParam String[] tag,
+					    @RequestParam String[] ingrediente, @RequestParam Float[] pesoIngrediente,
+					    @RequestParam String[] paso) {
+		
+		User user = (User) session.getAttribute("user");
+		
+		Recipe recipe = new Recipe();
+		recipe.setName(nombre_receta);
+		recipe.setAttribution(user.getName());
+		recipe.setUser(user);
+		recipe.setCalories(calorias);
+		recipe.setCuisine(cocina);
+		recipe.setRations(raciones);
+		recipe.setDuration(duracion);
+		recipe.setDifficulty(dificultad);
+		
+		JSONObject stepsJSON = new JSONObject();		
+		for (int i = 0; i < paso.length; i++) {
+			stepsJSON.put(Integer.toString(i + 1), paso[i]);
+		}
+		
+		recipe.setSteps(stepsJSON.toString());
+		
+		for (String t : tag) {
+			Tag _t = entityManager.createNamedQuery("Tag.ByName", Tag.class)
+					.setParameter("tagName", t)
+					.getSingleResult();
+			_t.addRecipe(recipe);
+			recipe.addTag(_t);
+		}
+		
+		for (int i = 0; i < nutriente.length; i++) {
+			RecipeNutrient recipeNutrient = new RecipeNutrient();
+			recipeNutrient.setCuantity(Float.parseFloat(nutriente[i]));
+			recipeNutrient.setNutrient(getNutrientByPos(i));
+			recipeNutrient.setRecipe(recipe);
+			entityManager.persist(recipeNutrient);
+			recipe.addRecipeNutrient(recipeNutrient);
+		}
+		
+		for (int i = 0; i < ingrediente.length; i++) {
+			Ingredient ing = new Ingredient();
+			ing.setName(ingrediente[i]);
+			RecipeIngredient ingredient = new RecipeIngredient();
+			ingredient.setIngredient(ing);
+			ingredient.setRecipe(recipe);
+			ingredient.setWeight(pesoIngrediente[i]);
+			entityManager.persist(ingredient);
+			recipe.addRecipeIngredient(ingredient);
+		}
+		
+		entityManager.persist(recipe);		
+		
 		return "nueva";
+	}
+	
+	private Nutrient getNutrientByPos(int pos) {
+		String nutrient;
+		
+		switch (pos) {
+		case 0: nutrient = "Grasa"; break;
+		case 1: nutrient = "Colesterol"; break;
+		case 2: nutrient = "Sodio"; break;
+		case 3: nutrient = "Potasio"; break;
+		case 4: nutrient = "Carbohidratos"; break;
+		case 5: nutrient = "Fibra"; break;
+		case 6: nutrient = "Calcio"; break;
+		case 7: nutrient = "Hierro"; break;
+		case 8: nutrient = "Vitamina B6"; break;
+		case 9: nutrient = "Magnesio"; break;
+		default: nutrient = null;
+		}
+		Nutrient n = entityManager.createNamedQuery("Nutrient.ByName", Nutrient.class)
+								.setParameter("nutrient", nutrient)
+								.getSingleResult();
+		return n;
 	}
 
 }

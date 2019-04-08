@@ -58,6 +58,10 @@ public class Tag {
 	public void setRecipe(List<Recipe> recipe) {
 		this.recipe = recipe;
 	}
+	
+	public void addRecipe(Recipe recipe) {
+		this.recipe.add(recipe);
+	}
 
 	/**
 	 * @return the id

@@ -182,12 +182,12 @@ document.addEventListener('DOMContentLoaded', function() {
  	<i class="material-icons circle">restaurant_menu</i>
  	<span class="title">
  	<div class="input-field">
- 	<input placeholder="Nombre del ingrediente" id="ingredient_` + idx + `" type="text" class="validate">
+ 	<input placeholder="Nombre del ingrediente" id="ingredient_` + idx + `" name="ingrediente" type="text" class="validate">
  	<label for="ingredient_` + idx + `">Ingrediente</label>
  	</div>
  	</span>
  	<div class="input-field">
- 	<input placeholder="Peso en gramos" id="ingredient_weight_` + idx + `" type="text" class="validate">
+ 	<input placeholder="Peso en gramos" id="ingredient_weight_` + idx + `" name="pesoIngrediente" type="text" class="validate">
  	<label for="ingredient_weight_` + idx + `">Peso en gramos</label>
  	</div>
  	<a href="#!" onclick="removeIngredient(` + idx + `)" class="tooltipped secondary-content" data-position="bottom" data-tooltip="Eliminar ingrediente"><i class="material-icons">delete</i></a>
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
  	<i class="material-icons circle">done</i>
 
  	<div class="input-field col s12">
- 	<textarea id="step_` + idx + `" class="materialize-textarea"></textarea>
+ 	<textarea id="step_` + idx + `" name="paso" class="materialize-textarea"></textarea>
  	<label for="step_` + idx + `">Paso #` + idx + `</label>
  	</div>
  	<a href="#!" onclick="removeStep(` + idx + `)" class="tooltipped secondary-content" data-position="bottom" data-tooltip="Eliminar paso"><i class="material-icons">delete</i></a>
@@ -232,6 +232,16 @@ document.addEventListener('DOMContentLoaded', function() {
  function removeStep(step) {
  	document.getElementById('stepsForm').removeChild(document.getElementById('step_form_' + step));
  }
+ 
+ function nuevaReceta() {
+		let chips = M.Chips.getInstance($(".chips-tags-receta-nueva")).chipsData;
+		
+		chips.forEach((t) => {
+			$("#tags-receta-nueva").append(
+					'<input type="hidden" name="tag" value="' + t.tag + '">'
+			)
+		});
+	}
  
  
  /*******************************************************
@@ -378,3 +388,5 @@ document.addEventListener('DOMContentLoaded', function() {
 	 		console.log(response);
 	 	});
  	}
+
+

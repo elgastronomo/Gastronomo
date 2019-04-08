@@ -7,7 +7,7 @@
 	<nav th:replace="fragments/nav.html :: nav"></nav>
 
 	<div class="pr50 pl50 mt30 mb30">
-		<form th:action="@{/receta/nueva}" method="POST">
+		<form th:action="@{/receta/nueva}" onSubmit="nuevaReceta()" method="POST">
 			<div class="row">
 
 				<div class="col s12 l3">
@@ -25,52 +25,52 @@
 							<ul class="collection">
 								<li class="collection-item"><strong>Grasa:</strong>
 									<div class="input-field inline">
-										<input id="grasa" name="grasa" type="text" class="validate"> <label
+										<input id="grasa" name="nutriente" type="text" class="validate"> <label
 											for="grasa">Cantidad de grasa</label>
 									</div></li>
 								<li class="collection-item"><strong>Colesterol:</strong>
 									<div class="input-field inline">
-										<input id="colesterol" name="colesterol" type="text" class="validate"> <label
+										<input id="colesterol" name="nutriente" type="text" class="validate"> <label
 											for="colesterol">Cantidad de colesterol</label>
 									</div></li>
 								<li class="collection-item"><strong>Sodio:</strong>
 									<div class="input-field inline">
-										<input id="sodio" name="sodio" type="text" class="validate"> <label
+										<input id="sodio" name="nutriente" type="text" class="validate"> <label
 											for="sodio">Cantidad de sodio</label>
 									</div></li>
 								<li class="collection-item"><strong>Potasio:</strong>
 									<div class="input-field inline">
-										<input id="potasio" name="potasio" type="text" class="validate"> <label
+										<input id="potasio" name="nutriente" type="text" class="validate"> <label
 											for="potasio">Cantidad de potasio</label>
 									</div></li>
 								<li class="collection-item"><strong>Carbohidratos:</strong>
 									<div class="input-field inline">
-										<input id="carbohidratos" name="carbohidratos" type="text" class="validate">
+										<input id="carbohidratos" name="nutriente" type="text" class="validate">
 										<label for="carbohidratos">Cantidad de carbohidratos</label>
 									</div></li>
 								<li class="collection-item"><strong>Fibra:</strong>
 									<div class="input-field inline">
-										<input id="fibra" name="fibra" type="text" class="validate"> <label
+										<input id="fibra" name="nutriente" type="text" class="validate"> <label
 											for="fibra">Cantidad de fibra</label>
 									</div></li>
 								<li class="collection-item"><strong>Calcio:</strong>
 									<div class="input-field inline">
-										<input id="calcio" name="calcio" type="text" class="validate"> <label
+										<input id="calcio" name="nutriente" type="text" class="validate"> <label
 											for="calcio">Cantidad de calcio</label>
 									</div></li>
 								<li class="collection-item"><strong>Hierro:</strong>
 									<div class="input-field inline">
-										<input id="hierro" name="hierro" type="text" class="validate"> <label
+										<input id="hierro" name="nutriente" type="text" class="validate"> <label
 											for="hierro">Cantidad de hierro</label>
 									</div></li>
 								<li class="collection-item"><strong>Vitamina B6:</strong>
 									<div class="input-field inline">
-										<input id="vitaminab6" name="vitaminab6" type="text" class="validate"> <label
+										<input id="vitaminab6" name="nutriente" type="text" class="validate"> <label
 											for="vitaminab6">Cantidad de vitamina B6</label>
 									</div></li>
 								<li class="collection-item"><strong>Magnesio:</strong>
 									<div class="input-field inline">
-										<input id="magnesio" name="magnesio" type="text" class="validate"> <label
+										<input id="magnesio" name="nutriente" type="text" class="validate"> <label
 											for="magnesio">Cantidad de magnesio</label>
 									</div></li>
 
@@ -117,8 +117,8 @@
 														<div>
 															<strong>Categoría: </strong>
 															<div class="input-field inline">
-																<input id="categoria" name="categoria" type="text" class="validate" required>
-																<label for="categoria">Categoría</label>
+																<input id="cocina" name="cocina" type="text" class="validate" required>
+																<label for="cocina">Tipo de cocina</label>
 															</div>
 															<i class="secondary-content material-icons">restaurant</i>
 														</div>
@@ -130,9 +130,9 @@
 																<select name="dificultad" required>
 																	<option value="" disabled selected>Elige la
 																		dificultad</option>
-																	<option value="1">Fácil</option>
-																	<option value="2">Medio</option>
-																	<option value="3">Difícil</option>
+																	<option value="Fácil">Fácil</option>
+																	<option value="Medio">Medio</option>
+																	<option value="Difícil">Difícil</option>
 																</select>
 															</div>
 															<i class="secondary-content material-icons">thumb_up</i>
@@ -177,9 +177,9 @@
 													</li>
 
 													<li class="collection-item">
-														<div>
+														<div id="tags-receta-nueva">
 															<strong>Tags: </strong>
-															<div class="chips chips-autocomplete"></div>
+															<div class="chips chips-autocomplete chips-tags-receta-nueva"></div>
 															<i class="secondary-content material-icons">label</i>
 														</div>
 													</li>
@@ -204,13 +204,13 @@
 														class="title">
 															<div class="input-field">
 																<input placeholder="Nombre del ingrediente"
-																	id="ingredient_1" type="text" class="validate">
+																	id="ingredient_1" name="ingrediente" type="text" class="validate">
 																<label for="ingredient_1">Ingrediente</label>
 															</div>
 													</span>
 														<div class="input-field">
 															<input placeholder="Peso en gramos"
-																id="ingredient_weight_1" type="text" class="validate">
+																id="ingredient_weight_1" name="pesoIngrediente" type="text" class="validate">
 															<label for="ingredient_weight_1">Peso en gramos</label>
 														</div> <a href="#!" onclick="removeIngredient(1)"
 														class="tooltipped secondary-content"
@@ -227,13 +227,13 @@
 														class="title">
 															<div class="input-field">
 																<input placeholder="Nombre del ingrediente"
-																	id="ingredient_2" type="text" class="validate">
+																	id="ingredient_2" name="ingrediente" type="text" class="validate">
 																<label for="ingredient_2">Ingrediente</label>
 															</div>
 													</span>
 														<div class="input-field">
 															<input placeholder="Peso en gramos"
-																id="ingredient_weight_2" type="text" class="validate">
+																id="ingredient_weight_2" name="pesoIngrediente" type="text" class="validate">
 															<label for="ingredient_weight_2">Peso en gramos</label>
 														</div> <a href="#!" onclick="removeIngredient(2)"
 														class="tooltipped secondary-content"
@@ -261,7 +261,7 @@
 													class="material-icons circle">done</i>
 
 													<div class="input-field col s12">
-														<textarea id="step_1" class="materialize-textarea"></textarea>
+														<textarea id="step_1" name="paso" class="materialize-textarea"></textarea>
 														<label for="step_1">Paso #1</label>
 													</div> <a href="#!" onclick="removeStep(1)"
 													class="tooltipped secondary-content" data-position="bottom"

@@ -66,7 +66,7 @@ public class Recipe implements Comparable {
 	 * @return the id
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public long getId() {
 		return id;
 	}
@@ -283,6 +283,10 @@ public class Recipe implements Comparable {
 	 */
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
+	}
+	
+	public void addTag(Tag tag) {
+		this.tags.add(tag);
 	}
 
 	@OneToMany(mappedBy = "recipe")
