@@ -19,6 +19,25 @@ public class RecipeNutrient {
 	private float cuantity;
 	private String unit;
 	private float dailyPercentage;
+	
+	public RecipeNutrient() { }
+	
+	public RecipeNutrient(Nutrient n) {
+		this.nutrient = n;
+		
+		switch (n.getNutrient()) {
+		case "Grasa": this.unit = "g" ; break;
+		case "Colesterol": this.unit = "mg" ; break;
+		case "Sodio": this.unit = "mg" ; break;
+		case "Potasio": this.unit = "mg" ; break;
+		case "Carbohidratos": this.unit = "g" ; break;
+		case "Fibra": this.unit = "g" ; break;
+		case "Calcio": this.unit = "mg" ; break;
+		case "Hierro": this.unit = "mg" ; break;
+		case "Vitamina B6": this.unit = "mg" ; break;
+		case "Magnesio": this.unit = "mg" ; break;
+		}
+	}
 
 	/**
 	 * @return the id

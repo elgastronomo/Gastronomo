@@ -132,3 +132,8 @@ input:focus {
 .card-title a {
 	color: white;
 }
+
+.collection.items-nueva {
+	overflow: visible !important;
+	padding-bottom: 20px;
+}

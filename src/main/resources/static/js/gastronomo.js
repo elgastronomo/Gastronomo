@@ -75,6 +75,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		getFavouriteTags();
 	}
 	
+	elems = document.querySelectorAll('.chips-tags-receta-nueva');
+	instances = M.Chips.init(elems, {
+		placeholder: '+Tag',
+		secondaryPlaceholder: '+Tag',
+		autocompleteOptions: autocompleteOptions,
+	});
+	
 });
 
 /*******************************************************
@@ -241,7 +248,31 @@ document.addEventListener('DOMContentLoaded', function() {
 					'<input type="hidden" name="tag" value="' + t.tag + '">'
 			)
 		});
+		
+		$(".file-path-wrapper").append(
+			'<input type="hidden" name="photo" value="' + document.getElementById("nueva-receta-img").src + '">'
+		)
 	}
+ 
+ function loadImgNueva() {
+	 var logo = document.getElementById("nueva-receta-file").files[0]; // will return a File object containing information about the selected file
+	// File validations here (you may want to make sure that the file is an image)
+	 
+	 if(['image/jpeg', 'image/jpg', 'image/png', 'image/gif'].indexOf($("#nueva-receta-file").get(0).files[0].type) == -1) {
+	        M.toast({html: 'Error : Solo JPEG, PNG & GIF son permitidos'});
+	        return;
+	    }
+
+	var reader = new FileReader();
+	reader.onload = function(data) {
+	  // what you want to do once the File has been loaded
+	  // you can use data.target.result here as an src for an img tag in order to display the uplaoded image
+		document.getElementById("nueva-receta-img").src = data.target.result; // assume you have an image element somewhere, or you may add it dynamically
+	}
+	reader.readAsDataURL(logo);
+	
+	return reader;
+ }
  
  
  /*******************************************************

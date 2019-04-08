@@ -19,59 +19,59 @@
 							<p>
 								Se debe introducir la <strong>cantidad seguida de la
 									unidad utilizada</strong>. Se recomienda utilizar las <strong>unidades
-									recomendadas</strong>. El porcentaje diario se calculará <strong>automáticamente</strong>.
+									recomendadas</strong>.
 							</p>
 
 							<ul class="collection">
 								<li class="collection-item"><strong>Grasa:</strong>
 									<div class="input-field inline">
 										<input id="grasa" name="nutriente" type="text" class="validate"> <label
-											for="grasa">Cantidad de grasa</label>
+											for="grasa">Cantidad de grasa (g)</label>
 									</div></li>
 								<li class="collection-item"><strong>Colesterol:</strong>
 									<div class="input-field inline">
 										<input id="colesterol" name="nutriente" type="text" class="validate"> <label
-											for="colesterol">Cantidad de colesterol</label>
+											for="colesterol">Cantidad de colesterol (mg)</label>
 									</div></li>
 								<li class="collection-item"><strong>Sodio:</strong>
 									<div class="input-field inline">
 										<input id="sodio" name="nutriente" type="text" class="validate"> <label
-											for="sodio">Cantidad de sodio</label>
+											for="sodio">Cantidad de sodio (mg)</label>
 									</div></li>
 								<li class="collection-item"><strong>Potasio:</strong>
 									<div class="input-field inline">
 										<input id="potasio" name="nutriente" type="text" class="validate"> <label
-											for="potasio">Cantidad de potasio</label>
+											for="potasio">Cantidad de potasio (mg)</label>
 									</div></li>
 								<li class="collection-item"><strong>Carbohidratos:</strong>
 									<div class="input-field inline">
 										<input id="carbohidratos" name="nutriente" type="text" class="validate">
-										<label for="carbohidratos">Cantidad de carbohidratos</label>
+										<label for="carbohidratos">Cantidad de carbohidratos (g)</label>
 									</div></li>
 								<li class="collection-item"><strong>Fibra:</strong>
 									<div class="input-field inline">
 										<input id="fibra" name="nutriente" type="text" class="validate"> <label
-											for="fibra">Cantidad de fibra</label>
+											for="fibra">Cantidad de fibra (g)</label>
 									</div></li>
 								<li class="collection-item"><strong>Calcio:</strong>
 									<div class="input-field inline">
 										<input id="calcio" name="nutriente" type="text" class="validate"> <label
-											for="calcio">Cantidad de calcio</label>
+											for="calcio">Cantidad de calcio (mg)</label>
 									</div></li>
 								<li class="collection-item"><strong>Hierro:</strong>
 									<div class="input-field inline">
 										<input id="hierro" name="nutriente" type="text" class="validate"> <label
-											for="hierro">Cantidad de hierro</label>
+											for="hierro">Cantidad de hierro (mg)</label>
 									</div></li>
 								<li class="collection-item"><strong>Vitamina B6:</strong>
 									<div class="input-field inline">
 										<input id="vitaminab6" name="nutriente" type="text" class="validate"> <label
-											for="vitaminab6">Cantidad de vitamina B6</label>
+											for="vitaminab6">Cantidad de vitamina B6 (mg)</label>
 									</div></li>
 								<li class="collection-item"><strong>Magnesio:</strong>
 									<div class="input-field inline">
 										<input id="magnesio" name="nutriente" type="text" class="validate"> <label
-											for="magnesio">Cantidad de magnesio</label>
+											for="magnesio">Cantidad de magnesio (mg)</label>
 									</div></li>
 
 							</ul>
@@ -100,19 +100,20 @@
 
 											<div class="file-field input-field col s6">
 												<div class="btn red">
-													<span>Imagen</span> <input type="file">
+													<span>Imagen</span> <input onChange="loadImgNueva()" type="file" id="nueva-receta-file">
 												</div>
 												<div class="file-path-wrapper">
 													<input class="file-path validate" type="text">
 												</div>
+												
+												<img height="150" src="" id="nueva-receta-img">
 											</div>
-
 										</div>
 
 
 										<div class="row">
 											<div class="input-field col s12 m6">
-												<ul class="collection">
+												<ul class="collection items-nueva">
 													<li class="collection-item">
 														<div>
 															<strong>Categoría: </strong>
@@ -153,7 +154,7 @@
 											</div>
 
 											<div class="input-field col s12 m6">
-												<ul class="collection">
+												<ul class="collection items-nueva">
 													<li class="collection-item">
 														<div>
 															<strong>Raciones: </strong>
@@ -179,7 +180,7 @@
 													<li class="collection-item">
 														<div id="tags-receta-nueva">
 															<strong>Tags: </strong>
-															<div class="chips chips-autocomplete chips-tags-receta-nueva"></div>
+															<div class="chips-tags-receta-nueva"></div>
 															<i class="secondary-content material-icons">label</i>
 														</div>
 													</li>

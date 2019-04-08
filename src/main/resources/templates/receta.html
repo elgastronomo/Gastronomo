@@ -95,7 +95,7 @@
 
 							<div class="col s12 m5">
 								<img class="responsive-img z-depth-2 mb10" width="400"
-									th:src="@{/img/recetas/} + ${recipe.id} + .jpg">
+									th:src="@{/receta/{id}/photo(id=${recipe.id})}">
 							</div>
 						</div>
 
