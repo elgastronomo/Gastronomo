@@ -49,25 +49,6 @@ public class AuthenticationController {
 
 	}
 
-	@PostMapping("/login")
-	public String loggin(String username, String password, Model model, HttpSession session) {
-		try {
-
-			User user = entityManager.createNamedQuery("User.ByLogin", User.class).setParameter("userLogin", username)
-					.getSingleResult();
-
-			if (bcrypt.matches(password, user.getPassword())) {
-				session.setAttribute("user", user);
-				return "redirect:/";
-			}
-
-		} catch (Exception e) {
-			model.addAttribute("error", true);
-		}
-		return "login";
-
-	}
-
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -77,7 +58,7 @@ public class AuthenticationController {
 		return "redirect:/login?logout";// You can redirect wherever you want, but generally it's a good practice to
 										// show login screen again.
 	}
-	
+
 	@GetMapping("/register")
 	public String register() {
 		return "register";
@@ -88,7 +69,7 @@ public class AuthenticationController {
 	@Transactional
 	public String registration(String name, String username, String email, String password, String matchPassword,
 			Model model, HttpSession session) {
-		
+
 		ArrayList<String> errors = new ArrayList<>();
 
 		// check if email exist
@@ -105,12 +86,11 @@ public class AuthenticationController {
 		if (!password.equalsIgnoreCase(matchPassword)) {
 			errors.add("password are not equals");
 		}
-		
+
 		if (errors.size() != 0) {
 			model.addAttribute("errors", errors);
 			return "register";
-		}
-		else {
+		} else {
 			User user = new User();
 			String finalPass = bcrypt.encode(password);
 			user.setName(name);
@@ -118,13 +98,13 @@ public class AuthenticationController {
 			user.setLogin(username);
 			user.setPassword(finalPass);
 			user.setRoles("USER");
-			
+
 			entityManager.persist(user);
-		
+
 			session.setAttribute("user", user);
 			return "redirect:/";
 		}
-		
+
 	}
 
 	private boolean checkExistUsername(String username) {
