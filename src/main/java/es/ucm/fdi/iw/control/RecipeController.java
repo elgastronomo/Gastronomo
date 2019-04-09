@@ -139,13 +139,15 @@ public class RecipeController {
 	}
 
 	@GetMapping("/nueva")
-	public String nuevaForm(HttpSession session) {
+	public String nuevaForm(Model model, HttpSession session) {
 		// check permissions
-		/*
+
 		User requester = (User) session.getAttribute("user");
 		if (requester == null) {
 			return "login";
-		}*/
+		}
+
+		model.addAttribute("siteName", "Crear nueva receta - " + env.getProperty("es.ucm.fdi.site-title-short"));
 
 		return "nueva";
 	}
@@ -186,7 +188,7 @@ public class RecipeController {
 		for (String t : tag) {
 			Tag _t = entityManager.createNamedQuery("Tag.ByName", Tag.class).setParameter("tagName", t)
 					.getSingleResult();
-			
+
 			if (_t != null) {
 				_t.addRecipe(recipe);
 				recipe.addTag(_t);

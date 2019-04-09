@@ -36,6 +36,8 @@ public class SearchController {
 		model.addAttribute("recipes",
 				entityManager.createNamedQuery("Recipe.AllRecipes").setMaxResults(6).getResultList());
 		model.addAttribute("found", true);
+		
+		model.addAttribute("siteName", "Buscador - " + env.getProperty("es.ucm.fdi.site-title-short"));
 
 		return "buscar";
 	}
@@ -65,6 +67,8 @@ public class SearchController {
 		model.addAttribute("ingredients", ingredients);
 		model.addAttribute("tiempo", tiempo);
 		model.addAttribute("tag", tag);
+		
+		model.addAttribute("siteName", "Buscador - " + env.getProperty("es.ucm.fdi.site-title-short"));
 
 		return "buscar";
 	}

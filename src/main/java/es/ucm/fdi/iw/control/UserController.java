@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -36,6 +37,9 @@ import es.ucm.fdi.iw.model.User;
 public class UserController {
 
 	private static final Logger log = LogManager.getLogger(UserController.class);
+	
+	@Autowired
+	private Environment env;
 
 	@Autowired
 	private EntityManager entityManager;
@@ -53,6 +57,8 @@ public class UserController {
 		}		
 		
 		model.addAttribute("user", target);
+		model.addAttribute("siteName", "Tu perfil - " + target.getName() + " - " + env.getProperty("es.ucm.fdi.site-title-short"));
+		
 		return "perfil";
 	}
 
