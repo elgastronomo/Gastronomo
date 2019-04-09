@@ -9,6 +9,10 @@
 		<div class="nav-wrapper container">
 			<a th:href="@{/}" class="brand-logo logo">Gastrónomo</a>
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li th:if="${session.user} != null"><a th:href="@{/receta/nueva}"
+					class="waves-effect waves-dark btn grey lighten-5 grey-text text-darken-2">Crear
+						receta <i class="material-icons right">edit</i>
+				</a></li>
 				<li><a href="#"><i class="material-icons">notifications</i></a></li>
 				<li><a
 					th:href="${session.user} != null ? @{/user/{id}(id=${session.user.id})} : @{/login}"><i

@@ -43,10 +43,9 @@ public class User {
 	private byte enabled;
 
 	public boolean hasRole(String roleName) {
-		String requested = roleName.toLowerCase();
-		return Arrays.stream(roles.split(",")).anyMatch(r -> r.equals(requested));
+		return Arrays.stream(roles.split(","))
+				.anyMatch(r -> r.equalsIgnoreCase(roleName));
 	}
-
 	// app specific fields
 	private String name;
 	private String email;

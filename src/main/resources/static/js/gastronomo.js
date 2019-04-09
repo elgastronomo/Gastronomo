@@ -189,12 +189,12 @@ document.addEventListener('DOMContentLoaded', function() {
  	<i class="material-icons circle">restaurant_menu</i>
  	<span class="title">
  	<div class="input-field">
- 	<input placeholder="Nombre del ingrediente" id="ingredient_` + idx + `" name="ingrediente" type="text" class="validate">
+ 	<input placeholder="Nombre del ingrediente" id="ingredient_` + idx + `" name="ingrediente" type="text" class="validate" required>
  	<label for="ingredient_` + idx + `">Ingrediente</label>
  	</div>
  	</span>
  	<div class="input-field">
- 	<input placeholder="Peso en gramos" id="ingredient_weight_` + idx + `" name="pesoIngrediente" type="text" class="validate">
+ 	<input placeholder="Peso en gramos" id="ingredient_weight_` + idx + `" name="pesoIngrediente" type="number" class="validate" required>
  	<label for="ingredient_weight_` + idx + `">Peso en gramos</label>
  	</div>
  	<a href="#!" onclick="removeIngredient(` + idx + `)" class="tooltipped secondary-content" data-position="bottom" data-tooltip="Eliminar ingrediente"><i class="material-icons">delete</i></a>
@@ -226,13 +226,13 @@ document.addEventListener('DOMContentLoaded', function() {
  	<i class="material-icons circle">done</i>
 
  	<div class="input-field col s12">
- 	<textarea id="step_` + idx + `" name="paso" class="materialize-textarea"></textarea>
+ 	<textarea id="step_` + idx + `" name="paso" class="materialize-textarea validate" required></textarea>
  	<label for="step_` + idx + `">Paso #` + idx + `</label>
  	</div>
  	<a href="#!" onclick="removeStep(` + idx + `)" class="tooltipped secondary-content" data-position="bottom" data-tooltip="Eliminar paso"><i class="material-icons">delete</i></a>
  	</li>`;
-
- 	steps.innerHTML += stepsForm;
+ 	
+ 	$("#stepsForm").append(stepsForm);
 
  }
 

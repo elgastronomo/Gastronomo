@@ -39,7 +39,7 @@ public class Recipe implements Comparable {
 	private String attribution;
 	private float calories;
 	private float weight;
-	private int rations;
+	private float rations;
 	private User user;
 	private String steps;
 	private String difficulty;
@@ -165,11 +165,11 @@ public class Recipe implements Comparable {
 		this.weight = weight;
 	}
 
-	public int getRations() {
+	public float getRations() {
 		return rations;
 	}
 
-	public void setRations(int rations) {
+	public void setRations(float rations) {
 		this.rations = rations;
 	}
 

@@ -150,14 +150,4 @@ public class AuthenticationController {
 		}
 
 	}
-
-	
-	private boolean persistUser(User user) {
-		try {
-			entityManager.persist(user);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
 }

@@ -49,15 +49,12 @@ public class RecipeController {
 
 	@Autowired
 	private Environment env;
-	
+
 	@Autowired
 	private LocalData localData;
 
 	@Autowired
 	private EntityManager entityManager;
-
-	@Autowired
-	private HttpSession session;
 
 	@GetMapping("/{id}")
 	public String getRecipe(@PathVariable long id, Model model, HttpSession session) {
@@ -101,6 +98,12 @@ public class RecipeController {
 	public String comentar(@PathVariable long id, @RequestParam String tituloComentario,
 			@RequestParam String comentario, Model model, HttpSession session) {
 
+		// check permissions
+		User requester = (User) session.getAttribute("user");
+		if (requester == null) {
+			return "login";
+		}
+
 		User user = (User) session.getAttribute("user");
 		user = entityManager.find(User.class, user.getId());
 		Recipe recipe = entityManager.find(Recipe.class, id);
@@ -116,11 +119,18 @@ public class RecipeController {
 	public String borrarComentario(@PathVariable long idRecipe, @PathVariable long idComentario, Model model,
 			HttpSession session) {
 
+		// check permissions
+		User requester = (User) session.getAttribute("user");
+		if (requester == null) {
+			return "login";
+		}
+
 		User user = (User) session.getAttribute("user");
 		user = entityManager.find(User.class, user.getId());
 
 		Comment comment = entityManager.find(Comment.class, idComentario);
 
+		// check if the user owns the comment
 		if (user.getComments().contains(comment)) {
 			entityManager.remove(comment);
 		}
@@ -129,7 +139,14 @@ public class RecipeController {
 	}
 
 	@GetMapping("/nueva")
-	public String nuevaForm() {
+	public String nuevaForm(HttpSession session) {
+		// check permissions
+		/*
+		User requester = (User) session.getAttribute("user");
+		if (requester == null) {
+			return "login";
+		}*/
+
 		return "nueva";
 	}
 
@@ -139,7 +156,13 @@ public class RecipeController {
 			@RequestParam String cocina, @RequestParam String dificultad, @RequestParam String duracion,
 			@RequestParam int raciones, @RequestParam Float calorias, @RequestParam String[] tag,
 			@RequestParam String[] ingrediente, @RequestParam Float[] pesoIngrediente, @RequestParam String[] paso,
-			@RequestParam String photo) {
+			@RequestParam String photo, HttpSession session) {
+
+		// check permissions
+		User requester = (User) session.getAttribute("user");
+		if (requester == null) {
+			return "login";
+		}
 
 		User user = (User) session.getAttribute("user");
 
@@ -163,8 +186,11 @@ public class RecipeController {
 		for (String t : tag) {
 			Tag _t = entityManager.createNamedQuery("Tag.ByName", Tag.class).setParameter("tagName", t)
 					.getSingleResult();
-			_t.addRecipe(recipe);
-			recipe.addTag(_t);
+			
+			if (_t != null) {
+				_t.addRecipe(recipe);
+				recipe.addTag(_t);
+			}
 		}
 
 		for (int i = 0; i < nutriente.length; i++) {
@@ -187,11 +213,12 @@ public class RecipeController {
 		}
 
 		// This will decode the String which is encoded by using Base64 class
-		// String base64Image = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAYAAAA+VemSAAAgAEl...=='
+		// String base64Image =
+		// 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAYAAAA+VemSAAAgAEl...=='
 		String base64Image = photo.split(",")[1];
 		byte[] imageByte = Base64.decodeBase64(base64Image);
 		File f = localData.getFile("recipe", Long.toString(recipe.getId()));
-		
+
 		try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(f))) {
 			stream.write(imageByte);
 		} catch (Exception e) {
@@ -200,9 +227,9 @@ public class RecipeController {
 
 		entityManager.persist(recipe);
 
-		return "nueva";
+		return "redirect:/receta/" + recipe.getId();
 	}
-	
+
 	@GetMapping(value = "/{id}/photo")
 	public StreamingResponseBody getPhoto(@PathVariable long id, Model model) throws IOException {
 		File f = localData.getFile("recipe", "" + id);

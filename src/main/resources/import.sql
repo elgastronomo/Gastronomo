@@ -42,14 +42,14 @@ INSERT INTO user(id,enabled,login,password,name,email,karma,roles) VALUES (
 -- a user with password 'p'
 INSERT INTO user(id,enabled,login,password,name,email,karma,roles) VALUES (
 	2, 1, 'usuario', 
-	'{bcrypt}$2a$04$2ao4NQnJbq3Z6UeGGv24a.wRRX0FGq2l5gcy2Pjd/83ps7YaBXk9C',
+	'{bcrypt}$2a$04$RttMBdkQwMOF4SBLRXHEFeTS579bG9TOORNUGh6trz7RXiMT/TL5C',
 	'Usuario','user@ucm.es',0,'USER'
 );
 
 INSERT INTO user(id,enabled,login,password,name,email,karma,roles) VALUES (
-	2, 1, 'rober', 
-	'{bcrypt}$2a$04$2ao4NQnJbq3Z6UeGGv24a.wRRX0FGq2l5gcy2Pjd/83ps7YaBXk9C',
-	'Usuario','rober@ucm.es',0,'USER'
+	3, 1, 'rober', 
+	'{bcrypt}$2a$04$GYoVrZNPUg2WWxeTEAB.JemlRvrGwSDTKs8ORhvV3ZIS/iUbGYfu2',
+	'Roberto','rober@ucm.es',0,'USER'
 );
 
 

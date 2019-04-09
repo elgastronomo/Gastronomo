@@ -45,8 +45,14 @@ public class UserController {
 
 	@GetMapping("/{id}")
 	public String getUser(@PathVariable long id, Model model, HttpSession session) {
-		User u = entityManager.find(User.class, id);
-		model.addAttribute("user", u);
+		User target = entityManager.find(User.class, id);
+
+		User requester = (User) session.getAttribute("user");
+		if (requester.getId() != target.getId() && !requester.hasRole("ADMIN")) {
+			return "redirect:/user/" + requester.getId();
+		}		
+		
+		model.addAttribute("user", target);
 		return "perfil";
 	}
 
@@ -59,7 +65,7 @@ public class UserController {
 
 		User requester = (User) session.getAttribute("u");
 		if (requester.getId() != target.getId() && !requester.hasRole("ADMIN")) {
-			return "user";
+			return "perfil";
 		}
 
 		// ojo: faltaria más validación
@@ -67,7 +73,7 @@ public class UserController {
 			target.setPassword(edited.getPassword());
 		}
 		target.setLogin(edited.getLogin());
-		return "user";
+		return "perfil";
 	}
 
 	@GetMapping(value = "/{id}/photo")
