@@ -17,7 +17,7 @@
 				<li><a
 					th:href="${session.user} != null ? @{/user/{id}(id=${session.user.id})} : @{/login}"><i
 						class="material-icons right">person</i>[[${session.user} != null ?
-						${session.user.login} : 'Iniciar sesión']]</a></li>
+						${session.user.name} : 'Iniciar sesión']]</a></li>
 				<li th:if="${session.user} != null"><a th:href="@{/logout}"><i
 						class="material-icons">exit_to_app</i></a></li>
 			</ul>

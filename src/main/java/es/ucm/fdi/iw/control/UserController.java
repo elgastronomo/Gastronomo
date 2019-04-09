@@ -90,7 +90,7 @@ public class UserController {
 			in = new BufferedInputStream(new FileInputStream(f));
 		} else {
 			in = new BufferedInputStream(
-					getClass().getClassLoader().getResourceAsStream("static/img/unknown-user.jpg"));
+					getClass().getClassLoader().getResourceAsStream("static/img/avatar.png"));
 		}
 		return new StreamingResponseBody() {
 			@Override
