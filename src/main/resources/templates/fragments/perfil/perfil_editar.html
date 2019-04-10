@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Perfil</title>
+</head>
+<body>
+
+	<div th:fragment="perfil-editar" class="card">
+		<form th:action="@{/user/{id}/editar(id=${user.id})}"
+			id="editar-perfil" method="POST">
+			<div class="card-content">
+
+				<div class="row">
+
+					<div class="col l3 s12">
+						<img th:src="@{/user/{id}/photo(id=${user.id})}"
+							class="circle responsive-img" id="img-perfil" alt="" width="280">
+
+						<div class="file-field">
+							<div
+								class="waves-effect waves-dark btn grey lighten-5 grey-text text-darken-2 mt30">
+								<span><i class="material-icons right">photo</i>Cambiar
+									imagen</span> <input type="file" id="cambiar-img-perfil">
+							</div>
+
+							<div class="file-path-wrapper">
+								<input class="file-path validate" type="hidden"
+									placeholder="JPEG, PNG & GIF son permitidos" required>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col l9 s12">
+						<ul class="collection with-header">
+							<li class="collection-header">
+								<h4>Información de tu perfil</h4>
+							</li>
+							<li class="collection-item"><strong>Nombre: </strong>
+
+								<div class="input-field inline">
+									<input th:value="${user.name}" name="name" type="text" class="validate"
+										required>
+								</div></li>
+							<li class="collection-item"><strong>Correo
+									electrónico: </strong>
+								<div class="input-field inline">
+									<input th:value="${user.email}" name="email" type="email" class="validate"
+										required>
+								</div></li>
+							<li class="collection-item"><strong>Karma: </strong>[[${user.karma}]]
+								puntos</li>
+							<li class="collection-item"><strong>Recetas
+									publicadas: </strong>[[${#lists.size(user.recipes)}]] recetas</li>
+							<li class="collection-item"><strong>Comentarios
+									publicados: </strong>[[${#lists.size(user.comments)}]] comentarios</li>
+						</ul>
+
+
+					</div>
+
+				</div>
+
+				<button class="btn waves-effect btn waves-light red"
+					type="submit" name="action">
+					Guardar cambios <i class="material-icons right">send</i>
+				</button>
+			</div>
+		</form>
+	</div>
+
+
+</body>
+</html>

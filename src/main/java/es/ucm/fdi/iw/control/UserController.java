@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,7 @@ import es.ucm.fdi.iw.model.User;
 public class UserController {
 
 	private static final Logger log = LogManager.getLogger(UserController.class);
-	
+
 	@Autowired
 	private Environment env;
 
@@ -54,32 +55,45 @@ public class UserController {
 		User requester = (User) session.getAttribute("user");
 		if (requester.getId() != target.getId() && !requester.hasRole("ADMIN")) {
 			return "redirect:/user/" + requester.getId();
-		}		
-		
+		}
+
 		model.addAttribute("user", target);
-		model.addAttribute("siteName", "Tu perfil - " + target.getName() + " - " + env.getProperty("es.ucm.fdi.site-title-short"));
-		
+		model.addAttribute("siteName",
+				"Tu perfil - " + target.getName() + " - " + env.getProperty("es.ucm.fdi.site-title-short"));
+
 		return "perfil";
 	}
 
-	@PostMapping("/{id}")
+	@PostMapping("/{id}/editar")
 	@Transactional
-	public String postUser(@PathVariable long id, @ModelAttribute User edited,
-			@RequestParam(required = false) String pass2, Model model, HttpSession session) {
+	public String postUser(@PathVariable long id, @RequestParam(required=false) String photo, 
+						   @RequestParam String name, @RequestParam String email, HttpSession session) {
 		User target = entityManager.find(User.class, id);
-		model.addAttribute("user", target);
 
-		User requester = (User) session.getAttribute("u");
+		User requester = (User) session.getAttribute("user");
 		if (requester.getId() != target.getId() && !requester.hasRole("ADMIN")) {
-			return "perfil";
+			return "redirect:/user/" + requester.getId();
+		}
+		
+		target.setName(name);
+		target.setEmail(email);
+
+		if (photo != null) {
+			// This will decode the String which is encoded by using Base64 class
+			// String base64Image =
+			// 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAYAAAA+VemSAAAgAEl...=='
+			String base64Image = photo.split(",")[1];
+			byte[] imageByte = Base64.decodeBase64(base64Image);
+			File f = localData.getFile("user", "" + id);
+
+			try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(f))) {
+				stream.write(imageByte);
+			} catch (Exception e) {
+				log.info("Error uploading " + id + " ", e);
+			}
 		}
 
-		// ojo: faltaria más validación
-		if (edited.getPassword() != null && edited.getPassword().equals(pass2)) {
-			target.setPassword(edited.getPassword());
-		}
-		target.setLogin(edited.getLogin());
-		return "perfil";
+		return "redirect:/user/" + target.getId();
 	}
 
 	@GetMapping(value = "/{id}/photo")
@@ -89,8 +103,7 @@ public class UserController {
 		if (f.exists()) {
 			in = new BufferedInputStream(new FileInputStream(f));
 		} else {
-			in = new BufferedInputStream(
-					getClass().getClassLoader().getResourceAsStream("static/img/avatar.png"));
+			in = new BufferedInputStream(getClass().getClassLoader().getResourceAsStream("static/img/avatar.png"));
 		}
 		return new StreamingResponseBody() {
 			@Override
@@ -98,33 +111,5 @@ public class UserController {
 				FileCopyUtils.copy(in, os);
 			}
 		};
-	}
-
-	@PostMapping("/{id}/photo")
-	public String postPhoto(@RequestParam("photo") MultipartFile photo, @PathVariable("id") String id, Model model,
-			HttpSession session) {
-		User target = entityManager.find(User.class, Long.parseLong(id));
-		model.addAttribute("user", target);
-
-		// check permissions
-		User requester = (User) session.getAttribute("u");
-		if (requester.getId() != target.getId() && !requester.hasRole("ADMIN")) {
-			return "user";
-		}
-
-		log.info("Updating photo for user {}", id);
-		File f = localData.getFile("user", id);
-		if (photo.isEmpty()) {
-			log.info("failed to upload photo: emtpy file?");
-		} else {
-			try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(f))) {
-				byte[] bytes = photo.getBytes();
-				stream.write(bytes);
-			} catch (Exception e) {
-				log.info("Error uploading " + id + " ", e);
-			}
-			log.info("Successfully uploaded photo for {} into {}!", id, f.getAbsolutePath());
-		}
-		return "user";
 	}
 }
