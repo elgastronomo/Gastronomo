@@ -67,7 +67,8 @@ public class UserController {
 	@PostMapping("/{id}/editar")
 	@Transactional
 	public String postUser(@PathVariable long id, @RequestParam(required=false) String photo, 
-						   @RequestParam String name, @RequestParam String email, HttpSession session) {
+						   @RequestParam String name, @RequestParam String email, 
+						   @RequestParam String login, HttpSession session) {
 		User target = entityManager.find(User.class, id);
 
 		User requester = (User) session.getAttribute("user");
@@ -75,6 +76,7 @@ public class UserController {
 			return "redirect:/user/" + requester.getId();
 		}
 		
+		target.setLogin(login);
 		target.setName(name);
 		target.setEmail(email);
 
@@ -84,14 +86,16 @@ public class UserController {
 			// 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAYAAAA+VemSAAAgAEl...=='
 			String base64Image = photo.split(",")[1];
 			byte[] imageByte = Base64.decodeBase64(base64Image);
-			File f = localData.getFile("user", "" + id);
+			File f = localData.getFile("user", "" + target.getId());
 
 			try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(f))) {
 				stream.write(imageByte);
 			} catch (Exception e) {
-				log.info("Error uploading " + id + " ", e);
+				log.info("Error uploading " + target.getId() + " ", e);
 			}
 		}
+		
+		session.setAttribute("user", target);
 
 		return "redirect:/user/" + target.getId();
 	}

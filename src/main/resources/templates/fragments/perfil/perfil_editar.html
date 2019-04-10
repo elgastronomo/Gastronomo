@@ -36,17 +36,24 @@
 							<li class="collection-header">
 								<h4>Información de tu perfil</h4>
 							</li>
+							<li class="collection-item"><strong>Nombre de
+									usuario: </strong>
+
+								<div class="input-field inline">
+									<input th:value="${user.login}" name="login" type="text"
+										class="validate" required>
+								</div></li>
 							<li class="collection-item"><strong>Nombre: </strong>
 
 								<div class="input-field inline">
-									<input th:value="${user.name}" name="name" type="text" class="validate"
-										required>
+									<input th:value="${user.name}" name="name" type="text"
+										class="validate" required>
 								</div></li>
 							<li class="collection-item"><strong>Correo
 									electrónico: </strong>
 								<div class="input-field inline">
-									<input th:value="${user.email}" name="email" type="email" class="validate"
-										required>
+									<input th:value="${user.email}" name="email" type="email"
+										class="validate" required>
 								</div></li>
 							<li class="collection-item"><strong>Karma: </strong>[[${user.karma}]]
 								puntos</li>
@@ -58,13 +65,13 @@
 
 
 					</div>
-
+					<button class="btn waves-effect btn waves-light red right"
+						type="submit" name="action">
+						Guardar cambios <i class="material-icons right">send</i>
+					</button>
 				</div>
 
-				<button class="btn waves-effect btn waves-light red"
-					type="submit" name="action">
-					Guardar cambios <i class="material-icons right">send</i>
-				</button>
+
 			</div>
 		</form>
 	</div>
