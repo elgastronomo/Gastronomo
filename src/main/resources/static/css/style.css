@@ -122,12 +122,15 @@ input:focus {
 	box-shadow: 0 1px 0 0 red !important
 }
 
+/* Hace más pequeño el modal
+
 .modal {
 	width: 30% !important;
 	min-height: 2px;
 	overflow-y: hidden !important;
 	border-radius: 15px;
 }
+*/
 
 .card-title a {
 	color: white;

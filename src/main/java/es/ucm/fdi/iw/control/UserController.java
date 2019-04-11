@@ -135,6 +135,8 @@ public class UserController {
 		entityManager.persist(menu);
 		target.addMenu(menu);
 		
+		session.setAttribute("user", target);
+		
 		return "redirect:/user/" + target.getId();
 	}
 	
@@ -149,7 +151,9 @@ public class UserController {
 		}
 		
 		Menu menu = entityManager.find(Menu.class, idMenu);
-		entityManager.remove(menu);		
+		entityManager.remove(menu);
+		
+		session.setAttribute("user", target);
 		
 		return "redirect:/user/" + target.getId();
 	}
