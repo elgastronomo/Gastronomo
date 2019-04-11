@@ -137,3 +137,8 @@ input:focus {
 	overflow: visible !important;
 	padding-bottom: 20px;
 }
+
+.input-field.n-margin {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}

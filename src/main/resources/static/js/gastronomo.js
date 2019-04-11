@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	addFavIngredientListener();
 	addDeleteCommentId();
 	addChangeImgProfile();
+	addDeleteMenuListener();
 	
 	let elems = document.querySelectorAll('.chips');
 	let instances = M.Chips.init(elems, { onChipAdd: changeColor });
@@ -418,6 +419,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		
 		return reader;
+	 });
+ }
+ 
+ function addDeleteMenuListener() {
+	 $(".menu-eliminar").click((elem) => {
+		$("#menu-id").attr("value", $(elem.target).attr("id").split("-")[1]);
 	 });
  }
 

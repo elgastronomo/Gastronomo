@@ -21,16 +21,16 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import es.ucm.fdi.iw.LocalData;
+import es.ucm.fdi.iw.model.Menu;
 import es.ucm.fdi.iw.model.User;
 
 @Controller()
@@ -115,5 +115,42 @@ public class UserController {
 				FileCopyUtils.copy(in, os);
 			}
 		};
+	}
+	
+	@PostMapping(value = "/{id}/menu")
+	@Transactional
+	public String menu(@PathVariable long id, @RequestParam String title, @RequestParam String description, HttpSession session) {
+		User target = entityManager.find(User.class, id);
+
+		User requester = (User) session.getAttribute("user");
+		if (requester.getId() != target.getId() && !requester.hasRole("ADMIN")) {
+			return "redirect:/user/" + requester.getId();
+		}
+		
+		Menu menu = new Menu();
+		menu.setName(title);
+		menu.setDescription(description);
+		menu.setUser(target);
+		
+		entityManager.persist(menu);
+		target.addMenu(menu);
+		
+		return "redirect:/user/" + target.getId();
+	}
+	
+	@PostMapping(value = "/{id}/eliminarMenu")
+	@Transactional
+	public String deleteMenu(@PathVariable long id, @RequestParam long idMenu, HttpSession session) {
+		User target = entityManager.find(User.class, id);
+
+		User requester = (User) session.getAttribute("user");
+		if (requester.getId() != target.getId() && !requester.hasRole("ADMIN")) {
+			return "redirect:/user/" + requester.getId();
+		}
+		
+		Menu menu = entityManager.find(Menu.class, idMenu);
+		entityManager.remove(menu);		
+		
+		return "redirect:/user/" + target.getId();
 	}
 }

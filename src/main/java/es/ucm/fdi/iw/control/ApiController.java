@@ -44,7 +44,6 @@ public class ApiController {
 	@Autowired
 	private HttpSession session;
 
-	@SuppressWarnings("unchecked")
 	@GetMapping("/users/{id}/ingredients")
 	@JsonView(Views.Public.class)
 	public Set<UserIngredient> getFavouriteIngredients(Model model, @PathVariable long id) {
