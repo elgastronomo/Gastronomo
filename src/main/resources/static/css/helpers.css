@@ -535,3 +535,7 @@ Roberto Fernández Correa
 .clear {
     clear: both;
 }
+
+.hidden {
+	display: none;
+}

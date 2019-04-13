@@ -211,6 +211,10 @@ public class User {
 	public void setMenus(List<Menu> menus) {
 		this.menus = menus;
 	}
+	
+	public void addMenu(Menu menu) {
+		this.menus.add(menu);
+	}
 
 	@Override
 	public String toString() {

@@ -57,6 +57,7 @@ public class RecipeController {
 	private EntityManager entityManager;
 
 	@GetMapping("/{id}")
+	@Transactional
 	public String getRecipe(@PathVariable long id, Model model, HttpSession session) {
 
 		Recipe recipe = entityManager.find(Recipe.class, id);

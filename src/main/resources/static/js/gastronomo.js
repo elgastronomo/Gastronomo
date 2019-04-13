@@ -50,6 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	addFavTagListener();
 	addFavIngredientListener();
 	addDeleteCommentId();
+	addChangeImgProfile();
+	addDeleteMenuListener();
 	
 	let elems = document.querySelectorAll('.chips');
 	let instances = M.Chips.init(elems, { onChipAdd: changeColor });
@@ -387,6 +389,43 @@ document.addEventListener('DOMContentLoaded', function() {
  	});
  	
  	M.toast({html: 'Ingrediente eliminado de favoritos'});
+ }
+ 
+ /*******************************************************
+  * PROFILE
+  *******************************************************/
+ 
+ function addChangeImgProfile() {
+	 $("#cambiar-img-perfil").change((elem) => {
+		 var img = elem.target.files[0]; // will return a File object containing information about the selected file
+		// File validations here (you may want to make sure that the file is an image)
+		 if(['image/jpeg', 'image/jpg', 'image/png', 'image/gif'].indexOf(img.type) == -1) {
+		        M.toast({html: 'Error : Solo JPEG, PNG & GIF son permitidos'});
+		        return;
+		    }
+
+		var reader = new FileReader();
+		reader.onload = function(data) {
+		  // what you want to do once the File has been loaded
+		  // you can use data.target.result here as an src for an img tag in order to display the uplaoded image
+			$("#img-perfil").attr('src', data.target.result); // assume you have an image element somewhere, or you may add it dynamically
+		}
+		reader.readAsDataURL(img);
+		
+		$("#editar-perfil").submit(() => {
+				$(".file-path-wrapper").append(
+						'<input type="hidden" name="photo" value="' + $("#img-perfil").attr('src') + '">')
+		});	
+		
+		
+		return reader;
+	 });
+ }
+ 
+ function addDeleteMenuListener() {
+	 $(".menu-eliminar").click((elem) => {
+		$("#menu-id").attr("value", $(elem.target).attr("id").split("-")[1]);
+	 });
  }
 
  /*******************************************************

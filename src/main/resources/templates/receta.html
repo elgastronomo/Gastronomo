@@ -8,8 +8,35 @@
 	<script>
 		const recipeId = [[${recipe.id}]];
 	</script>
-	
+
 	<nav th:replace="fragments/nav.html :: nav"></nav>
+
+	<!-- Modal Structure -->
+	<div id="modal1" class="modal bottom-sheet">
+		<div class="modal-content">
+
+			<h4>Añadir receta a menús</h4>
+			<p>
+				<label> <input type="checkbox" /> <span>Test 1</span>
+				</label>
+			</p>
+			<p>
+				<label> <input type="checkbox" /> <span>Test 2</span>
+				</label>
+			</p>
+			<p>
+				<label> <input type="checkbox" /> <span>Test 3</span>
+				</label>
+			</p>
+			<p>
+				<label> <input type="checkbox" /> <span>Test 4</span>
+				</label>
+			</p>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+		</div>
+	</div>
 
 	<div class="pr50 pl50 mt30 mb30">
 
@@ -38,6 +65,7 @@
 				<div class="card">
 
 					<div class="card-content">
+
 						<div class="row">
 							<div class="col s12 m7">
 
@@ -102,8 +130,8 @@
 
 						<div th:if="${session.user != null}" class="mt20 mb40">
 							<a class="waves-effect waves-light red btn"><i
-								class="material-icons left">save</i>Guardar</a> <a
-								class="waves-effect waves-light red btn"><i
+								class="material-icons left">save</i>Guardar</a> <a href="#modal1"
+								class="waves-effect waves-light red btn modal-trigger"><i
 								class="material-icons left">add</i>Añadir al menú</a> <a
 								class="waves-effect waves-light red btn"><i
 								class="material-icons left">restaurant_menu</i>¡Lo he cocinado!</a>
@@ -201,7 +229,8 @@
 									<div class="input-field col s12">
 										<input placeholder="Título del comentario"
 											id="tituloComentario" name="tituloComentario" type="text"
-											class="validate" required> <label for="tituloComentario">Título</label>
+											class="validate" required> <label
+											for="tituloComentario">Título</label>
 									</div>
 
 									<div class="input-field col s12">

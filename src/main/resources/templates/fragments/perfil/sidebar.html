@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Perfil</title>
+</head>
+<body>
+
+	<div th:fragment="sidebar" class="col s12 l3">
+
+		<div class="card">
+			<div class="card-content">
+				<span class="card-title activator grey-text text-darken-4">Ingredientes
+					habituales<i class="material-icons right">more_vert</i>
+				</span>
+
+				<div class="chips-ingredientes"></div>
+
+				<a id="add-favourite-ingredient"
+					class="waves-effect waves-light btn red">Guardar</a>
+
+
+			</div>
+			<div class="card-reveal">
+				<span class="card-title grey-text text-darken-4">Ingredientes
+					habituales<i class="material-icons right">close</i>
+				</span>
+				<p>Aquí tienes una lista con los ingredientes que más utilizas
+					en tus platos para que podamos mostrarte las recetas que más te
+					puedan interesar.</p>
+			</div>
+		</div>
+
+		<div class="card">
+			<div class="card-content">
+				<span class="card-title activator grey-text text-darken-4">Tags
+					favoritos<i class="material-icons right">more_vert</i>
+				</span> <small><strong>Disponibles: </strong>Sin huevo, Libre de nueces y de cacahuetes, Sin
+					frutos secos, Sin soja, Sin pescado, Sin mariscos, Bajo en
+					carbohidratos, Vegetariano, Sin glutén, Equilibrada, Mucha fibra,
+					Bajo en sodio ,Vegano, Sin lácteos, Paleo, Alto valor proteíco,
+					Bajo en grasas</small>
+
+				<div class="chips-tags"></div>
+
+				<a id="add-favourite-tag" class="waves-effect waves-light btn red">Guardar</a>
+
+			</div>
+			<div class="card-reveal">
+				<span class="card-title grey-text text-darken-4">Tags
+					favoritos<i class="material-icons right">close</i>
+				</span>
+				<p>Para que no te mostremos recetas que puedan tener
+					ingredientes a los que seas alérgico te recomendamos que incluyas
+					aquí todas tus alergias o dietas específicas.</p>
+			</div>
+
+		</div>
+
+
+	</div>
+
+</body>
+</html>
