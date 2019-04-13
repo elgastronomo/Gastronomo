@@ -2,9 +2,12 @@ package es.ucm.fdi.iw.control;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -20,8 +23,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.cache.AlwaysValidCacheEntryValidity;
 
+import es.ucm.fdi.iw.model.Ingredient;
 import es.ucm.fdi.iw.model.Recipe;
+import es.ucm.fdi.iw.model.RecipeIngredient;
+import es.ucm.fdi.iw.model.Tag;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.UserIngredient;
 
@@ -59,17 +66,20 @@ public class SearchController {
 			Model model, HttpSession session) {
 
 		List<String> ingredients = ingredientes != "" ? Arrays.asList(ingredientes.split(" ")) : null;
-
-		List<Recipe> recipes = getRecipes(tiempo, ingredients, difficulty, cuisine, tag);
-		// Because we want to inform about the non matching query
-		boolean found = true;
-
-		if (recipes.size() == 0) {
-			recipes.addAll(entityManager.createNamedQuery("Recipe.AllRecipes").setMaxResults(6).getResultList());
+		Boolean found = true;
+		
+		List<Recipe> allRecipes = entityManager.createNamedQuery("Recipe.AllRecipes").getResultList();
+		Predicate<Recipe> recipePredicate = getPredicate(tiempo,ingredients,difficulty,cuisine,tag); 
+		List<Recipe> filtredRecipes = allRecipes.stream().filter(recipePredicate).collect(Collectors.toList());
+			
+	
+		if (filtredRecipes.isEmpty()) {
+			filtredRecipes.addAll(entityManager.createNamedQuery("Recipe.AllRecipes").setMaxResults(6).getResultList());
 			found = false;
 		}
+		
 
-		model.addAttribute("recipes", recipes);
+		model.addAttribute("recipes", filtredRecipes);
 		model.addAttribute("found", found);
 		model.addAttribute("difficulty", difficulty);
 		model.addAttribute("cuisine", cuisine);
@@ -79,10 +89,9 @@ public class SearchController {
 		
 		model.addAttribute("siteName", "Buscador - " + env.getProperty("es.ucm.fdi.site-title-short"));
 		
+		// devuelve las recetas añadidas a fav para habilitar o deshabilitar el botton ese del corazon.
 		List<Long> favRecipesId = new ArrayList<>();
-		
-		User userAux = (User) session.getAttribute("user");
-		
+		User userAux = (User) session.getAttribute("user");	
 		
 		if(null != userAux) {
 			User user = entityManager.find(User.class, userAux.getId());// esta query es por que el objeto viene en modo lazy
@@ -90,11 +99,67 @@ public class SearchController {
 				favRecipesId = user .getFavRecipes().stream().map(recipe -> recipe.getId()).collect(Collectors.toList());
 			}
 		}
+		
 		model.addAttribute("favRecipes", favRecipesId);
 
 		return "buscar";
 	}
 
+	private Predicate<Recipe> getPredicate(Integer tiempo, List<String> ingredients, String[] difficulty, String[] cuisine,String[] tag) {
+		
+		//convertir a set los arrays de String para poder hacer contains
+		Set<String> difficultySet 	= (difficulty != null) 	?  new HashSet<>(Arrays.asList(difficulty)) 	: null;
+		Set<String> cuisineSet 		= (cuisine!= null) 		?  new HashSet<>(Arrays.asList(cuisine)) 	: null;
+		Set<String> tagList 		= (tag != null) 		?  new HashSet<>(Arrays.asList(tag)) : null;
+	
+		Predicate<Recipe> predicateByTiempo 		= r	->  true;
+		Predicate<Recipe> predicateByIngredientes 	= r ->  true; 
+		Predicate<Recipe> predicateByDifficulty		= r ->  true;
+		Predicate<Recipe> predicateByCuisine 		= r ->  true;
+		Predicate<Recipe> predicateByTag			= r	->  true;
+		
+		//predicate by time
+		if(tiempo != null) {
+			predicateByTiempo = r-> r.durationInt() < tiempo;
+		}
+		
+		//predicate by ingredients
+		if(ingredients != null && !ingredients.isEmpty()) {
+			predicateByIngredientes =  new Predicate<Recipe>() {
+
+				@Override
+				public boolean test(Recipe recipe) {
+					Set<RecipeIngredient> recipeIngredientes = recipe.getRecipeIngredients();
+					
+					for(RecipeIngredient  recipeIngrediente : recipeIngredientes) {
+						
+						for(String ingrediente : ingredients) {
+							if(recipeIngrediente.getIngredient().getName().contains(ingrediente)) return true;
+						}
+						
+					}
+					return false;
+				}
+			
+			};
+		}
+		
+		//predicate by difficulty
+		if(difficultySet != null && !difficultySet.isEmpty()) {
+			predicateByDifficulty = r -> difficultySet.contains(r.getDifficulty());
+		}
+		
+		//predicate by cuisine
+		if(cuisineSet!= null && !cuisineSet.isEmpty()) {
+			predicateByCuisine= r -> cuisineSet.contains(r.getCuisine());
+		}				
+		//predicate by tag
+		if(tagList!= null && !tagList.isEmpty()) {
+			predicateByTag = r -> r.tagsNames().containsAll(tagList);
+		}		
+		return predicateByTiempo.and(predicateByIngredientes).and(predicateByDifficulty).and(predicateByCuisine).and(predicateByTag);
+	}
+/*
 	@SuppressWarnings("unchecked")
 	public List<Recipe> getRecipes(Integer tiempo, List<String> ingredients, String[] difficulty, String[] cuisine,
 			String[] tag) {
@@ -207,5 +272,5 @@ public class SearchController {
 		// create a set from the List
 		return list.stream().collect(Collectors.toSet());
 	}
-
+*/
 }
