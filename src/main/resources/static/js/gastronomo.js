@@ -402,16 +402,17 @@ document.addEventListener('DOMContentLoaded', function() {
  
  //add recipe to favourite 
  function addRecipeToFavourite(recipeId){
-	 var recipe = recipeId;
-	 var idButton = "recipeButton'" + recipeId + "'";
+	 var idButton = "recipeButton" + recipeId + "";
 	 var button = document.getElementById(idButton);
 	 button.disabled = true;
 	 button.title = "Esta receta ya la has añadido";
-		const headers = {
+
+	 const headers = {
 		 		"Content-Type": "application/json",				
 		 		"X-CSRF-TOKEN": gastronomo.csrf.value
 		 	};
-		var uri = '/api/users/' + recipeId + '/addRecipe';
+	
+	 var uri = '/api/users/' + recipeId + '/addRecipe';
 		fetch(uri, {
 	 		headers: headers,
 	 		method: 'POST'

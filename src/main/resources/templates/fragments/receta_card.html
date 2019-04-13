@@ -5,6 +5,8 @@
 </head>
 <body>
 
+	
+
 	<div th:fragment="receta-card" class="card">
 		<div class="card-image">
 			<a th:href="@{/receta/} + ${receta.id}"> <img
@@ -13,9 +15,9 @@
 			</a> <span class="card-title"> <a
 				th:href="@{/receta/} + ${receta.id}" th:text="${receta.name}">Receta
 					6</a>
-			</span> <button th:id="'recipeButton\'' + ${receta.id} + '\''" class="btn-floating halfway-fab waves-effect waves-light red" 
-						th:onclick="'addRecipeToFavourite(\'' + ${receta.id} + '\');'"
-						th:onLoad="'disableButtonAlreadyAdded(\'' + ${receta.id} + '\');'"
+			</span> <button th:id="recipeButton + |${receta.id}|" class="btn-floating halfway-fab waves-effect waves-light red" 
+						th:onclick=" 'addRecipeToFavourite(' + |${receta.id}| + ')'"   
+						th:disabled="${session.user == null or #lists.contains(favRecipes,receta.id)}"
 						><i
 									
 						class="material-icons">favorite</i></button>

@@ -8,17 +8,22 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpSession;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.ucm.fdi.iw.model.Recipe;
+import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.model.UserIngredient;
 
 @Controller
 public class SearchController {
@@ -30,6 +35,7 @@ public class SearchController {
 
 	@Autowired
 	private EntityManager entityManager;
+	
 
 	@GetMapping("/buscar")
 	public String buscar(Model model) {
@@ -38,16 +44,19 @@ public class SearchController {
 		model.addAttribute("found", true);
 		
 		model.addAttribute("siteName", "Buscador - " + env.getProperty("es.ucm.fdi.site-title-short"));
+		
+	
 
 		return "buscar";
 	}
 
 	@SuppressWarnings("unchecked")
 	@PostMapping("/buscar")
+	@Transactional
 	public String getRecipesSearchAdvanced(@RequestParam(required = false) Integer tiempo,
 			@RequestParam(required = false) String ingredientes, @RequestParam(required = false) String[] difficulty,
 			@RequestParam(required = false) String[] cuisine, @RequestParam(required = false) String[] tag,
-			Model model) {
+			Model model, HttpSession session) {
 
 		List<String> ingredients = ingredientes != "" ? Arrays.asList(ingredientes.split(" ")) : null;
 
@@ -69,6 +78,19 @@ public class SearchController {
 		model.addAttribute("tag", tag);
 		
 		model.addAttribute("siteName", "Buscador - " + env.getProperty("es.ucm.fdi.site-title-short"));
+		
+		List<Long> favRecipesId = new ArrayList<>();
+		
+		User userAux = (User) session.getAttribute("user");
+		
+		
+		if(null != userAux) {
+			User user = entityManager.find(User.class, userAux.getId());// esta query es por que el objeto viene en modo lazy
+			if(!user.getFavRecipes().isEmpty()) {
+				favRecipesId = user .getFavRecipes().stream().map(recipe -> recipe.getId()).collect(Collectors.toList());
+			}
+		}
+		model.addAttribute("favRecipes", favRecipesId);
 
 		return "buscar";
 	}

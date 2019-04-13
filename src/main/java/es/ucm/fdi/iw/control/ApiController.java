@@ -165,16 +165,5 @@ public class ApiController {
 		Recipe recipe = entityManager.find(Recipe.class, id);
 		user.getFavRecipes().add(recipe);
 	}
-	
-	@PostMapping("/users/{id}/isAddedRecipe")
-	@JsonView(Views.Public.class)
-	@Transactional
-	public Boolean isAddedRecipe(Model model, @PathVariable long id) throws JsonProcessingException {
-		User user = (User) session.getAttribute("user");
-		user = entityManager.find(User.class, user.getId());
 		
-		return user.getFavRecipes().stream().anyMatch( re -> re.getId()==id);
-		
-	}
-	
 }
