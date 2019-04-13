@@ -63,7 +63,12 @@
 					<div class="card-content">
 						<span class="card-title">Filtrar resultados</span>
 
-
+						<div class="mb10">
+							<strong>Nombre de Receta</strong>
+				            <input placeholder="Nombre de receta" id="recipeName" name="recipeName" type="text" class="validate" th:value="${recipeName} != null ? ${recipeName} : '' ">
+				        </div>
+						
+						
 						<div class="mb10">
 							<strong>Tiempo</strong>
 							<p>Máximo de tiempo que quieres dedicar</p>

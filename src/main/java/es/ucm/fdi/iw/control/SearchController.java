@@ -60,7 +60,7 @@ public class SearchController {
 	@SuppressWarnings("unchecked")
 	@PostMapping("/buscar")
 	@Transactional
-	public String getRecipesSearchAdvanced(@RequestParam(required = false) Integer tiempo,
+	public String getRecipesSearchAdvanced(@RequestParam(required = false) String recipeName, @RequestParam(required = false) Integer tiempo,
 			@RequestParam(required = false) String ingredientes, @RequestParam(required = false) String[] difficulty,
 			@RequestParam(required = false) String[] cuisine, @RequestParam(required = false) String[] tag,
 			Model model, HttpSession session) {
@@ -69,7 +69,7 @@ public class SearchController {
 		Boolean found = true;
 		
 		List<Recipe> allRecipes = entityManager.createNamedQuery("Recipe.AllRecipes").getResultList();
-		Predicate<Recipe> recipePredicate = getPredicate(tiempo,ingredients,difficulty,cuisine,tag); 
+		Predicate<Recipe> recipePredicate = getPredicate(recipeName, tiempo,ingredients,difficulty,cuisine,tag); 
 		List<Recipe> filtredRecipes = allRecipes.stream().filter(recipePredicate).collect(Collectors.toList());
 			
 	
@@ -86,7 +86,8 @@ public class SearchController {
 		model.addAttribute("ingredients", ingredients);
 		model.addAttribute("tiempo", tiempo);
 		model.addAttribute("tag", tag);
-		
+		model.addAttribute("recipeName", recipeName);
+
 		model.addAttribute("siteName", "Buscador - " + env.getProperty("es.ucm.fdi.site-title-short"));
 		
 		// devuelve las recetas añadidas a fav para habilitar o deshabilitar el botton ese del corazon.
@@ -105,18 +106,25 @@ public class SearchController {
 		return "buscar";
 	}
 
-	private Predicate<Recipe> getPredicate(Integer tiempo, List<String> ingredients, String[] difficulty, String[] cuisine,String[] tag) {
+	private Predicate<Recipe> getPredicate(String recipeName , Integer tiempo, List<String> ingredients, String[] difficulty, String[] cuisine,String[] tag) {
 		
 		//convertir a set los arrays de String para poder hacer contains
 		Set<String> difficultySet 	= (difficulty != null) 	?  new HashSet<>(Arrays.asList(difficulty)) 	: null;
 		Set<String> cuisineSet 		= (cuisine!= null) 		?  new HashSet<>(Arrays.asList(cuisine)) 	: null;
 		Set<String> tagList 		= (tag != null) 		?  new HashSet<>(Arrays.asList(tag)) : null;
 	
+		Predicate<Recipe> predicateByRecipeName		= r	->  true;
 		Predicate<Recipe> predicateByTiempo 		= r	->  true;
 		Predicate<Recipe> predicateByIngredientes 	= r ->  true; 
 		Predicate<Recipe> predicateByDifficulty		= r ->  true;
 		Predicate<Recipe> predicateByCuisine 		= r ->  true;
 		Predicate<Recipe> predicateByTag			= r	->  true;
+		
+		//predicate by recipeName
+		if(recipeName != null && !recipeName.isEmpty()) {
+			String recipeNameLower = recipeName.toLowerCase();
+			predicateByRecipeName = r -> r.getName().toLowerCase().contains(recipeNameLower);
+		}
 		
 		//predicate by time
 		if(tiempo != null) {
@@ -157,7 +165,7 @@ public class SearchController {
 		if(tagList!= null && !tagList.isEmpty()) {
 			predicateByTag = r -> r.tagsNames().containsAll(tagList);
 		}		
-		return predicateByTiempo.and(predicateByIngredientes).and(predicateByDifficulty).and(predicateByCuisine).and(predicateByTag);
+		return predicateByTiempo.and(predicateByIngredientes).and(predicateByDifficulty).and(predicateByCuisine).and(predicateByTag).and(predicateByRecipeName);
 	}
 /*
 	@SuppressWarnings("unchecked")
