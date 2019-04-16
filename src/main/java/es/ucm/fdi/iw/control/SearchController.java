@@ -56,16 +56,28 @@ public class SearchController {
 
 		return "buscar";
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	@PostMapping("/buscar/sort")
+	@Transactional
+	public String getRecipesSearchAdvanced(@RequestParam(required = false) String type, @RequestParam(required = false) List<Recipe> object, Model model, HttpSession session) {
+		return "buscar";
+	}
+	
 	@SuppressWarnings("unchecked")
 	@PostMapping("/buscar")
 	@Transactional
 	public String getRecipesSearchAdvanced(@RequestParam(required = false) String recipeName, @RequestParam(required = false) Integer tiempo,
 			@RequestParam(required = false) String ingredientes, @RequestParam(required = false) String[] difficulty,
-			@RequestParam(required = false) String[] cuisine, @RequestParam(required = false) String[] tag,
+			@RequestParam(required = false) String[] cuisine, @RequestParam(required = false) String[] tag, 
 			Model model, HttpSession session) {
 
-		List<String> ingredients = ingredientes != "" ? Arrays.asList(ingredientes.split(" ")) : null;
+		List<String> ingredients = new ArrayList<>();
+		
+		if(ingredientes != null) {
+			ingredients = ingredientes != "" ? Arrays.asList(ingredientes.split(" ")) : null;
+		}
+		
 		Boolean found = true;
 		
 		List<Recipe> allRecipes = entityManager.createNamedQuery("Recipe.AllRecipes").getResultList();

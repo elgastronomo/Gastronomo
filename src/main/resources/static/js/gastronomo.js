@@ -162,6 +162,20 @@ document.addEventListener('DOMContentLoaded', function() {
  	});
  }
  
+//filter by type: Carne, Pasta, Postre...
+function filtreByType(value){
+ 	$('form[name="filtroTipos"]').append('<input type="hidden" name="recipeName" value=' + value + ' />');
+ 	document.filtroTipos.submit();
+}
+
+
+document.getElementById("selectRecipes").addEventListener("change", function() {
+	$('form[name="formSelect"]').append('<input type="hidden" name="type" value="relevantes" />');	
+	$('form[name="formSelect"]').append('<input type="hidden" name="recipes" value='+$(".recipes")+' />');
+ 	document.formSelect.submit();
+});
+
+
  /*******************************************************
   * SINGLE RECIPE PAGE
   *******************************************************/

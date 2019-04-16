@@ -76,6 +76,9 @@ body#login-container {
 	width: 650px;
 }
 
+.textDecorationNone{
+	text-decoration: none !important;
+}
 
 /* ----------------------------*/
 /*     CAMBIOS MATERIALIZE     */
@@ -145,3 +148,4 @@ input:focus {
 	margin-top: 0px;
 	margin-bottom: 0px;
 }
+

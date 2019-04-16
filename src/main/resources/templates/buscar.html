@@ -24,6 +24,7 @@
 						</button>
 					</div>
 				</div>
+			</form>
 		</div>
 
 		<div class="row">
@@ -46,11 +47,13 @@
 			</div>
 
 			<div class="input-field col l2">
-				<select>
-					<option value="1">Más relevantes</option>
-					<option value="2">Nuevos</option>
-					<option value="3">Populares</option>
-				</select> <label>Ordenar por</label>
+				<form  th:action="@{/buscar/sort}" th:object="${recipes}" name="formSelect" method="POST">
+					<select id="selectRecipes">
+						<option value="1" >Más relevantes</option>
+						<option value="2" >Nuevos</option>
+						<option value="3" >Populares</option>
+					</select> <label>Ordenar por</label>
+				</form>
 			</div>
 
 		</div>
@@ -266,8 +269,7 @@
 								type="submit">
 								<i class="material-icons left">search</i>Filtrar
 							</button>
-						</div>
-						</form>
+						</div>						
 
 					</div>
 				</div>

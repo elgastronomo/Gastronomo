@@ -151,48 +151,50 @@
 	<div class="section section-ingredients no-pad-bot">
 		<div class="container">
 			<div class="row center">
-				<div class="col m2">
-					<img th:src="@{/img/home-icons/ingredients/arroz.jpg}"
-						class="circle z-depth-2" width="80" alt="">
-					<p>
-						<strong>Arroz</strong>
-					</p>
-				</div>
-				<div class="col m2">
-					<img th:src="@{/img/home-icons/ingredients/pasta.jpg}"
-						class="circle z-depth-2" width="80" alt="">
-					<p>
-						<strong>Pasta</strong>
-					</p>
-				</div>
-				<div class="col m2">
-					<img th:src="@{/img/home-icons/ingredients/pescado.jpg}"
-						class="circle z-depth-2" width="80" alt="">
-					<p>
-						<strong>Pescado y marisco</strong>
-					</p>
-				</div>
-				<div class="col m2">
-					<img th:src="@{/img/home-icons/ingredients/pollo.jpg}"
-						class="circle z-depth-2" width="80" alt="">
-					<p>
-						<strong>Pollo y otras carnes</strong>
-					</p>
-				</div>
-				<div class="col m2">
-					<img th:src="@{/img/home-icons/ingredients/ensalada.jpg}"
-						class="circle z-depth-2" width="80" alt="">
-					<p>
-						<strong>Ensaladas y verduras</strong>
-					</p>
-				</div>
-				<div class="col m2">
-					<img th:src="@{/img/home-icons/ingredients/postre.jpeg}"
-						class="circle z-depth-2" width="80" alt="">
-					<p>
-						<strong>Postres y dulces</strong>
-					</p>
-				</div>
+				<form th:action="@{/buscar}" name="filtroTipos" method="POST">
+					<div class="col m2">					
+							<img th:src="@{/img/home-icons/ingredients/arroz.jpg}"
+								class="circle z-depth-2 index-filter" width="80" alt="" onclick='filtreByType("arroz")'>
+							<p>
+								<strong>Arroz</strong>
+							</p>					
+					</div>				
+					<div class="col m2">
+						<img th:src="@{/img/home-icons/ingredients/pasta.jpg}"
+							class="circle z-depth-2 index-filter" width="80" alt="" onclick='filtreByType("pasta")'>
+						<p>
+							<strong>Pasta</strong>
+						</p>
+					</div>
+					<div class="col m2">
+						<img th:src="@{/img/home-icons/ingredients/pescado.jpg}"
+							class="circle z-depth-2 index-filter" width="80" alt="" onclick='filtreByType("pescado")'>
+						<p>
+							<strong>Pescado y marisco</strong>
+						</p>
+					</div>
+					<div class="col m2">
+						<img th:src="@{/img/home-icons/ingredients/pollo.jpg}"
+							class="circle z-depth-2 index-filter" width="80" alt="" onclick='filtreByType("carne")'>
+						<p>
+							<strong>Pollo y otras carnes</strong>
+						</p>
+					</div>
+					<div class="col m2">
+						<img th:src="@{/img/home-icons/ingredients/ensalada.jpg}"
+							class="circle z-depth-2 index-filter" width="80" alt="" onclick='filtreByType("ensalada")'>
+						<p>
+							<strong>Ensaladas y verduras</strong>
+						</p>
+					</div>
+					<div class="col m2">
+						<img th:src="@{/img/home-icons/ingredients/postre.jpeg}"
+							class="circle z-depth-2 index-filter" width="80" alt="" onclick='filtreByType("postre")'>
+						<p>
+							<strong>Postres y dulces</strong>
+						</p>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
