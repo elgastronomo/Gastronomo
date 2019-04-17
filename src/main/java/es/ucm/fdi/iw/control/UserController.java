@@ -21,7 +21,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +30,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.Menu;
+import es.ucm.fdi.iw.model.Recipe;
 import es.ucm.fdi.iw.model.User;
 
 @Controller()
@@ -66,16 +66,15 @@ public class UserController {
 
 	@PostMapping("/{id}/editar")
 	@Transactional
-	public String postUser(@PathVariable long id, @RequestParam(required=false) String photo, 
-						   @RequestParam String name, @RequestParam String email, 
-						   @RequestParam String login, HttpSession session) {
+	public String postUser(@PathVariable long id, @RequestParam(required = false) String photo,
+			@RequestParam String name, @RequestParam String email, @RequestParam String login, HttpSession session) {
 		User target = entityManager.find(User.class, id);
 
 		User requester = (User) session.getAttribute("user");
 		if (requester.getId() != target.getId() && !requester.hasRole("ADMIN")) {
 			return "redirect:/user/" + requester.getId();
 		}
-		
+
 		target.setLogin(login);
 		target.setName(name);
 		target.setEmail(email);
@@ -94,8 +93,46 @@ public class UserController {
 				log.info("Error uploading " + target.getId() + " ", e);
 			}
 		}
-		
+
 		session.setAttribute("user", target);
+
+		return "redirect:/user/" + target.getId();
+	}
+
+	@PostMapping(value = "/{id}/menu/receta/{idReceta}")
+	@Transactional
+	public String addRecipeToMenu(@PathVariable long id, @PathVariable long idReceta, @RequestParam String[] menus,
+			Model model, HttpSession session) {
+		User target = entityManager.find(User.class, id);
+
+		User requester = (User) session.getAttribute("user");
+		if (requester.getId() != target.getId() && !requester.hasRole("ADMIN")) {
+			return "redirect:/user/" + requester.getId();
+		}
+
+		for (String menu : menus) {
+			Menu m = entityManager.find(Menu.class, Long.parseLong(menu));
+			Recipe r = entityManager.find(Recipe.class, idReceta);
+			m.getRecipes().add(r);
+		}
+
+		return "redirect:/user/" + target.getId();
+	}
+
+	@GetMapping(value = "/{id}/menu/{idMenu}/receta/{idReceta}")
+	@Transactional
+	public String delRecipeMenu(@PathVariable long id, @PathVariable long idMenu, @PathVariable long idReceta,
+			Model model, HttpSession session) {
+		User target = entityManager.find(User.class, id);
+
+		User requester = (User) session.getAttribute("user");
+		if (requester.getId() != target.getId() && !requester.hasRole("ADMIN")) {
+			return "redirect:/user/" + requester.getId();
+		}
+
+		Menu m = entityManager.find(Menu.class, idMenu);
+		Recipe r = entityManager.find(Recipe.class, idReceta);
+		m.getRecipes().remove(r);
 
 		return "redirect:/user/" + target.getId();
 	}
@@ -116,30 +153,31 @@ public class UserController {
 			}
 		};
 	}
-	
+
 	@PostMapping(value = "/{id}/menu")
 	@Transactional
-	public String menu(@PathVariable long id, @RequestParam String title, @RequestParam String description, HttpSession session) {
+	public String menu(@PathVariable long id, @RequestParam String title, @RequestParam String description,
+			HttpSession session) {
 		User target = entityManager.find(User.class, id);
 
 		User requester = (User) session.getAttribute("user");
 		if (requester.getId() != target.getId() && !requester.hasRole("ADMIN")) {
 			return "redirect:/user/" + requester.getId();
 		}
-		
+
 		Menu menu = new Menu();
 		menu.setName(title);
 		menu.setDescription(description);
 		menu.setUser(target);
-		
+
 		entityManager.persist(menu);
 		target.addMenu(menu);
-		
+
 		session.setAttribute("user", target);
-		
+
 		return "redirect:/user/" + target.getId();
 	}
-	
+
 	@PostMapping(value = "/{id}/eliminarMenu")
 	@Transactional
 	public String deleteMenu(@PathVariable long id, @RequestParam long idMenu, HttpSession session) {
@@ -149,12 +187,12 @@ public class UserController {
 		if (requester.getId() != target.getId() && !requester.hasRole("ADMIN")) {
 			return "redirect:/user/" + requester.getId();
 		}
-		
+
 		Menu menu = entityManager.find(Menu.class, idMenu);
 		entityManager.remove(menu);
-		
+
 		session.setAttribute("user", target);
-		
+
 		return "redirect:/user/" + target.getId();
 	}
 }

@@ -1,7 +1,7 @@
 package es.ucm.fdi.iw.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +17,7 @@ public class Menu {
 	private String name;
 	private String description;
 	private User user;
-	private List<Recipe> recipes = new ArrayList<>();
+	private Set<Recipe> recipes = new HashSet<>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -61,11 +61,11 @@ public class Menu {
 	}
 
 	@ManyToMany(targetEntity = Recipe.class)
-	public List<Recipe> getRecipes() {
+	public Set<Recipe> getRecipes() {
 		return recipes;
 	}
 
-	public void setRecipes(List<Recipe> recipes) {
+	public void setRecipes(Set<Recipe> recipes) {
 		this.recipes = recipes;
 	}
 

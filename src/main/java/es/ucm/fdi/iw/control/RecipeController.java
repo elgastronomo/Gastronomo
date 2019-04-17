@@ -57,7 +57,6 @@ public class RecipeController {
 	private EntityManager entityManager;
 
 	@GetMapping("/{id}")
-	@Transactional
 	public String getRecipe(@PathVariable long id, Model model, HttpSession session) {
 
 		Recipe recipe = entityManager.find(Recipe.class, id);
@@ -78,7 +77,14 @@ public class RecipeController {
 				}
 				idx++;
 			}
+			
+			User user = (User) session.getAttribute("user");
+			if (user != null) {
+				user = entityManager.find(User.class, user.getId());
+			}
+			
 
+			model.addAttribute("user", user);
 			model.addAttribute("recipe", recipe);
 			model.addAttribute("firstIngredients", firstIngredients);
 			model.addAttribute("secondIngredients", secondIngredients);
