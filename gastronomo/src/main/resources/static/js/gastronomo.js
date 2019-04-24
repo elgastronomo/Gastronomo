@@ -468,7 +468,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	     cardDiv.removeChild(cardDiv.firstChild);
 	     }
 	 
-	 var url = '/api/recipe' + recipeId + '/deleteRecipe';
+	 var url = '/api/recipe/' + recipeId + '/deleteRecipe';
 	 const headers = {
 		 		"Content-Type": "application/json",				
 		 		"X-CSRF-TOKEN": gastronomo.csrf.value
