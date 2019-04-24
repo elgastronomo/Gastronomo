@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Perfil</title>
+</head>
+<body>
+
+	<div th:fragment="perfil" class="card">
+
+		<div class="card-content">
+
+			<div class="row">
+
+				<div class="col l3 s12">
+					<img th:src="@{/user/{id}/photo(id=${user.id})}"
+						class="circle responsive-img" alt="" width="280">
+				</div>
+
+
+				<div class="col l9 s12">
+					<ul class="collection with-header">
+						<li class="collection-header">
+							<h4>Información de tu perfil</h4>
+						</li>
+						<li class="collection-item"><strong>Nombre: </strong>
+							[[${user.name}]]</li>
+						<li class="collection-item"><strong>Correo
+								electrónico: </strong> [[${user.email}]]</li>
+						<li class="collection-item"><strong>Karma: </strong>[[${user.karma}]]
+							puntos</li>
+						<li class="collection-item"><strong>Recetas
+								publicadas: </strong>[[${#lists.size(user.recipes)}]] recetas</li>
+						<li class="collection-item"><strong>Comentarios
+								publicados: </strong>[[${#lists.size(user.comments)}]] comentarios</li>
+					</ul>
+
+					<a th:href="@{/user/{id}?editar(id=${user.id})}" class="waves-effect waves-dark btn grey lighten-5 grey-text text-darken-2 right"><i
+						class="material-icons right">edit</i>Editar</a>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+</body>
+</html>

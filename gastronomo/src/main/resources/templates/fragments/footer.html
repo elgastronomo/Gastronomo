@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Footer fragment - rest is empty</title>
+</head>
+<body>
+	<footer class="page-footer red">
+		<div class="container">
+			<div class="row">
+				<div class="col l6 s12">
+					<h5 class="white-text">Equipo</h5>
+					<p class="grey-text text-lighten-4">Somos un grupo de
+						estudiantes de la Facultad de Informática de la Universidad
+						Complutense de Madrid. Esta aplicación es un proyecto para la
+						asignatura de Ingeniería Web.</p>
+
+
+				</div>
+				<div class="col l3 s12">
+					<h5 class="white-text">Enlaces</h5>
+					<ul>
+						<li><a class="white-text" href="#!">Link 1</a></li>
+						<li><a class="white-text" href="#!">Link 2</a></li>
+						<li><a class="white-text" href="#!">Link 3</a></li>
+						<li><a class="white-text" href="#!">Link 4</a></li>
+					</ul>
+				</div>
+				<div class="col l3 s12">
+					<h5 class="white-text">Más enlaces</h5>
+					<ul>
+						<li><a class="white-text" href="#!">Link 1</a></li>
+						<li><a class="white-text" href="#!">Link 2</a></li>
+						<li><a class="white-text" href="#!">Link 3</a></li>
+						<li><a class="white-text" href="#!">Link 4</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="footer-copyright">
+			<div class="container">
+				Desarrollado en <i class="material-icons tiny">code</i> <a
+					class="orange-text text-lighten-3"
+					href="https://informatica.ucm.es/">Facultad de Informática UCM</a>
+			</div>
+		</div>
+
+		<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+		<!-- Compiled and minified JavaScript -->
+		<script th:src="@{/js/materialize.min.js}"></script>
+		<script th:src="@{/js/gastronomo.js}"></script>
+	</footer>
+
+</body>
+</html>

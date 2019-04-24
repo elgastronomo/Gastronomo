@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head.html :: head">
+</head>
+<body>
+	<nav th:replace="fragments/nav.html :: nav"></nav>
+
+	<div class="section section-search no-pad-bot" id="index-banner">
+		<div class="container">
+			<br> <br>
+			<h2 class="header center red-text text-accent-3 logo">Gastrónomo</h2>
+			<div class="row center">
+				<h5 class="header col s12 light">Buscador de recetas por
+					ingredientes que tienes en la nevera</h5>
+			</div>
+			<div class="row center">
+				<div class="col s12">
+					<form class="buscador" th:action="@{/buscar}"
+						onsubmit="searchIngredients()" name="buscador" method="POST">
+						<div class="chips">
+							<div class="search">
+								<input class="white grey-text" name="ingredientes"
+									placeholder="+Ingrediente" type="text">
+								<button
+									class="btn-floating btn-large waves-effect waves-light red enviar"
+									type="submit" name="action">
+									<i class="material-icons">search</i><i
+										class="material-icons right">send</i>
+								</button>
+							</div>
+						</div>
+					</form>
+
+				</div>
+			</div>
+
+			<div class="container">
+
+				<div class="row">
+					<div class="col s12">
+						<ul class="tabs tabs-fixed-width tab-demo z-depth-1">
+							<li class="tab col s4"><a class="active" href="#test1">Dificultad</a></li>
+							<li class="tab col s4"><a href="#test2">Tiempo</a></li>
+							<li class="tab col s4"><a href="#test3">Cocina</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row center">
+					<div class="col s12">
+						<div id="test1" class="col s12 options">
+
+							<div class="row">
+
+								<div class="col s4">
+									<img id="facil" class="index-filter" th:src="@{/img/home-icons/easy.png}" width="50" alt="">
+									<p>
+										<strong>Fácil</strong>
+									</p>
+								</div>
+
+								<div class="col s4">
+									<img id="medio" class="index-filter" th:src="@{/img/home-icons/medium.png}" width="50" alt="">
+									<p>
+										<strong>Medio</strong>
+									</p>
+								</div>
+
+								<div class="col s4">
+									<img id="dificil" class="index-filter" th:src="@{/img/home-icons/hard.png}" width="50" alt="">
+									<p>
+										<strong>Difícil</strong>
+									</p>
+								</div>
+
+							</div>
+
+						</div>
+						<div id="test2" class="col s12 options">
+
+							<div clas="row">
+
+								<div class="col s4">
+									<img id="tiempo-1" class="index-filter" th:src="@{/img/home-icons/time.png}" width="50" alt="">
+									<p>
+										<strong>¡Lo quiero ya!</strong>
+									</p>
+								</div>
+
+								<div class="col s4">
+									<img id="tiempo-2" class="index-filter" th:src="@{/img/home-icons/time.png}" width="50" alt="">
+									<p>
+										<strong>Tengo tiempo</strong>
+									</p>
+								</div>
+
+								<div class="col s4">
+									<img id="tiempo-3" class="index-filter" th:src="@{/img/home-icons/time.png}" width="50" alt="">
+									<p>
+										<strong>Puedo esperar...</strong>
+									</p>
+								</div>
+
+							</div>
+
+						</div>
+						<div id="test3" class="col s12 options">
+
+							<div clas="row">
+
+								<div class="col s3">
+									<img id="espanyola" class="index-filter" th:src="@{/img/home-icons/spain.png}" width="50" alt="">
+									<p>
+										<strong>Española</strong>
+									</p>
+								</div>
+
+								<div class="col s3">
+									<img id="italiana" class="index-filter" th:src="@{/img/home-icons/italy.png}" width="50" alt="">
+									<p>
+										<strong>Italiana</strong>
+									</p>
+								</div>
+
+								<div class="col s3">
+									<img id="griega" class="index-filter" th:src="@{/img/home-icons/greece.png}" width="50" alt="">
+									<p>
+										<strong>Griega</strong>
+									</p>
+								</div>
+
+								<div class="col s3">
+									<img id="mejicana" class="index-filter" th:src="@{/img/home-icons/mexico.png}" width="50" alt="">
+									<p>
+										<strong>Mejicana</strong>
+									</p>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			<br>
+		</div>
+	</div>
+
+	<div class="section section-ingredients no-pad-bot">
+		<div class="container">
+			<div class="row center">
+				<div class="col m2">
+					<img th:src="@{/img/home-icons/ingredients/arroz.jpg}"
+						class="circle z-depth-2" width="80" alt="">
+					<p>
+						<strong>Arroz</strong>
+					</p>
+				</div>
+				<div class="col m2">
+					<img th:src="@{/img/home-icons/ingredients/pasta.jpg}"
+						class="circle z-depth-2" width="80" alt="">
+					<p>
+						<strong>Pasta</strong>
+					</p>
+				</div>
+				<div class="col m2">
+					<img th:src="@{/img/home-icons/ingredients/pescado.jpg}"
+						class="circle z-depth-2" width="80" alt="">
+					<p>
+						<strong>Pescado y marisco</strong>
+					</p>
+				</div>
+				<div class="col m2">
+					<img th:src="@{/img/home-icons/ingredients/pollo.jpg}"
+						class="circle z-depth-2" width="80" alt="">
+					<p>
+						<strong>Pollo y otras carnes</strong>
+					</p>
+				</div>
+				<div class="col m2">
+					<img th:src="@{/img/home-icons/ingredients/ensalada.jpg}"
+						class="circle z-depth-2" width="80" alt="">
+					<p>
+						<strong>Ensaladas y verduras</strong>
+					</p>
+				</div>
+				<div class="col m2">
+					<img th:src="@{/img/home-icons/ingredients/postre.jpeg}"
+						class="circle z-depth-2" width="80" alt="">
+					<p>
+						<strong>Postres y dulces</strong>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+
+		<div class="row">
+			<div th:each="receta: ${recipes}" class="col s12 m4">
+				<div th:replace="fragments/receta_card.html :: div"></div>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="fragments/footer.html :: footer"></footer>
+</body>
+</html>
