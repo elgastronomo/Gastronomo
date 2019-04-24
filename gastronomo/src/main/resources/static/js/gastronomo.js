@@ -459,5 +459,25 @@ document.addEventListener('DOMContentLoaded', function() {
 	 		console.log(response);
 	 	});
  	}
-
+ 
+ function deleteRecipe(recipeId){
+	 var idDiv = "receta-card"  + recipeId;
+	 var cardDiv = document.getElementById(idDiv);
+	 
+	 while (cardDiv.firstChild) {
+	     cardDiv.removeChild(cardDiv.firstChild);
+	     }
+	 
+	 var url = '/api/recipe' + recipeId + '/deleteRecipe';
+	 const headers = {
+		 		"Content-Type": "application/json",				
+		 		"X-CSRF-TOKEN": gastronomo.csrf.value
+		 	};
+	 fetch(url, {
+	 		headers: headers,
+	 		method: 'POST'
+	 	}).then(function(response) {
+	 		console.log(response);
+	 	});
+	 }
 

@@ -7,7 +7,7 @@
 
 	
 
-	<div th:fragment="receta-card" class="card">
+	<div th:fragment="receta-card" th:id="receta-card  + ${receta.id}" class="card">
 		<div class="card-image">
 			<a th:href="@{/receta/} + ${receta.id}"> <img
 				class="img-recortada"
@@ -15,19 +15,25 @@
 			</a> <span class="card-title"> <a
 				th:href="@{/receta/} + ${receta.id}" th:text="${receta.name}">Receta
 					6</a>
-			</span> <button th:id="recipeButton + |${receta.id}|" class="btn-floating halfway-fab waves-effect waves-light red" 
+			</span> 	
+			<button		th:if="${session.user != null}"
+					 	th:id="recipeDelete+ |${receta.id}|" class="btn-floating halfway-fab waves-effect waves-light black left" 
+						th:onclick=" 'deleteRecipe(' + |${receta.id}| + ')'"   
+						th:visible ="${session.user != null}"
+						><i	class="material-icons left">remove</i>
+			</button>
+			<button th:id="recipeButton + |${receta.id}|" class="btn-floating halfway-fab waves-effect waves-light red right" 
 						th:onclick=" 'addRecipeToFavourite(' + |${receta.id}| + ')'"   
 						th:disabled="${session.user == null or #lists.contains(favRecipes,receta.id)}"
-						><i
-									
-						class="material-icons">favorite</i></button>
+						><i	class="material-icons right">favorite</i>
+			</button>
 		</div>
 		<div class="card-content">
 
-			<strong>InformaciÃ³n</strong>
+			<strong>Información</strong>
 			<ul class="collection">
 				<li class="collection-item"><div>
-						<strong>CategorÃ­a: </strong><span th:text="${receta.cuisine}"></span>
+						<strong>Categoría: </strong><span th:text="${receta.cuisine}"></span>
 						<i class="secondary-content material-icons">restaurant</i>
 					</div></li>
 				<li class="collection-item"><div>
@@ -35,7 +41,7 @@
 						<i class="secondary-content material-icons">thumb_up</i>
 					</div></li>
 				<li class="collection-item"><div>
-						<strong>DuraciÃ³n: </strong><span th:text="${receta.duration}"></span>
+						<strong>Duración: </strong><span th:text="${receta.duration}"></span>
 						<i class="secondary-content material-icons">timer</i>
 					</div></li>
 				<li class="collection-item"><div>
@@ -44,7 +50,7 @@
 					</div></li>
 
 				<li class="collection-item"><div>
-						<strong>CalorÃ­as: </strong><span
+						<strong>Calorías: </strong><span
 							th:text="|${receta.calories} kcal|"></span> <i
 							class="secondary-content material-icons">fastfood</i>
 					</div></li>

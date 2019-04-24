@@ -157,12 +157,21 @@ public class ApiController {
 	@Transactional
 	public void addFavouriteRecipe(Model model, @PathVariable Long id) throws JsonProcessingException {
 		
-		
+		 
  		User user = (User) session.getAttribute("user");
 		user = entityManager.find(User.class, user.getId());
 		
 		Recipe recipe = entityManager.find(Recipe.class, id);
 		user.getFavRecipes().add(recipe);
+	}
+	
+	@PostMapping("/recipe/{id}/deleteRecipe")
+	@JsonView(Views.Public.class)
+	@Transactional
+	public void deleteRecipe(Model model, @PathVariable Long id) throws JsonProcessingException {
+		
+		Recipe recipe = entityManager.find(Recipe.class, id);
+		entityManager.remove(recipe); 
 	}
 		
 }
