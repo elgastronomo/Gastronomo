@@ -64,28 +64,29 @@ public class UserController {
 
 		return "perfil";
 	}
-	
+
 	@GetMapping("/moderar-recetas")
 	public String moderarRecetasList(Model model, HttpSession session) {
 		List<Recipe> recipes = entityManager.createNamedQuery("Recipe.AllRecipes", Recipe.class).getResultList();
-		
 
 		model.addAttribute("recetas", recipes);
-		model.addAttribute("siteName",
-				"Moderar recetas" + " - " + env.getProperty("es.ucm.fdi.site-title-short"));
+		model.addAttribute("siteName", "Moderar recetas" + " - " + env.getProperty("es.ucm.fdi.site-title-short"));
 
 		return "admin_recetas";
 	}
-	
+
 	@PostMapping("/moderar-recetas")
 	@Transactional
-	public String moderarRecetasDelete(@RequestParam(required = false) long[] idReceta, Model model, HttpSession session) {
-		
-		for (long id : idReceta) {
-			Recipe r = entityManager.find(Recipe.class, id);
-			entityManager.remove(r);
+	public String moderarRecetasDelete(@RequestParam(required = false) long[] idReceta, Model model,
+			HttpSession session) {
+
+		if (idReceta != null) {
+			for (long id : idReceta) {
+				Recipe r = entityManager.find(Recipe.class, id);
+				entityManager.remove(r);
+			}
 		}
-		
+
 		return "redirect:/user/moderar-recetas";
 	}
 

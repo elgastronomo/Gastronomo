@@ -236,7 +236,7 @@
 								th:src="@{/img/avatar.png}" alt="" class="circle"> <span
 								th:text="${c.title}" class="title">Muy buena receta</span>
 								
-								<p>[[${c.created}]]</p>
+								<p class="grey-text">Publicado por [[${c.user.name}]] en [[${c.created}]]</p>
 								
 								<p th:text="${c.comment}"></p> <a
 								th:if="${session.user.id == c.user.id}" th:id="${c.id}"
