@@ -35,7 +35,7 @@
 			</ul>
 
 			<!-- Dropdown Structure -->
-			<ul id='menu-admin' class='dropdown-content'>
+			<ul th:if="${session.user != null && session.user.hasRole('ADMIN')}" id='menu-admin' class='dropdown-content'>
 				<li><a th:href="@{/user/{id}(id=${session.user.id})}">Ver perfil</a></li>
 				<li class="divider" tabindex="-1"></li>
 				<li><a th:href="@{/user/moderar-recetas}">Moderar recetas</a></li>

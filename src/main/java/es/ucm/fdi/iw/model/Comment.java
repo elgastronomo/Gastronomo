@@ -3,6 +3,7 @@
  */
 package es.ucm.fdi.iw.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -23,7 +24,7 @@ public class Comment {
 
 	private long id;
 	private Recipe recipe;
-	private Date date;
+	private Timestamp created;
 	private String title;
 	private String comment;
 	private User user;
@@ -32,7 +33,7 @@ public class Comment {
 
 	public Comment(Recipe recipe, String title, String comment, User user) {
 		this.recipe = recipe;
-		this.date = new Date();
+		this.created = new Timestamp(new Date().getTime());
 		this.title = title;
 		this.comment = comment;
 		this.user = user;
@@ -67,20 +68,6 @@ public class Comment {
 	 */
 	public void setRecipe(Recipe recipe) {
 		this.recipe = recipe;
-	}
-
-	/**
-	 * @return the date
-	 */
-	public Date getDate() {
-		return date;
-	}
-
-	/**
-	 * @param date the date to set
-	 */
-	public void setDate(Date date) {
-		this.date = date;
 	}
 
 	public String getTitle() {
@@ -119,6 +106,14 @@ public class Comment {
 	 */
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Timestamp getCreated() {
+		return created;
+	}
+
+	public void setCreated(Timestamp created) {
+		this.created = created;
 	}
 
 }

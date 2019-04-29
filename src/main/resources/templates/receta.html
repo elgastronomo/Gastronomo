@@ -48,7 +48,7 @@
 
 			<div class="col s12 l3">
 
-				<div th:if="${session.user.hasRole('ADMIN')}" class="card">
+				<div th:if="${session.user != null && session.user.hasRole('ADMIN')}" class="card">
 					<div class="card-content">
 						<div class="card-title">Administración</div>
 
@@ -235,6 +235,9 @@
 								class="collection-item avatar"><img
 								th:src="@{/img/avatar.png}" alt="" class="circle"> <span
 								th:text="${c.title}" class="title">Muy buena receta</span>
+								
+								<p>[[${c.created}]]</p>
+								
 								<p th:text="${c.comment}"></p> <a
 								th:if="${session.user.id == c.user.id}" th:id="${c.id}"
 								href="#eliminar-comentario"
