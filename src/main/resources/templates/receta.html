@@ -48,7 +48,9 @@
 
 			<div class="col s12 l3">
 
-				<div th:if="${session.user != null && session.user.hasRole('ADMIN')}" class="card">
+				<div
+					th:if="${session.user != null && session.user.hasRole('ADMIN')}"
+					class="card">
 					<div class="card-content">
 						<div class="card-title">Administración</div>
 
@@ -61,12 +63,14 @@
 							<div class="modal-footer">
 								<a href="#!"
 									class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
-									
-								<a th:href="@{/receta/{id}/delete(id=${recipe.id})}" class="modal-close waves-effect waves-green btn-flat">Aceptar</a>
+
+								<a th:href="@{/receta/{id}/delete(id=${recipe.id})}"
+									class="modal-close waves-effect waves-green btn-flat">Aceptar</a>
 							</div>
 						</div>
 
-						<a href="#modal-eliminar" class="black waves-effect waves-light btn modal-trigger"><i
+						<a href="#modal-eliminar"
+							class="black waves-effect waves-light btn modal-trigger"><i
 							class="material-icons left">delete</i>Eliminar</a>
 					</div>
 
@@ -156,14 +160,16 @@
 							</div>
 						</div>
 
+						<div th:replace="fragments/reportar.html :: modal-reportar"></div>
+
 
 						<div th:if="${session.user != null}" class="mt20 mb40">
-							<a class="waves-effect waves-light red btn"><i
-								class="material-icons left">save</i>Guardar</a> <a href="#modal1"
+							<a href="#modal1"
 								class="waves-effect waves-light red btn modal-trigger"><i
 								class="material-icons left">add</i>Añadir al menú</a> <a
-								class="waves-effect waves-light red btn"><i
-								class="material-icons left">restaurant_menu</i>¡Lo he cocinado!</a>
+								href="#modal-reportar"
+								class="waves-effect waves-light teal btn modal-trigger"><i
+								class="material-icons left">flag</i>Reportar</a>
 						</div>
 
 
@@ -235,14 +241,23 @@
 								class="collection-item avatar"><img
 								th:src="@{/img/avatar.png}" alt="" class="circle"> <span
 								th:text="${c.title}" class="title">Muy buena receta</span>
-								
-								<p class="grey-text">Publicado por [[${c.user.name}]] en [[${c.created}]]</p>
-								
+
+								<p class="grey-text">Publicado por [[${c.user.name}]] en
+									[[${c.created}]]</p>
+
 								<p th:text="${c.comment}"></p> <a
 								th:if="${session.user.id == c.user.id}" th:id="${c.id}"
 								href="#eliminar-comentario"
-								class="secondary-content modal-trigger"><i
-									class="material-icons">delete</i></a></li>
+								class="secondary-content modal-trigger left mr20"><i
+									class="material-icons red-text left">delete</i></a>
+									
+									<a
+								th:if="${session.user.id == c.user.id}" th:id="${c.id}"
+								href="#modal-reportar"
+								class="secondary-content modal-trigger right"><i
+									class="material-icons teal-text right">flag</i></a></li>
+									
+									
 						</ul>
 
 						<h6

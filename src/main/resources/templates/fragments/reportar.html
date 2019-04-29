@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<title>Nav fragment - rest intentionally left empty</title>
+</head>
+<body>
+
+<!-- Modal Structure -->
+<div th:fragment="modal-reportar" id="modal-reportar" class="modal">
+	<div class="modal-content">
+		<h4>Reportar contenido inadecuado</h4>
+
+
+		<p>
+			<label> <input name="reportar" type="radio" /> <span>Contenido
+					sexual</span>
+			</label>
+		</p>
+		<p>
+			<label> <input name="reportar" type="radio" /> <span>Contenido
+					violento o repulsivo</span>
+			</label>
+		</p>
+		<p>
+			<label> <input name="reportar" type="radio" /> <span>Inapropiado
+					o incita al odio</span>
+			</label>
+		</p>
+		<p>
+			<label> <input name="reportar" type="radio" /> <span>Actividades
+					peligrosas dañinas</span>
+			</label>
+		</p>
+		<p>
+			<label> <input name="reportar" type="radio" /> <span>Maltrato
+					infantil</span>
+			</label>
+		</p>
+		<p>
+			<label> <input name="reportar" type="radio" /> <span>Fomenta
+					el terrorismo</span>
+			</label>
+		</p>
+		<p>
+			<label> <input name="reportar" type="radio" /> <span>Contenido
+					engañoso o con spam</span>
+			</label>
+		</p>
+		<p>
+			<label> <input name="reportar" type="radio" /> <span>Infracción
+					de mis derechos</span>
+			</label>
+		</p>
+		<p>
+			<label> <input name="reportar" type="radio" /> <span>Otros</span>
+			</label>
+		</p>
+
+		<div class="row">
+			<div class="col s12">
+				<div class="row">
+					<div class="input-field col s12">
+						<textarea id="mensaje-reportar" class="materialize-textarea"></textarea>
+						<label for="mensaje-reportar">Comentarios adicionales</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+	<div class="modal-footer">
+		<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+		<a href="#!" class="modal-close waves-effect waves-green btn-flat">Reportar</a>
+	</div>
+</div>
+
+</body>
+</html>
