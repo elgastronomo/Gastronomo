@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
  	addFilter("cuisine", "espanyola", "Española");
  	addFilter("cuisine", "italiana", "Italiana");
  	addFilter("cuisine", "griega", "Griega");
- 	addFilter("cuisine", "mejicana", "Mejicana");
+ 	addFilter("cuisine", "mexican", "Mexican");
  }
 
  // Aux function homepage filters
@@ -142,9 +142,11 @@ document.addEventListener('DOMContentLoaded', function() {
  	let button = $("#" + buttonId);
  	button.click(() => {
  		let active = false;
- 		$('form[name="buscador"] input[name=' + inputName + ']').each(
+ 		$('form[name="buscador"] input[value=' + value + ']').each(
  			function(index){  
  				let input = $(this);
+ 				console.log(input.val());
+ 				console.log(value);
  				active = input.val() == value;
  			}
  			);
@@ -152,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
  		if (active) {
  			button.parent().css("background-color", "");
  			button.parent().css("border-radius", "");
- 			$('form[name="buscador"] input[name=' + inputName + ']').remove();
+ 			$('form[name="buscador"] input[value=' + value + ']').remove();
  		}
  		else {
  			button.parent().css("background-color", "#ef5350");

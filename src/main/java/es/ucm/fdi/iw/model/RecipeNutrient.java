@@ -55,7 +55,7 @@ public class RecipeNutrient {
 		this.id = id;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "recipe_id")
 	public Recipe getRecipe() {
 		return recipe;
@@ -65,7 +65,7 @@ public class RecipeNutrient {
 		this.recipe = recipe;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "nutrient_id")
 	public Nutrient getNutrient() {
 		return nutrient;

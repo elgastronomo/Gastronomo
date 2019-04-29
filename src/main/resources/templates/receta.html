@@ -12,35 +12,65 @@
 	<nav th:replace="fragments/nav.html :: nav"></nav>
 
 	<!-- Modal Structure -->
-	<form th:if="${session.user != null}" th:action="@{/user/{id}/menu/receta/{idReceta}(id=${user.id}, idReceta=${recipe.id})}" method="post">
+	<form th:if="${session.user != null}"
+		th:action="@{/user/{id}/menu/receta/{idReceta}(id=${user.id}, idReceta=${recipe.id})}"
+		method="post">
 		<div id="modal1" class="modal bottom-sheet">
 			<div class="modal-content">
 
 				<h4>Añadir receta a menús</h4>
-				
+
 				<h6 th:if="${#lists.size(user.menus) == 0}">Todavía no tienes
-					ningún menú creado. ¡Anímate a crear uno desde tu perfil de usuario!</h6>
-				
+					ningún menú creado. ¡Anímate a crear uno desde tu perfil de
+					usuario!</h6>
+
 				<p th:each="menu: ${user.menus}">
 					<label> <input type="checkbox" name="menus"
-						th:value="${menu.id}" /> <span th:text="${menu.name}">Test 1</span>
+						th:value="${menu.id}" /> <span th:text="${menu.name}">Test
+							1</span>
 					</label>
 				</p>
 
 			</div>
 			<div class="modal-footer">
 				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
-				<button th:if="${#lists.size(user.menus) != 0}" type="submit" name="action"
-					class="modal-close waves-effect waves-green btn-flat">Añadir</button>
+				<button th:if="${#lists.size(user.menus) != 0}" type="submit"
+					name="action" class="modal-close waves-effect waves-green btn-flat">Añadir</button>
 			</div>
 		</div>
 	</form>
 
 	<div class="pr50 pl50 mt30 mb30">
 
+
+
 		<div class="row">
 
 			<div class="col s12 l3">
+
+				<div th:if="${session.user.hasRole('ADMIN')}" class="card">
+					<div class="card-content">
+						<div class="card-title">Administración</div>
+
+						<!-- Modal Structure -->
+						<div id="modal-eliminar" class="modal">
+							<div class="modal-content">
+								<h4>Eliminar receta</h4>
+								<p>¿Estás seguro de que quieres eliminar la receta?</p>
+							</div>
+							<div class="modal-footer">
+								<a href="#!"
+									class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+									
+								<a th:href="@{/receta/{id}/delete(id=${recipe.id})}" class="modal-close waves-effect waves-green btn-flat">Aceptar</a>
+							</div>
+						</div>
+
+						<a href="#modal-eliminar" class="black waves-effect waves-light btn modal-trigger"><i
+							class="material-icons left">delete</i>Eliminar</a>
+					</div>
+
+				</div>
 
 				<div class="card">
 					<div class="card-content">
@@ -120,6 +150,7 @@
 							</div>
 
 							<div class="col s12 m5">
+
 								<img class="responsive-img z-depth-2 mb10" width="400"
 									th:src="@{/receta/{id}/photo(id=${recipe.id})}">
 							</div>

@@ -1,0 +1,147 @@
+/*
+   _____           _                                         
+  / ____|         | |                                        
+ | |  __  __ _ ___| |_ _ __ ___  _ __   ___  _ __ ___   ___  
+ | | |_ |/ _` / __| __| '__/ _ \| '_ \ / _ \| '_ ` _ \ / _ \ 
+ | |__| | (_| \__ \ |_| | | (_) | | | | (_) | | | | | | (_) |
+  \_____|\__,_|___/\__|_|  \___/|_| |_|\___/|_| |_| |_|\___/ 
+                                                             
+
+Facultad de Informática - Universidad Complutense de Madrid
+Ingeniería Web
+
+David Arroyo Segovia
+David Losila Cadenas                                                                                                                 
+Roberto Fernández Correa
+
+*/
+
+/* Fuente logotipo */
+@import url('https://fonts.googleapis.com/css?family=Pacifico');
+
+/* label focus color */
+.logo {
+	font-family: 'Pacifico', cursive;
+	text-shadow: 1px 1px 1px white;
+}
+
+#index-banner {
+	background-image: url('../img/backgrounds/food-background.jpg');
+	background-size: cover;
+}
+
+.section-ingredients {
+	background-color: #fafafa;
+	box-shadow: 2px 2px 5px grey;
+}
+
+.enviar {
+	margin-left: -50px !important;
+}
+
+.options {
+	padding-top: 10px !important;
+	background: rgba(255, 116, 116, 0.2);
+	border-radius: 50px;
+}
+
+.img-recortada {
+	width: 350px;
+	height: 290px;
+	object-fit: cover;
+}
+
+.index-filter:hover {
+	cursor: pointer;
+}
+
+html#login {
+	height: 100%;
+	display: table;
+    margin: auto;
+}
+
+body#login-container {
+	height: 100%;
+	display: table-cell;
+    vertical-align: middle;
+    background: rgb(238, 110, 115);
+}
+
+#login-page {
+	width: 450px;
+}
+
+#register-page {
+	width: 650px;
+}
+
+
+/* ----------------------------*/
+/*     CAMBIOS MATERIALIZE     */
+/* ----------------------------*/
+
+.buscador .input:focus {
+	border: #f4f4f4 3px solid !important;
+	-webkit-border-radius: 50px !important;
+	-moz-border-radius: 50px !important;
+	border-radius: 50px !important;
+}
+
+.dropdown-content li>span {
+	color: #ee6e73 !important;
+}
+
+.section-search input[type="text"] {
+	padding-left: 3% !important;
+	font-size: 18px !important;
+	width: 93% !important;
+	border: #f4f4f4 3px solid !important;
+	-webkit-border-radius: 50px !important;
+	-moz-border-radius: 50px !important;
+	border-radius: 50px !important;
+}
+
+input:focus+label {
+	color: red !important;
+}
+
+.buscador .chips {
+    border-bottom: none;
+}
+
+.buscador .chips.focus {
+    border-bottom: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+/* label underline focus color */
+input:focus {
+	border-bottom: 1px solid red !important;
+	box-shadow: 0 1px 0 0 red !important
+}
+
+/* Hace más pequeño el modal
+
+.modal {
+	width: 30% !important;
+	min-height: 2px;
+	overflow-y: hidden !important;
+	border-radius: 15px;
+}
+*/
+
+.card-title a {
+	color: white;
+}
+
+.collection.items-nueva {
+	overflow: visible !important;
+	padding-bottom: 20px;
+}
+
+.input-field.n-margin {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}

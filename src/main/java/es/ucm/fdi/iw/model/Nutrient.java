@@ -3,6 +3,7 @@ package es.ucm.fdi.iw.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -44,7 +45,7 @@ public class Nutrient {
 		this.nutrient = nutrient;
 	}
 
-	@OneToMany(mappedBy = "nutrient")
+	@OneToMany(mappedBy = "nutrient",  cascade = CascadeType.ALL)
 	public Set<RecipeNutrient> getRecipeNutrients() {
 		return recipeNutrients;
 	}

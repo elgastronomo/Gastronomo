@@ -77,12 +77,11 @@ public class RecipeController {
 				}
 				idx++;
 			}
-			
+
 			User user = (User) session.getAttribute("user");
 			if (user != null) {
 				user = entityManager.find(User.class, user.getId());
 			}
-			
 
 			model.addAttribute("user", user);
 			model.addAttribute("recipe", recipe);
@@ -255,6 +254,22 @@ public class RecipeController {
 				FileCopyUtils.copy(in, os);
 			}
 		};
+	}
+
+	@GetMapping(value = "/{id}/delete")
+	@Transactional
+	public String deleteRecipe(@PathVariable long id, HttpSession session) {
+		Recipe r = entityManager.find(Recipe.class, id);
+		
+		// check permissions
+		User requester = (User) session.getAttribute("user");
+		if (requester == null || (r.getUser().getId() != requester.getId() && !requester.hasRole("ADMIN"))) {
+			return "login";
+		}
+		
+		entityManager.remove(r);
+		
+		return "redirect:/buscar";
 	}
 
 	private Nutrient getNutrientByPos(int pos) {

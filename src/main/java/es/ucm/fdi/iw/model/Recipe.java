@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -212,7 +213,7 @@ public class Recipe implements Comparable {
 		this.user = user;
 	}
 
-	@OneToMany(mappedBy = "recipe")
+	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
 	public Set<RecipeIngredient> getRecipeIngredients() {
 		return recipeIngredients;
 	}
@@ -289,7 +290,7 @@ public class Recipe implements Comparable {
 		this.tags.add(tag);
 	}
 
-	@OneToMany(mappedBy = "recipe")
+	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
 	public Set<RecipeNutrient> getRecipeNutrients() {
 		return recipeNutrients;
 	}

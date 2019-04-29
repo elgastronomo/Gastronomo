@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Leeme: Gastrónomo</title>
+<style type="text/css">
+.nota {
+	color: gray;
+}
+</style>
+</head>
+<body>
+	<h1>Leeme: Gastrónomo</h1>
+	<h2>Objetivo</h2>
+	<p>Seguro que más de una vez cuando te has puesto a preparar la
+		comida te has dado cuenta de que llevas cocinando los mismos platos
+		durante años. Sin embargo, por la pereza que te da buscar en Google
+		recetas nuevas y luego tener que comprar los ingredientes, nunca te
+		has aventurado a cocinar algo nuevo. Gastrónomo, te permite buscar por
+		ingredientes, tiempo de preparación, tipo de plato, etc. De una manera
+		rápida y sencilla, la aplicación te desglosa una serie de platos que
+		podrías cocinar con lo que tienes en la nevera sin tener que ir al
+		supermercado. Además, los más foodies pueden colaborar con la
+		plataforma añadiendo nuevos platos, valorar los que ha probado, subir
+		fotos y compartir en redes sociales.</p>
+	<p>Soporta los siguientes roles:</p>
+	<p>
+		<strong>Administrador</strong>
+	</p>
+	<ul>
+		<li><strong>Gestión de contenidos:</strong> moderar los nuevos
+			platos que añaden los usuarios.</li>
+		<li><strong>Gestión de usuarios:</strong> bloquear usuarios que
+			incumplan las normas.</li>
+		<li><strong>Estadísticas:</strong> platos más valorados, visitas,
+			etc.</li>
+	</ul>
+
+	<p>
+		<strong>Usuarios anónimos</strong>
+	</p>
+	<ul>
+		<li><strong>Búsqueda:</strong> cualquier usuario aunque no esté
+			registrado puede realizar búsquedas por ingrediente, tiempo de
+			preparación, dificultad, tipo de plato, alérgenos, ordenar por
+			valoraciones, etc.</li>
+	</ul>
+
+
+	<p>
+		<strong>Usuarios registrados</strong>
+	</p>
+	<p>Mismas funciones que los usuarios anónimos, pero además:</p>
+	<ul>
+		<li><strong>Añadir nuevo plato:</strong> colaborar con la
+			comunidad añadiendo un nuevo plato (ingredientes, tipo, tiempo de
+			preparación, imágenes, descripción).</li>
+		<li><strong>Crear menús personalizados:</strong> ​ elige una
+			serie de platos que quieres añadir a tus menús semanales y con la
+			posibilidad de generar una lista de la compra.</li>
+		<li><strong>Guardar ingredientes habituales:</strong> escoge una
+			serie de ingredientes que sueles tener siempre en la nevera para que
+			Gastrónomo personalice tu experiencia y te muestre primero las
+			recetas que más te puedan interesar.</li>
+		<li><strong>Valorar:</strong> ​ valorar platos que haya probado y
+			añadir a favoritos. Posibilidad de añadir texto e imágenes. Similar a
+			las valoraciones de Amazon.</li>
+		<li><strong>Moderar:</strong> ​ los comentarios, imágenes o
+			recetas de otros usuarios que no cumplan con las políticas de la
+			comunidad</li>
+		<li><strong>Compartir en redes sociales:</strong> subir a la
+			redes sociales una imagen y enlaces del plato elegido.</li>
+		<li><strong>Añadir tags a favoritos: </strong>añadir tags a
+			favoritos, muy util para restricciones(vegan).</li>
+		<li><strong>Comentar: </strong>Posibilidad de añadir comentarios
+			en las recetas.</li>
+	</ul>
+
+
+	<h2>Base de datos</h2>
+	<p class="nota">
+		Generado con <a href="https://www.dbdesigner.net/designer/schema/new">db
+			designer</a>
+	</p>
+
+	<img src="src/main/resources/static/img/schema.png" width="1000"
+		alt="esquema de la BD">
+
+	<h2>Vistas</h2>
+	<ul>
+		<li><a href="http://localhost:8080/">home</a> - vista inicial.
+			Permite realizar búsquedas por ingredientes, tiempo, dificultad y
+			tipo de cocina, ver algunas recetas destacadas, o hacer login
+			(esquina superior derecha).</li>
+		<li><a href="http://localhost:8080/buscar">buscar</a> - vista de
+			resultados del buscador. Se pueden aplicar filtro más avanzados que
+			los de la home,si esl usuario esta registrado, las recetas mostradas
+			se podrán añadir a favoritos</li>
+		<li><a href="http://localhost:8080/receta">receta</a> - vista de
+			una receta concreta. Se muestra una descripción, ingredientes,
+			información nutricional y los pasos que se deben seguir. Además, si
+			el usuario esta registrado puede comentar en la receta</li>
+		<li><a href="http://localhost:8080/receta/nueva">crear receta</a>
+			- vista de añadir nueva receta. (Por ahora sin funcionalidad)</li>
+		<li><a href="http://localhost:8080/user/1">perfil del usuario</a>
+			- vista del perfil del usuario, en esta pantalla el usuario podra
+			modificar su informacion personal, añadir ingredientes habituales y
+			tags favoritos,</li>
+		<li><a href=http://localhost:8080/login>ventana de login </a> -
+			Ventana para iniciar sesión</li>
+		<li><a href=http://localhost:8080/register>ventana de
+				registro </a> - Ventana registrarse</li>
+	</ul>
+
+	<h2>Recursos</h2>
+	<ul>
+		<li><a href="https://developer.edamam.com/edamam-recipe-api">EDAMAM
+				API</a> - Todas las recetas e imágenes han sido extraídas de esta API. Licencia: 
+				<a href="https://developer.edamam.com/attribution">atribución necesaria</a></li>
+		<li><a href="https://fonts.googleapis.com/css?family=Pacifico">Logotipo
+				utilizando fuente de Google Fonts. </a> - Licencia: Apache License 2.0</li>
+		<li><a href="https://materializecss.com/">Materialize</a> - A
+			modern responsive front-end framework based on Material Design  - Licencia: MIT</li>
+		<li><a href="https://jquery.com/">jQuery</a> - Licencia: MIT</li>
+
+	</ul>
+
+
+	<h2 class="nota">Notas</h2>
+	<ul class="nota">
+		<li>
+			<p>Somos conscientes de que nos falta mejorar la validación de
+				formularios tanto en el cliente como en el servidor. Lo
+				solucionaremos en las siguientes versiones.</p>
+		</li>
+	</ul>
+
+</body>
+</html>

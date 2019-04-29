@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head.html :: head">
+</head>
+<body>
+
+	<script>
+		const recipeId = [[${recipe.id}]];
+	</script>
+
+	<nav th:replace="fragments/nav.html :: nav"></nav>
+
+	<!-- Modal Structure -->
+	<form th:if="${session.user != null}" th:action="@{/user/{id}/menu/receta/{idReceta}(id=${user.id}, idReceta=${recipe.id})}" method="post">
+		<div id="modal1" class="modal bottom-sheet">
+			<div class="modal-content">
+
+				<h4>Añadir receta a menús</h4>
+				
+				<h6 th:if="${#lists.size(user.menus) == 0}">Todavía no tienes
+					ningún menú creado. ¡Anímate a crear uno desde tu perfil de usuario!</h6>
+				
+				<p th:each="menu: ${user.menus}">
+					<label> <input type="checkbox" name="menus"
+						th:value="${menu.id}" /> <span th:text="${menu.name}">Test 1</span>
+					</label>
+				</p>
+
+			</div>
+			<div class="modal-footer">
+				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+				<button th:if="${#lists.size(user.menus) != 0}" type="submit" name="action"
+					class="modal-close waves-effect waves-green btn-flat">Añadir</button>
+			</div>
+		</div>
+	</form>
+
+	<div class="pr50 pl50 mt30 mb30">
+
+		<div class="row">
+
+			<div class="col s12 l3">
+
+				<div class="card">
+					<div class="card-content">
+						<div class="card-title">Valores nutricionales</div>
+
+						<ul class="collection">
+							<li th:each="nutrient: ${recipe.recipeNutrients}"
+								class="collection-item"><strong
+								th:text="|${nutrient.nutrient.nutrient}: |"></strong>
+								[[|${nutrient.cuantity}${nutrient.unit}
+								(${nutrient.dailyPercentage}%)|]]</li>
+						</ul>
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="col s12 l9">
+				<div class="card">
+
+					<div class="card-content">
+
+						<div class="row">
+							<div class="col s12 m7">
+
+								<h4 th:text="${recipe.name}">Pizza margarita</h4>
+
+								<p class="mb10">
+									<i class="tiny material-icons">person</i> Creado por
+									[[${recipe.user.name}]]
+								</p>
+								<i class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star</i> <i
+									class="tiny material-icons">star_border</i>
+
+								<ul class="collection">
+									<li class="collection-item"><div>
+											<strong>Categoría: </strong><span th:text="${recipe.cuisine}"></span>
+											<i class="secondary-content material-icons">restaurant</i>
+										</div></li>
+									<li class="collection-item"><div>
+											<strong>Dificultad: </strong><span
+												th:text="${recipe.difficulty}"></span> <i
+												class="secondary-content material-icons">thumb_up</i>
+										</div></li>
+									<li class="collection-item"><div>
+											<strong>Duración: </strong><span th:text="${recipe.duration}"></span>
+											<i class="secondary-content material-icons">timer</i>
+										</div></li>
+									<li class="collection-item"><div>
+											<strong>Raciones: </strong><span th:text="${recipe.rations}"></span>
+											<i class="secondary-content material-icons">people</i>
+										</div></li>
+
+									<li class="collection-item"><div>
+											<strong>Calorías: </strong><span
+												th:text="|${recipe.calories} kcal|"></span> <i
+												class="secondary-content material-icons">fastfood</i>
+										</div></li>
+
+									<li class="collection-item"><div>
+											<strong>Tags: </strong><span th:each="tag, i: ${recipe.tags}"
+												th:text="${tag.tag} + (${i.index} eq ${i.size} - 1 ? '' : ', ')"></span>
+											<i class="secondary-content material-icons">label</i>
+										</div></li>
+
+								</ul>
+
+								<p class="mt10">
+									<i class="tiny material-icons">people</i> 300 personas la han
+									cocinado | <i class="tiny material-icons">comment</i> 5
+									comentarios | <i class="tiny material-icons">photo</i> 12 fotos
+								</p>
+							</div>
+
+							<div class="col s12 m5">
+								<img class="responsive-img z-depth-2 mb10" width="400"
+									th:src="@{/receta/{id}/photo(id=${recipe.id})}">
+							</div>
+						</div>
+
+
+						<div th:if="${session.user != null}" class="mt20 mb40">
+							<a class="waves-effect waves-light red btn"><i
+								class="material-icons left">save</i>Guardar</a> <a href="#modal1"
+								class="waves-effect waves-light red btn modal-trigger"><i
+								class="material-icons left">add</i>Añadir al menú</a> <a
+								class="waves-effect waves-light red btn"><i
+								class="material-icons left">restaurant_menu</i>¡Lo he cocinado!</a>
+						</div>
+
+
+						<div class="row">
+							<h5>Ingredientes</h5>
+							<div class="col s12 m6">
+								<ul class="collection">
+									<li th:each="ing: ${firstIngredients}"
+										class="collection-item avatar"><i
+										class="material-icons circle">restaurant_menu</i> <span
+										class="title">[[${ing.ingredient.name}]]</span>
+										<p>[[${ing.weight}]]g</p> <a th:if="${session.user != null}"
+										href="#!" class="tooltipped secondary-content"
+										data-position="bottom" data-tooltip="Ingrediente habitual"><i
+											class="material-icons">grade</i></a></li>
+								</ul>
+							</div>
+
+							<div class="col s12 m6">
+								<ul class="collection">
+									<li th:each="ing: ${secondIngredients}"
+										class="collection-item avatar"><i
+										class="material-icons circle">restaurant_menu</i> <span
+										class="title">[[${ing.ingredient.name}]]</span>
+										<p>[[${ing.weight}]]g</p> <a th:if="${session.user != null}"
+										href="#!" class="tooltipped secondary-content"
+										data-position="bottom" data-tooltip="Ingrediente habitual"><i
+											class="material-icons">grade</i></a></li>
+								</ul>
+							</div>
+
+						</div>
+
+
+						<h5 class="left">Pasos</h5>
+						<div class="right">
+							<i class="small material-icons">access_time</i> Preparación: <strong>30
+								min</strong> | Cocinado: <strong>20 min</strong> | Listo en: <strong>1
+								hora 50 min</strong>
+						</div>
+
+						<ul class="collection clear">
+							<li th:each="step: ${steps}" class="collection-item avatar"><i
+								class="material-icons circle">done</i>[[${step}]]</li>
+						</ul>
+
+
+						<h5>Comentarios</h5>
+
+						<!-- Modal Structure -->
+						<div id="eliminar-comentario" class="modal">
+							<div class="modal-content">
+								<h4>Eliminar comentario</h4>
+								<p>¿Estás seguro de que quieres eliminar el comentario?</p>
+							</div>
+							<div class="modal-footer">
+								<a href="#!"
+									class="modal-close waves-effect waves-green btn-flat">No</a> <a
+									th:href="@{{idRecipe}/comentarios/(idRecipe=${recipe.id})}"
+									id="link-borrar-comentario"
+									class="modal-close waves-effect waves-green btn-flat">Sí</a>
+							</div>
+						</div>
+
+
+						<ul th:if="${#lists.size(recipe.comments) != 0}"
+							class="collection">
+							<li th:each="c: ${recipe.comments}"
+								class="collection-item avatar"><img
+								th:src="@{/img/avatar.png}" alt="" class="circle"> <span
+								th:text="${c.title}" class="title">Muy buena receta</span>
+								<p th:text="${c.comment}"></p> <a
+								th:if="${session.user.id == c.user.id}" th:id="${c.id}"
+								href="#eliminar-comentario"
+								class="secondary-content modal-trigger"><i
+									class="material-icons">delete</i></a></li>
+						</ul>
+
+						<h6
+							th:if="${#lists.size(recipe.comments) == 0 && session.user != null }">Todavía
+							no hay ningún comentario. ¡Anímate a dejar uno!</h6>
+
+
+						<h6 th:if="${session.user == null}">¡Regístrate para poder
+							dejar un comentario!</h6>
+
+						<div th:if="${session.user} != null" class="row mt20">
+							<form th:action="@{{id}/comentarios(id=${recipe.id})}"
+								method="POST" class="col s12">
+								<div class="row">
+
+									<div class="input-field col s12">
+										<input placeholder="Título del comentario"
+											id="tituloComentario" name="tituloComentario" type="text"
+											class="validate" required> <label
+											for="tituloComentario">Título</label>
+									</div>
+
+									<div class="input-field col s12">
+										<textarea id="comentario" name="comentario"
+											class="materialize-textarea" required></textarea>
+										<label for="comentario">Comentario</label>
+									</div>
+
+									<button class="waves-effect waves-light red btn right"
+										type="submit" name="action">
+										<i class="material-icons left">comment</i>Comentar
+									</button>
+								</div>
+							</form>
+						</div>
+
+
+
+					</div>
+
+
+				</div>
+
+
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="fragments/footer.html :: footer"></footer>
+</body>
+</html>

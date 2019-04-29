@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head.html :: head">
+</head>
+<body>
+	<nav th:replace="fragments/nav.html :: nav"></nav>
+
+	<div class="pr50 pl50 mt30 mb30">
+
+		<div class="row">
+
+			<div th:replace="fragments/perfil/content.html :: content"></div>
+
+			<div th:replace="fragments/perfil/sidebar.html :: sidebar"></div>
+
+		</div>
+
+	</div>
+
+	<footer th:replace="fragments/footer.html :: footer"></footer>
+</body>
+</html>

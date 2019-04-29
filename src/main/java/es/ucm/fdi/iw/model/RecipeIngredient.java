@@ -49,7 +49,7 @@ public class RecipeIngredient {
 		this.id = id;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "recipe_id")
 	public Recipe getRecipe() {
 		return recipe;
@@ -60,7 +60,7 @@ public class RecipeIngredient {
 	}
 
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "ingredient_id")
 	public Ingredient getIngredient() {
 		return ingredient;
