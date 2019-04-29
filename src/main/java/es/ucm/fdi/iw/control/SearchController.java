@@ -56,7 +56,7 @@ public class SearchController {
 		model.addAttribute("favRecipes", favRecipesId);
 
 		model.addAttribute("recipes",
-				entityManager.createNamedQuery("Recipe.AllRecipes").setMaxResults(6).getResultList());
+				entityManager.createNamedQuery("Recipe.AllRecipes", Recipe.class).setMaxResults(6).getResultList());
 		model.addAttribute("found", true);
 
 		model.addAttribute("siteName", "Buscador - " + env.getProperty("es.ucm.fdi.site-title-short"));
@@ -75,12 +75,12 @@ public class SearchController {
 		List<String> ingredients = ingredientes != "" ? Arrays.asList(ingredientes.split(" ")) : null;
 		Boolean found = true;
 
-		List<Recipe> allRecipes = entityManager.createNamedQuery("Recipe.AllRecipes").getResultList();
+		List<Recipe> allRecipes = entityManager.createNamedQuery("Recipe.AllRecipes", Recipe.class).getResultList();
 		Predicate<Recipe> recipePredicate = getPredicate(recipeName, tiempo, ingredients, difficulty, cuisine, tag);
 		List<Recipe> filtredRecipes = allRecipes.stream().filter(recipePredicate).collect(Collectors.toList());
 
 		if (filtredRecipes.isEmpty()) {
-			filtredRecipes.addAll(entityManager.createNamedQuery("Recipe.AllRecipes").setMaxResults(6).getResultList());
+			filtredRecipes.addAll(entityManager.createNamedQuery("Recipe.AllRecipes", Recipe.class).setMaxResults(6).getResultList());
 			found = false;
 		}
 

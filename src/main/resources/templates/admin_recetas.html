@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head.html :: head">
+</head>
+<body>
+	<nav th:replace="fragments/nav.html :: nav"></nav>
+
+	<div class="pr50 pl50 mt30 mb30">
+
+		<div class="row">
+
+			<div class="col s12">
+
+				<form th:action="@{/user/moderar-recetas}" method="POST">
+					<h5 class="left">Moderación de recetas</h5>
+					<button class="waves-effect waves-light red btn right" type="submit" name="action"><i
+						class="material-icons right">delete</i>Eliminar seleccionadas</button>
+
+					<table class="striped">
+						<thead>
+							<tr>
+								<th>Eliminar</th>
+								<th>Nombre de la receta</th>
+								<th>Categoría</th>
+								<th>Autor</th>
+								<th>Fecha de creación</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr th:each="r: ${recetas}">
+								<td><label> <input type="checkbox" name="idReceta" th:value="${r.id}"/> <span></span>
+								</label></td>
+								<td>[[${r.name}]]</td>
+								<td>[[${r.cuisine}]]</td>
+								<td>[[${r.user.name}]]</td>
+								<td>[[${r.created}]]</td>
+							</tr>
+
+						</tbody>
+					</table>
+					<button class="waves-effect waves-light red btn right mt20" type="submit" name="action"><i
+						class="material-icons right">delete</i>Eliminar seleccionadas</button>
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+
+	<footer th:replace="fragments/footer.html :: footer"></footer>
+</body>
+</html>

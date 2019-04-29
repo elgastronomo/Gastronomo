@@ -5,21 +5,42 @@
 <title>Nav fragment - rest intentionally left empty</title>
 </head>
 <body>
+
+
 	<nav th:fragment="nav">
 		<div class="nav-wrapper container">
 			<a th:href="@{/}" class="brand-logo logo">Gastrónomo</a>
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li th:if="${session.user} != null"><a th:href="@{/receta/nueva}"
+				<li th:if="${session.user} != null"><a
+					th:href="@{/receta/nueva}"
 					class="waves-effect waves-dark btn grey lighten-5 grey-text text-darken-2">Crear
 						receta <i class="material-icons right">edit</i>
 				</a></li>
 				<li><a href="#"><i class="material-icons">notifications</i></a></li>
-				<li><a
-					th:href="${session.user} != null ? @{/user/{id}(id=${session.user.id})} : @{/login}"><i
-						class="material-icons right">person</i>[[${session.user} != null ?
-						${session.user.name} : 'Iniciar sesión']]</a></li>
+				<li th:if="${session.user == null}"><a th:href="@{/login}"><i
+						class="material-icons right">person</i>Iniciar sesión</a></li>
+
+				<li th:if="${session.user != null && !session.user.hasRole('ADMIN')}"><a
+					th:href="@{/user/{id}(id=${session.user.id})}"><i
+						class="material-icons right">person</i>[[${session.user.name}]]</a></li>
+
+				<!-- Dropdown Trigger -->
+				<li th:if="${session.user != null && session.user.hasRole('ADMIN')}"><a
+					class='dropdown-trigger' href='#' data-target='menu-admin'> <i
+						class="material-icons right">person</i> [[${session.user.name}]]
+				</a></li>
+
 				<li th:if="${session.user} != null"><a th:href="@{/logout}"><i
 						class="material-icons">exit_to_app</i></a></li>
+			</ul>
+
+			<!-- Dropdown Structure -->
+			<ul id='menu-admin' class='dropdown-content'>
+				<li><a th:href="@{/user/{id}(id=${session.user.id})}">Ver perfil</a></li>
+				<li class="divider" tabindex="-1"></li>
+				<li><a th:href="@{/user/moderar-recetas}">Moderar recetas</a></li>
+				<li class="divider" tabindex="-1"></li>
+				<li><a href="#!">Moderar comentarios</a></li>
 			</ul>
 		</div>
 	</nav>

@@ -3,6 +3,7 @@
  */
 package es.ucm.fdi.iw.model;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -50,6 +51,7 @@ public class Recipe implements Comparable {
 	private List<Valoration> valorations = new ArrayList<>();
 	private List<Tag> tags = new ArrayList<>();
 	private Set<RecipeNutrient> recipeNutrients = new HashSet<>();
+	private Timestamp created;
 
 	public List<String> parseSteps() {
 		List<String> parsedSteps = new ArrayList<>();
@@ -285,7 +287,7 @@ public class Recipe implements Comparable {
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
-	
+
 	public void addTag(Tag tag) {
 		this.tags.add(tag);
 	}
@@ -306,6 +308,14 @@ public class Recipe implements Comparable {
 	@Override
 	public int compareTo(Object recipe) {
 		return (((Recipe) recipe).getId() != this.id) ? 1 : 0;
+	}
+
+	public Timestamp getCreated() {
+		return created;
+	}
+
+	public void setCreated(Timestamp created) {
+		this.created = created;
 	}
 
 }

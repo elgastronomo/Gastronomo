@@ -8,7 +8,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -183,6 +185,7 @@ public class RecipeController {
 		recipe.setRations(raciones);
 		recipe.setDuration(duracion);
 		recipe.setDifficulty(dificultad);
+		recipe.setCreated(new Timestamp(new Date().getTime()));
 
 		JSONObject stepsJSON = new JSONObject();
 		for (int i = 0; i < paso.length; i++) {

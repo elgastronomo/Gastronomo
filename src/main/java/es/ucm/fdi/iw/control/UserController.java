@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
@@ -62,6 +63,30 @@ public class UserController {
 				"Tu perfil - " + target.getName() + " - " + env.getProperty("es.ucm.fdi.site-title-short"));
 
 		return "perfil";
+	}
+	
+	@GetMapping("/moderar-recetas")
+	public String moderarRecetasList(Model model, HttpSession session) {
+		List<Recipe> recipes = entityManager.createNamedQuery("Recipe.AllRecipes", Recipe.class).getResultList();
+		
+
+		model.addAttribute("recetas", recipes);
+		model.addAttribute("siteName",
+				"Moderar recetas" + " - " + env.getProperty("es.ucm.fdi.site-title-short"));
+
+		return "admin_recetas";
+	}
+	
+	@PostMapping("/moderar-recetas")
+	@Transactional
+	public String moderarRecetasDelete(@RequestParam(required = false) long[] idReceta, Model model, HttpSession session) {
+		
+		for (long id : idReceta) {
+			Recipe r = entityManager.find(Recipe.class, id);
+			entityManager.remove(r);
+		}
+		
+		return "redirect:/user/moderar-recetas";
 	}
 
 	@PostMapping("/{id}/editar")
