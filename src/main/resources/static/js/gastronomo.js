@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	addDeleteCommentId();
 	addChangeImgProfile();
 	addDeleteMenuListener();
+	addModerarListeners();
 	
 	let elems = document.querySelectorAll('.chips');
 	let instances = M.Chips.init(elems, { onChipAdd: changeColor });
@@ -429,6 +430,25 @@ document.addEventListener('DOMContentLoaded', function() {
 		$("#menu-id").attr("value", $(elem.target).attr("id").split("-")[1]);
 	 });
  }
+ 
+ /*******************************************************
+  * MODERACIÓN RECETAS
+  *******************************************************/
+ 
+ function addModerarListeners() {
+	 $("#moderar-recetas-eliminar").click(() => {
+		 $("#moderar-recetas-form").attr('action', '/user/moderar-recetas/eliminar');
+	 });
+	 
+	$("#moderar-recetas-deshabilitar").click(() => {
+		$("#moderar-recetas-form").attr('action', '/user/moderar-recetas/deshabilitar');
+	});
+	
+	$("#moderar-recetas-aprobar").click(() => {
+		$("#moderar-recetas-form").attr('action', '/user/moderar-recetas/aprobar');
+	});
+ }
+  
 
  /*******************************************************
   * OTHER STUFF

@@ -32,6 +32,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.Menu;
 import es.ucm.fdi.iw.model.Recipe;
+import es.ucm.fdi.iw.model.RecipeReport;
 import es.ucm.fdi.iw.model.User;
 
 @Controller()
@@ -67,15 +68,16 @@ public class UserController {
 
 	@GetMapping("/moderar-recetas")
 	public String moderarRecetasList(Model model, HttpSession session) {
-		List<Recipe> recipes = entityManager.createNamedQuery("Recipe.AllRecipes", Recipe.class).getResultList();
+		List<RecipeReport> reports = entityManager.createNamedQuery("RecipeReport.AllReports", RecipeReport.class)
+				.getResultList();
 
-		model.addAttribute("recetas", recipes);
+		model.addAttribute("reports", reports);
 		model.addAttribute("siteName", "Moderar recetas" + " - " + env.getProperty("es.ucm.fdi.site-title-short"));
 
 		return "admin_recetas";
 	}
 
-	@PostMapping("/moderar-recetas")
+	@PostMapping("/moderar-recetas/eliminar")
 	@Transactional
 	public String moderarRecetasDelete(@RequestParam(required = false) long[] idReceta, Model model,
 			HttpSession session) {
@@ -84,6 +86,47 @@ public class UserController {
 			for (long id : idReceta) {
 				Recipe r = entityManager.find(Recipe.class, id);
 				entityManager.remove(r);
+			}
+		}
+
+		return "redirect:/user/moderar-recetas";
+	}
+
+	@PostMapping("/moderar-recetas/aprobar")
+	@Transactional
+	public String moderarRecetasAprobar(@RequestParam(required = false) long[] idReceta, Model model,
+			HttpSession session) {
+
+		if (idReceta != null) {
+			for (long id : idReceta) {
+				List<RecipeReport> rr = entityManager.createNamedQuery("RecipeReport.ByRecipe", RecipeReport.class)
+						.setParameter("recipeId", id).getResultList();
+
+				for (RecipeReport rReport : rr) {
+					entityManager.remove(rReport);
+				}
+			}
+		}
+
+		return "redirect:/user/moderar-recetas";
+	}
+	
+	@PostMapping("/moderar-recetas/deshabilitar")
+	@Transactional
+	public String moderarRecetasDeshabilitar(@RequestParam(required = false) long[] idReceta, Model model,
+			HttpSession session) {
+
+		if (idReceta != null) {
+			for (long id : idReceta) {
+				List<RecipeReport> rr = entityManager.createNamedQuery("RecipeReport.ByRecipe", RecipeReport.class)
+						.setParameter("recipeId", id).getResultList();
+
+				for (RecipeReport rReport : rr) {
+					User u = entityManager.find(User.class, rReport.getRecipe().getUser().getId());
+					u.setEnabled((byte) 0);
+					
+					entityManager.remove(entityManager.find(Recipe.class, rReport.getRecipe().getId()));
+				}
 			}
 		}
 

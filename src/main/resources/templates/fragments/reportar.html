@@ -6,75 +6,91 @@
 </head>
 <body>
 
-<!-- Modal Structure -->
-<div th:fragment="modal-reportar" id="modal-reportar" class="modal">
-	<div class="modal-content">
-		<h4>Reportar contenido inadecuado</h4>
+	<!-- Modal Structure -->
+	<div th:fragment="modal-reportar" id="modal-reportar" class="modal">
+		<div class="modal-content">
+			<h4>Reportar contenido inadecuado</h4>
 
 
-		<p>
-			<label> <input name="reportar" type="radio" /> <span>Contenido
-					sexual</span>
-			</label>
-		</p>
-		<p>
-			<label> <input name="reportar" type="radio" /> <span>Contenido
-					violento o repulsivo</span>
-			</label>
-		</p>
-		<p>
-			<label> <input name="reportar" type="radio" /> <span>Inapropiado
-					o incita al odio</span>
-			</label>
-		</p>
-		<p>
-			<label> <input name="reportar" type="radio" /> <span>Actividades
-					peligrosas dañinas</span>
-			</label>
-		</p>
-		<p>
-			<label> <input name="reportar" type="radio" /> <span>Maltrato
-					infantil</span>
-			</label>
-		</p>
-		<p>
-			<label> <input name="reportar" type="radio" /> <span>Fomenta
-					el terrorismo</span>
-			</label>
-		</p>
-		<p>
-			<label> <input name="reportar" type="radio" /> <span>Contenido
-					engañoso o con spam</span>
-			</label>
-		</p>
-		<p>
-			<label> <input name="reportar" type="radio" /> <span>Infracción
-					de mis derechos</span>
-			</label>
-		</p>
-		<p>
-			<label> <input name="reportar" type="radio" /> <span>Otros</span>
-			</label>
-		</p>
+			<p>
+				<label> <input name="reason" type="radio"
+					value="Contenido
+					sexual" required /> <span>Contenido sexual</span>
+				</label>
+			</p>
+			<p>
+				<label> <input name="reason" type="radio"
+					value="Contenido
+					violento o repulsivo" /> <span>Contenido
+						violento o repulsivo</span>
+				</label>
+			</p>
+			<p>
+				<label> <input name="reason" type="radio"
+					value="Inapropiado
+					o incita al odio" /> <span>Inapropiado
+						o incita al odio</span>
+				</label>
+			</p>
+			<p>
+				<label> <input name="reason" type="radio"
+					value="Actividades
+					peligrosas dañinas" /> <span>Actividades
+						peligrosas dañinas</span>
+				</label>
+			</p>
+			<p>
+				<label> <input name="reason" type="radio"
+					value="Maltrato
+					infantil" /> <span>Maltrato infantil</span>
+				</label>
+			</p>
+			<p>
+				<label> <input name="reason" type="radio"
+					value="Fomenta
+					el terrorismo" /> <span>Fomenta el
+						terrorismo</span>
+				</label>
+			</p>
+			<p>
+				<label> <input name="reason" type="radio"
+					value="Contenido
+					engañoso o con spam" /> <span>Contenido
+						engañoso o con spam</span>
+				</label>
+			</p>
+			<p>
+				<label> <input name="reason" type="radio"
+					value="Infracción
+					de mis derechos" /> <span>Infracción
+						de mis derechos</span>
+				</label>
+			</p>
+			<p>
+				<label> <input name="reason" type="radio" value="Otros" />
+					<span>Otros</span>
+				</label>
+			</p>
 
-		<div class="row">
-			<div class="col s12">
-				<div class="row">
-					<div class="input-field col s12">
-						<textarea id="mensaje-reportar" class="materialize-textarea"></textarea>
-						<label for="mensaje-reportar">Comentarios adicionales</label>
+			<div class="row">
+				<div class="col s12">
+					<div class="row">
+						<div class="input-field col s12">
+							<textarea id="mensaje-reportar" name="additionalMessage" class="materialize-textarea"></textarea>
+							<label for="mensaje-reportar">Comentarios adicionales</label>
+						</div>
 					</div>
 				</div>
 			</div>
+
+
 		</div>
-
-
+		<div class="modal-footer">
+			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+			<button class="modal-close waves-effect waves-green btn-flat"
+				type="submit" name="action">Reportar</button>
+		</div>
 	</div>
-	<div class="modal-footer">
-		<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
-		<a href="#!" class="modal-close waves-effect waves-green btn-flat">Reportar</a>
-	</div>
-</div>
 
 </body>
 </html>

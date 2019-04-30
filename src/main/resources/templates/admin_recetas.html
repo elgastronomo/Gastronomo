@@ -12,37 +12,66 @@
 
 			<div class="col s12">
 
-				<form th:action="@{/user/moderar-recetas}" method="POST">
-					<h5 class="left">Moderación de recetas</h5>
-					<button class="waves-effect waves-light red btn right" type="submit" name="action"><i
-						class="material-icons right">delete</i>Eliminar seleccionadas</button>
+				<div class="card">
+					<div class="card-content">
+						<div class="card-title left">Moderación de recetas</div>
 
-					<table class="striped">
-						<thead>
-							<tr>
-								<th>Eliminar</th>
-								<th>Nombre de la receta</th>
-								<th>Categoría</th>
-								<th>Autor</th>
-								<th>Fecha de creación</th>
-							</tr>
-						</thead>
+						<form id="moderar-recetas-form"
+							th:action="@{/user/moderar-recetas/aprobar}" method="POST">
+							<button id="moderar-recetas-eliminar"
+								class="waves-effect waves-light red btn right" type="submit"
+								name="action">
+								<i class="material-icons right">delete</i>Eliminar seleccionadas
+							</button>
 
-						<tbody>
-							<tr th:each="r: ${recetas}">
-								<td><label> <input type="checkbox" name="idReceta" th:value="${r.id}"/> <span></span>
-								</label></td>
-								<td>[[${r.name}]]</td>
-								<td>[[${r.cuisine}]]</td>
-								<td>[[${r.user.name}]]</td>
-								<td>[[${r.created}]]</td>
-							</tr>
+							<button id="moderar-recetas-deshabilitar"
+								class="waves-effect waves-light indigo btn right mr20"
+								type="submit" name="action">
+								<i class="material-icons right">block</i>Deshabilitar usuario y
+								eliminar
+							</button>
 
-						</tbody>
-					</table>
-					<button class="waves-effect waves-light red btn right mt20" type="submit" name="action"><i
-						class="material-icons right">delete</i>Eliminar seleccionadas</button>
-				</form>
+							<button id="moderar-recetas-aprobar"
+								class="waves-effect waves-light teal btn right mr20"
+								type="submit" name="action">
+								<i class="material-icons right">done</i>Aprobar
+							</button>
+
+							<table class="striped">
+								<thead>
+									<tr>
+										<th>Eliminar</th>
+										<th>Nombre de la receta</th>
+										<th>Autor</th>
+										<th>Categoría</th>
+										<th>Razón</th>
+										<th>Comentarios adicionales</th>
+										<th>Autor reporte</th>
+										<th>Fecha de reporte</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr th:each="r: ${reports}">
+										<td><label> <input type="checkbox"
+												name="idReceta" th:value="${r.recipe.id}" /> <span></span>
+										</label></td>
+										<td>[[${r.recipe.name}]]</td>
+										<td>[[${r.recipe.user.name}]]</td>
+										<td>[[${r.recipe.cuisine}]]</td>
+										<td>[[${r.reason}]]</td>
+										<td>[[${r.additionalMessage}]]</td>
+										<td>[[${r.user.name}]]</td>
+										<td>[[${r.created}]]</td>
+									</tr>
+
+								</tbody>
+							</table>
+						</form>
+
+					</div>
+
+				</div>
 			</div>
 
 		</div>

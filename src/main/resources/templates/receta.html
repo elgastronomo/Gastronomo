@@ -160,7 +160,10 @@
 							</div>
 						</div>
 
-						<div th:replace="fragments/reportar.html :: modal-reportar"></div>
+						<form th:action="@{/receta/{id}/reportar(id=${recipe.id})}"
+							method="POST">
+							<div th:replace="fragments/reportar.html :: modal-reportar"></div>
+						</form>
 
 
 						<div th:if="${session.user != null}" class="mt20 mb40">
@@ -249,15 +252,13 @@
 								th:if="${session.user.id == c.user.id}" th:id="${c.id}"
 								href="#eliminar-comentario"
 								class="secondary-content modal-trigger left mr20"><i
-									class="material-icons red-text left">delete</i></a>
-									
-									<a
+									class="material-icons red-text left">delete</i></a> <a
 								th:if="${session.user.id == c.user.id}" th:id="${c.id}"
 								href="#modal-reportar"
 								class="secondary-content modal-trigger right"><i
 									class="material-icons teal-text right">flag</i></a></li>
-									
-									
+
+
 						</ul>
 
 						<h6

@@ -40,6 +40,7 @@ import es.ucm.fdi.iw.model.Nutrient;
 import es.ucm.fdi.iw.model.Recipe;
 import es.ucm.fdi.iw.model.RecipeIngredient;
 import es.ucm.fdi.iw.model.RecipeNutrient;
+import es.ucm.fdi.iw.model.RecipeReport;
 import es.ucm.fdi.iw.model.Tag;
 import es.ucm.fdi.iw.model.User;
 
@@ -204,25 +205,6 @@ public class RecipeController {
 			}
 		}
 
-		for (int i = 0; i < nutriente.length; i++) {
-			RecipeNutrient recipeNutrient = new RecipeNutrient(getNutrientByPos(i));
-			recipeNutrient.setCuantity(Float.parseFloat(nutriente[i]));
-			recipeNutrient.setRecipe(recipe);
-			entityManager.persist(recipeNutrient);
-			recipe.addRecipeNutrient(recipeNutrient);
-		}
-
-		for (int i = 0; i < ingrediente.length; i++) {
-			Ingredient ing = new Ingredient();
-			ing.setName(ingrediente[i]);
-			RecipeIngredient ingredient = new RecipeIngredient();
-			ingredient.setIngredient(ing);
-			ingredient.setRecipe(recipe);
-			ingredient.setWeight(pesoIngrediente[i]);
-			entityManager.persist(ingredient);
-			recipe.addRecipeIngredient(ingredient);
-		}
-
 		// This will decode the String which is encoded by using Base64 class
 		// String base64Image =
 		// 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAYAAAA+VemSAAAgAEl...=='
@@ -237,6 +219,26 @@ public class RecipeController {
 		}
 
 		entityManager.persist(recipe);
+
+		for (int i = 0; i < nutriente.length; i++) {
+			RecipeNutrient recipeNutrient = new RecipeNutrient(getNutrientByPos(i));
+			recipeNutrient.setCuantity(Float.parseFloat(nutriente[i]));
+			recipeNutrient.setRecipe(recipe);
+			entityManager.persist(recipeNutrient);
+			recipe.addRecipeNutrient(recipeNutrient);
+		}
+
+		for (int i = 0; i < ingrediente.length; i++) {
+			Ingredient ing = new Ingredient();
+			ing.setName(ingrediente[i]);
+			entityManager.persist(ing);
+			RecipeIngredient ingredient = new RecipeIngredient();
+			ingredient.setIngredient(ing);
+			ingredient.setRecipe(recipe);
+			ingredient.setWeight(pesoIngrediente[i]);
+			entityManager.persist(ingredient);
+			recipe.addRecipeIngredient(ingredient);
+		}
 
 		return "redirect:/receta/" + recipe.getId();
 	}
@@ -263,16 +265,44 @@ public class RecipeController {
 	@Transactional
 	public String deleteRecipe(@PathVariable long id, HttpSession session) {
 		Recipe r = entityManager.find(Recipe.class, id);
-		
+
 		// check permissions
 		User requester = (User) session.getAttribute("user");
 		if (requester == null || (r.getUser().getId() != requester.getId() && !requester.hasRole("ADMIN"))) {
 			return "login";
 		}
-		
+
 		entityManager.remove(r);
-		
+
 		return "redirect:/buscar";
+	}
+
+	@PostMapping(value = "/{id}/reportar")
+	@Transactional
+	public String reportRecipe(@PathVariable long id, @RequestParam String reason,
+			@RequestParam(required = false) String additionalMessage, HttpSession session) {
+
+		// check permissions
+		User requester = (User) session.getAttribute("user");
+		if (requester == null) {
+			return "login";
+		}
+
+		Recipe r = entityManager.find(Recipe.class, id);
+		User u = (User) session.getAttribute("user");
+		u = entityManager.find(User.class, u.getId());
+		RecipeReport rr = new RecipeReport();
+
+		rr.setRecipe(r);
+		rr.setUser(u);
+		rr.setReason(reason);
+		if (additionalMessage != null)
+			rr.setAdditionalMessage(additionalMessage);
+		rr.setCreated(new Timestamp(new Date().getTime()));
+
+		entityManager.persist(rr);
+
+		return "redirect:/receta/" + id;
 	}
 
 	private Nutrient getNutrientByPos(int pos) {

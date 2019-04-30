@@ -48,6 +48,7 @@ public class Recipe implements Comparable {
 	private String cuisine;
 	private Set<RecipeIngredient> recipeIngredients = new HashSet<>();
 	private List<Comment> comments = new ArrayList<>();
+	private List<RecipeReport> reports = new ArrayList<>();
 	private List<Valoration> valorations = new ArrayList<>();
 	private List<Tag> tags = new ArrayList<>();
 	private Set<RecipeNutrient> recipeNutrients = new HashSet<>();
@@ -231,7 +232,7 @@ public class Recipe implements Comparable {
 	/**
 	 * @return the comments
 	 */
-	@OneToMany(targetEntity = Comment.class)
+	@OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "recipe_id")
 	public List<Comment> getComments() {
 		return comments;
@@ -316,6 +317,16 @@ public class Recipe implements Comparable {
 
 	public void setCreated(Timestamp created) {
 		this.created = created;
+	}
+
+	@OneToMany(targetEntity = RecipeReport.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "recipe_id")
+	public List<RecipeReport> getReports() {
+		return reports;
+	}
+
+	public void setReports(List<RecipeReport> reports) {
+		this.reports = reports;
 	}
 
 }
