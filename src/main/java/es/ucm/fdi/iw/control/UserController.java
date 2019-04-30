@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import es.ucm.fdi.iw.LocalData;
+import es.ucm.fdi.iw.model.Comment;
+import es.ucm.fdi.iw.model.CommentReport;
 import es.ucm.fdi.iw.model.Menu;
 import es.ucm.fdi.iw.model.Recipe;
 import es.ucm.fdi.iw.model.RecipeReport;
@@ -76,11 +78,21 @@ public class UserController {
 
 		return "admin_recetas";
 	}
+	
+	@GetMapping("/moderar-comentarios")
+	public String moderarComentariosList(Model model, HttpSession session) {
+		List<CommentReport> reports = entityManager.createNamedQuery("CommentReport.AllReports", CommentReport.class)
+				.getResultList();
+
+		model.addAttribute("reports", reports);
+		model.addAttribute("siteName", "Moderar comentarios" + " - " + env.getProperty("es.ucm.fdi.site-title-short"));
+
+		return "admin_comentarios";
+	}
 
 	@PostMapping("/moderar-recetas/eliminar")
 	@Transactional
-	public String moderarRecetasDelete(@RequestParam(required = false) long[] idReceta, Model model,
-			HttpSession session) {
+	public String moderarRecetasDelete(@RequestParam(required = false) long[] idReceta) {
 
 		if (idReceta != null) {
 			for (long id : idReceta) {
@@ -91,11 +103,24 @@ public class UserController {
 
 		return "redirect:/user/moderar-recetas";
 	}
+	
+	@PostMapping("/moderar-comentarios/eliminar")
+	@Transactional
+	public String moderarComentariosDelete(@RequestParam(required = false) long[] idComentario) {
+
+		if (idComentario != null) {
+			for (long id : idComentario) {
+				Comment c = entityManager.find(Comment.class, id);
+				entityManager.remove(c);
+			}
+		}
+
+		return "redirect:/user/moderar-comentarios";
+	}
 
 	@PostMapping("/moderar-recetas/aprobar")
 	@Transactional
-	public String moderarRecetasAprobar(@RequestParam(required = false) long[] idReceta, Model model,
-			HttpSession session) {
+	public String moderarRecetasAprobar(@RequestParam(required = false) long[] idReceta) {
 
 		if (idReceta != null) {
 			for (long id : idReceta) {
@@ -111,10 +136,27 @@ public class UserController {
 		return "redirect:/user/moderar-recetas";
 	}
 	
+	@PostMapping("/moderar-comentarios/aprobar")
+	@Transactional
+	public String moderarComentariosAprobar(@RequestParam(required = false) long[] idComentario) {
+
+		if (idComentario != null) {
+			for (long id : idComentario) {
+				List<CommentReport> cr = entityManager.createNamedQuery("CommentReport.ByComment", CommentReport.class)
+						.setParameter("commentId", id).getResultList();
+
+				for (CommentReport cReport : cr) {
+					entityManager.remove(cReport);
+				}
+			}
+		}
+
+		return "redirect:/user/moderar-comentarios";
+	}
+	
 	@PostMapping("/moderar-recetas/deshabilitar")
 	@Transactional
-	public String moderarRecetasDeshabilitar(@RequestParam(required = false) long[] idReceta, Model model,
-			HttpSession session) {
+	public String moderarRecetasDeshabilitar(@RequestParam(required = false) long[] idReceta) {
 
 		if (idReceta != null) {
 			for (long id : idReceta) {
@@ -131,6 +173,27 @@ public class UserController {
 		}
 
 		return "redirect:/user/moderar-recetas";
+	}
+	
+	@PostMapping("/moderar-comentarios/deshabilitar")
+	@Transactional
+	public String moderarComentariosDeshabilitar(@RequestParam(required = false) long[] idComentario) {
+
+		if (idComentario != null) {
+			for (long id : idComentario) {
+				List<CommentReport> cr = entityManager.createNamedQuery("CommentReport.ByComment", CommentReport.class)
+						.setParameter("commentId", id).getResultList();
+
+				for (CommentReport cReport : cr) {
+					User u = entityManager.find(User.class, cReport.getComment().getUser().getId());
+					u.setEnabled((byte) 0);
+					
+					entityManager.remove(entityManager.find(Comment.class, cReport.getComment().getId()));
+				}
+			}
+		}
+
+		return "redirect:/user/moderar-comentarios";
 	}
 
 	@PostMapping("/{id}/editar")

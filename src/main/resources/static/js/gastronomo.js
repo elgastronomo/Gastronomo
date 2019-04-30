@@ -432,10 +432,19 @@ document.addEventListener('DOMContentLoaded', function() {
  }
  
  /*******************************************************
-  * MODERACIÓN RECETAS
+  * MODERACIÓN RECETAS Y COMENTARIOS
   *******************************************************/
  
  function addModerarListeners() {
+	 $("#boton-reportar-receta").click(() => {
+		 $("#form-reportar").attr('action', '/receta/' + recipeId + '/reportar');
+	 });
+	 
+	 $(".boton-reportar-comentario").click((elem) => {
+		 $("#form-reportar").attr('action', '/receta/' + recipeId + '/reportar-comentario/' + elem.currentTarget.id);
+	 });
+	 
+	 
 	 $("#moderar-recetas-eliminar").click(() => {
 		 $("#moderar-recetas-form").attr('action', '/user/moderar-recetas/eliminar');
 	 });
@@ -446,6 +455,18 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	$("#moderar-recetas-aprobar").click(() => {
 		$("#moderar-recetas-form").attr('action', '/user/moderar-recetas/aprobar');
+	});
+	
+	$("#moderar-comentarios-eliminar").click(() => {
+		 $("#moderar-comentarios-form").attr('action', '/user/moderar-comentarios/eliminar');
+	 });
+	 
+	$("#moderar-comentarios-deshabilitar").click(() => {
+		$("#moderar-comentarios-form").attr('action', '/user/moderar-comentarios/deshabilitar');
+	});
+	
+	$("#moderar-comentarios-aprobar").click(() => {
+		$("#moderar-comentarios-form").attr('action', '/user/moderar-comentarios/aprobar');
 	});
  }
   

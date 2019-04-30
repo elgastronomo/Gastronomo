@@ -160,7 +160,7 @@
 							</div>
 						</div>
 
-						<form th:action="@{/receta/{id}/reportar(id=${recipe.id})}"
+						<form id="form-reportar" th:action="@{/receta/{id}/reportar(id=${recipe.id})}"
 							method="POST">
 							<div th:replace="fragments/reportar.html :: modal-reportar"></div>
 						</form>
@@ -170,7 +170,7 @@
 							<a href="#modal1"
 								class="waves-effect waves-light red btn modal-trigger"><i
 								class="material-icons left">add</i>Añadir al menú</a> <a
-								href="#modal-reportar"
+								href="#modal-reportar" id="boton-reportar-receta"
 								class="waves-effect waves-light teal btn modal-trigger"><i
 								class="material-icons left">flag</i>Reportar</a>
 						</div>
@@ -248,14 +248,18 @@
 								<p class="grey-text">Publicado por [[${c.user.name}]] en
 									[[${c.created}]]</p>
 
-								<p th:text="${c.comment}"></p> <a
-								th:if="${session.user.id == c.user.id}" th:id="${c.id}"
+								<p th:text="${c.comment}"></p> 
+								
+								<a
+								th:if="${session.user != null && session.user.id == c.user.id}" th:id="${c.id}"
 								href="#eliminar-comentario"
 								class="secondary-content modal-trigger left mr20"><i
-									class="material-icons red-text left">delete</i></a> <a
-								th:if="${session.user.id == c.user.id}" th:id="${c.id}"
+									class="material-icons red-text left">delete</i></a> 
+								
+								<a th:if="${session.user != nul}"
+								th:id="${c.id}"
 								href="#modal-reportar"
-								class="secondary-content modal-trigger right"><i
+								class="boton-reportar-comentario secondary-content modal-trigger right"><i
 									class="material-icons teal-text right">flag</i></a></li>
 
 

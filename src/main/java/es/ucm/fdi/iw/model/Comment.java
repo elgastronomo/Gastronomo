@@ -4,15 +4,20 @@
 package es.ucm.fdi.iw.model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 /**
  * @author roberto
@@ -28,8 +33,10 @@ public class Comment {
 	private String title;
 	private String comment;
 	private User user;
-	
-	public Comment() {}
+	private List<CommentReport> reports = new ArrayList<>();
+
+	public Comment() {
+	}
 
 	public Comment(Recipe recipe, String title, String comment, User user) {
 		this.recipe = recipe;
@@ -43,7 +50,7 @@ public class Comment {
 	 * @return the id
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public long getId() {
 		return id;
 	}
@@ -81,7 +88,6 @@ public class Comment {
 	/**
 	 * @return the comment
 	 */
-	// @ManyToOne
 	public String getComment() {
 		return comment;
 	}
@@ -114,6 +120,16 @@ public class Comment {
 
 	public void setCreated(Timestamp created) {
 		this.created = created;
+	}
+
+	@OneToMany(targetEntity = CommentReport.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "comment_id")
+	public List<CommentReport> getReports() {
+		return reports;
+	}
+
+	public void setReports(List<CommentReport> reports) {
+		this.reports = reports;
 	}
 
 }

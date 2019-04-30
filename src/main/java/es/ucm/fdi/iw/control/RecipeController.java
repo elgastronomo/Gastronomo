@@ -35,6 +35,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.Comment;
+import es.ucm.fdi.iw.model.CommentReport;
 import es.ucm.fdi.iw.model.Ingredient;
 import es.ucm.fdi.iw.model.Nutrient;
 import es.ucm.fdi.iw.model.Recipe;
@@ -301,6 +302,34 @@ public class RecipeController {
 		rr.setCreated(new Timestamp(new Date().getTime()));
 
 		entityManager.persist(rr);
+
+		return "redirect:/receta/" + id;
+	}
+	
+	@PostMapping(value = "/{id}/reportar-comentario/{idComentario}")
+	@Transactional
+	public String reportComment(@PathVariable long id, @PathVariable long idComentario, @RequestParam String reason,
+			@RequestParam(required = false) String additionalMessage, HttpSession session) {
+
+		// check permissions
+		User requester = (User) session.getAttribute("user");
+		if (requester == null) {
+			return "login";
+		}
+
+		Comment comment = entityManager.find(Comment.class, idComentario);
+		User u = (User) session.getAttribute("user");
+		u = entityManager.find(User.class, u.getId());
+		CommentReport cr = new CommentReport();
+
+		cr.setComment(comment);
+		cr.setUser(u);
+		cr.setReason(reason);
+		if (additionalMessage != null)
+			cr.setAdditionalMessage(additionalMessage);
+		cr.setCreated(new Timestamp(new Date().getTime()));
+
+		entityManager.persist(cr);
 
 		return "redirect:/receta/" + id;
 	}

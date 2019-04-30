@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head.html :: head">
+</head>
+<body>
+	<nav th:replace="fragments/nav.html :: nav"></nav>
+
+	<div class="pr50 pl50 mt30 mb30">
+
+		<div class="row">
+
+			<div class="col s12">
+
+				<div class="card">
+					<div class="card-content">
+						<div class="card-title left">Moderación de comentarios</div>
+
+						<form id="moderar-comentarios-form"
+							th:action="@{/user/moderar-comentarios/aprobar}" method="POST">
+							<button id="moderar-comentarios-eliminar"
+								class="waves-effect waves-light red btn right" type="submit"
+								name="action">
+								<i class="material-icons right">delete</i>Eliminar seleccionados
+							</button>
+
+							<button id="moderar-comentarios-deshabilitar"
+								class="waves-effect waves-light indigo btn right mr20"
+								type="submit" name="action">
+								<i class="material-icons right">block</i>Deshabilitar usuario y
+								eliminar
+							</button>
+
+							<button id="moderar-comentarios-aprobar"
+								class="waves-effect waves-light teal btn right mr20"
+								type="submit" name="action">
+								<i class="material-icons right">done</i>Aprobar
+							</button>
+
+							<table class="striped">
+								<thead>
+									<tr>
+										<th>Eliminar</th>
+										<th>Título</th>
+										<th>Comentario</th>
+										<th>Autor</th>
+										<th>Receta</th>
+										<th>Razón</th>
+										<th>Comentarios adicionales</th>
+										<th>Autor reporte</th>
+										<th>Fecha de publicación</th>
+										<th>Fecha de reporte</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr th:each="r: ${reports}">
+										<td><label> <input type="checkbox"
+												name="idComentario" th:value="${r.comment.id}" /> <span></span>
+										</label></td>
+										<td>[[${r.comment.title}]]</td>
+										<td>[[${r.comment.comment}]]</td>
+										<td><a th:href="@{/user/{id}(id=${r.comment.user.id})}">[[${r.comment.user.name}]]</a></td>
+										<td><a th:href="@{/receta/{id}(id=${r.comment.recipe.id})}">[[${r.comment.recipe.name}]]</a></td>
+										<td>[[${r.reason}]]</td>
+										<td>[[${r.additionalMessage}]]</td>
+										<td><a th:href="@{/user/{id}(id=${r.user.id})}">[[${r.user.name}]]</a></td>
+										<td>[[${r.comment.created}]]</td>
+										<td>[[${r.created}]]</td>
+									</tr>
+
+								</tbody>
+							</table>
+						</form>
+
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<footer th:replace="fragments/footer.html :: footer"></footer>
+</body>
+</html>
