@@ -56,12 +56,12 @@
 										<td><label> <input type="checkbox"
 												name="idReceta" th:value="${r.recipe.id}" /> <span></span>
 										</label></td>
-										<td>[[${r.recipe.name}]]</td>
-										<td>[[${r.recipe.user.name}]]</td>
+										<td><a th:href="@{/receta/{id}(id=${r.recipe.id})}">[[${r.recipe.name}]]</a></td>
+										<td><a th:href="@{/user/{id}(id=${r.recipe.user.id})}">[[${r.recipe.user.name}]]</a></td>
 										<td>[[${r.recipe.cuisine}]]</td>
 										<td>[[${r.reason}]]</td>
 										<td>[[${r.additionalMessage}]]</td>
-										<td>[[${r.user.name}]]</td>
+										<td><a th:href="@{/user/{id}(id=${r.user.id})}">[[${r.user.name}]]</a></td>
 										<td>[[${r.created}]]</td>
 									</tr>
 
