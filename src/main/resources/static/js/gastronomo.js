@@ -446,27 +446,27 @@ document.addEventListener('DOMContentLoaded', function() {
 	 
 	 
 	 $("#moderar-recetas-eliminar").click(() => {
-		 $("#moderar-recetas-form").attr('action', '/user/moderar-recetas/eliminar');
+		 $("#moderar-recetas-form").attr('action', '/admin/moderar-recetas/eliminar');
 	 });
 	 
 	$("#moderar-recetas-deshabilitar").click(() => {
-		$("#moderar-recetas-form").attr('action', '/user/moderar-recetas/deshabilitar');
+		$("#moderar-recetas-form").attr('action', '/admin/moderar-recetas/deshabilitar');
 	});
 	
 	$("#moderar-recetas-aprobar").click(() => {
-		$("#moderar-recetas-form").attr('action', '/user/moderar-recetas/aprobar');
+		$("#moderar-recetas-form").attr('action', '/admin/moderar-recetas/aprobar');
 	});
 	
 	$("#moderar-comentarios-eliminar").click(() => {
-		 $("#moderar-comentarios-form").attr('action', '/user/moderar-comentarios/eliminar');
+		 $("#moderar-comentarios-form").attr('action', '/admin/moderar-comentarios/eliminar');
 	 });
 	 
 	$("#moderar-comentarios-deshabilitar").click(() => {
-		$("#moderar-comentarios-form").attr('action', '/user/moderar-comentarios/deshabilitar');
+		$("#moderar-comentarios-form").attr('action', '/admin/moderar-comentarios/deshabilitar');
 	});
 	
 	$("#moderar-comentarios-aprobar").click(() => {
-		$("#moderar-comentarios-form").attr('action', '/user/moderar-comentarios/aprobar');
+		$("#moderar-comentarios-form").attr('action', '/admin/moderar-comentarios/aprobar');
 	});
  }
   

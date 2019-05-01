@@ -38,9 +38,9 @@
 			<ul th:if="${session.user != null && session.user.hasRole('ADMIN')}" id='menu-admin' class='dropdown-content'>
 				<li><a th:href="@{/user/{id}(id=${session.user.id})}">Ver perfil</a></li>
 				<li class="divider" tabindex="-1"></li>
-				<li><a th:href="@{/user/moderar-recetas}">Moderar recetas</a></li>
+				<li><a th:href="@{/admin/moderar-recetas}">Moderar recetas</a></li>
 				<li class="divider" tabindex="-1"></li>
-				<li><a th:href="@{/user/moderar-comentarios}">Moderar comentarios</a></li>
+				<li><a th:href="@{/admin/moderar-comentarios}">Moderar comentarios</a></li>
 			</ul>
 		</div>
 	</nav>
