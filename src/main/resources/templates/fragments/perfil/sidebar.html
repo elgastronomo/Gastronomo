@@ -7,6 +7,46 @@
 
 	<div th:fragment="sidebar" class="col s12 l3">
 
+		<div th:if="${session.user.hasRole('ADMIN') && !user.hasRole('ADMIN')}" class="card">
+			<div class="card-content">
+				<span class="card-title grey-text text-darken-4">Administración
+				</span>
+
+				<form th:action="@{/admin/toggleuser}" method="POST">
+					 <input type="hidden" name="id" th:value="${user.id}">
+				
+					<button th:if="${user.enabled}" class="waves-effect waves-light btn" type="submit"
+						name="action">
+						<i class="material-icons left">block</i> Deshabilitar usuario
+					</button>
+
+					<button th:unless="${user.enabled}" class="waves-effect waves-light btn" type="submit"
+						name="action">
+						<i class="material-icons left">done</i> Habilitar usuario
+					</button>
+				</form>
+
+			</div>
+		</div>
+		
+		
+		<div th:if="${session.user.hasRole('ADMIN') && user.hasRole('ADMIN')}" class="card">
+			<div class="card-content">
+				<span class="card-title grey-text text-darken-4">Moderación del sitio
+				</span>
+				
+					<a th:href="@{/admin/moderar-recetas}" class="waves-effect waves-light btn mb10">
+						<i class="material-icons left">restaurant</i> Moderar recetas
+					</a>
+
+					<a th:href="@{/admin/moderar-comentarios}" class="waves-effect waves-light btn">
+						<i class="material-icons left">comment</i> Moderar comentarios
+					</a>
+
+			</div>
+		</div>
+
+
 		<div class="card">
 			<div class="card-content">
 				<span class="card-title activator grey-text text-darken-4">Ingredientes
@@ -34,11 +74,11 @@
 			<div class="card-content">
 				<span class="card-title activator grey-text text-darken-4">Tags
 					favoritos<i class="material-icons right">more_vert</i>
-				</span> <small><strong>Disponibles: </strong>Sin huevo, Libre de nueces y de cacahuetes, Sin
-					frutos secos, Sin soja, Sin pescado, Sin mariscos, Bajo en
-					carbohidratos, Vegetariano, Sin glutén, Equilibrada, Mucha fibra,
-					Bajo en sodio ,Vegano, Sin lácteos, Paleo, Alto valor proteíco,
-					Bajo en grasas</small>
+				</span> <small><strong>Disponibles: </strong>Sin huevo, Libre de
+					nueces y de cacahuetes, Sin frutos secos, Sin soja, Sin pescado,
+					Sin mariscos, Bajo en carbohidratos, Vegetariano, Sin glutén,
+					Equilibrada, Mucha fibra, Bajo en sodio ,Vegano, Sin lácteos,
+					Paleo, Alto valor proteíco, Bajo en grasas</small>
 
 				<div class="chips-tags"></div>
 

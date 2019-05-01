@@ -60,6 +60,11 @@ public class UserController {
 		if (requester.getId() != target.getId() && !requester.hasRole("ADMIN")) {
 			return "redirect:/user/" + requester.getId();
 		}
+		
+		if (requester.getEnabled() == 0) {
+			session.invalidate();
+			return "redirect:/?userDisabled";
+		}
 
 		model.addAttribute("user", target);
 		model.addAttribute("siteName",

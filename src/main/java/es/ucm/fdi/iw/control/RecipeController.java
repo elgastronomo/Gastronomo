@@ -166,7 +166,7 @@ public class RecipeController {
 	@Transactional
 	public String nueva(@RequestParam String[] nutriente, @RequestParam String nombre_receta,
 			@RequestParam String cocina, @RequestParam String dificultad, @RequestParam String duracion,
-			@RequestParam int raciones, @RequestParam Float calorias, @RequestParam String[] tag,
+			@RequestParam int raciones, @RequestParam Float calorias, @RequestParam(required = false) String[] tag,
 			@RequestParam String[] ingrediente, @RequestParam Float[] pesoIngrediente, @RequestParam String[] paso,
 			@RequestParam String photo, HttpSession session) {
 
@@ -196,13 +196,15 @@ public class RecipeController {
 
 		recipe.setSteps(stepsJSON.toString());
 
-		for (String t : tag) {
-			Tag _t = entityManager.createNamedQuery("Tag.ByName", Tag.class).setParameter("tagName", t)
-					.getSingleResult();
+		if (tag != null) {
+			for (String t : tag) {
+				Tag _t = entityManager.createNamedQuery("Tag.ByName", Tag.class).setParameter("tagName", t)
+						.getSingleResult();
 
-			if (_t != null) {
-				_t.addRecipe(recipe);
-				recipe.addTag(_t);
+				if (_t != null) {
+					_t.addRecipe(recipe);
+					recipe.addTag(_t);
+				}
 			}
 		}
 
@@ -305,7 +307,7 @@ public class RecipeController {
 
 		return "redirect:/receta/" + id;
 	}
-	
+
 	@PostMapping(value = "/{id}/reportar-comentario/{idComentario}")
 	@Transactional
 	public String reportComment(@PathVariable long id, @PathVariable long idComentario, @RequestParam String reason,

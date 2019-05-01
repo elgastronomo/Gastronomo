@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw.control;
 
+import java.io.File;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -166,5 +167,23 @@ public class AdminController {
 
 		return "redirect:/admin/moderar-comentarios";
 	}
+	
+	@PostMapping("/toggleuser")
+	@Transactional
+	public String delUser(Model model,	@RequestParam long id) {
+		User target = entityManager.find(User.class, id);
+		if (target.getEnabled() == 1) {
+			// disable
+			File f = localData.getFile("user", ""+id);
+			if (f.exists()) {
+				f.delete();
+			}
+			target.setEnabled((byte)0); // disable user
+		} else {
+			// enable
+			target.setEnabled((byte)1);
+		}
+		return "redirect:/user/" + id;
+	}	
 
 }

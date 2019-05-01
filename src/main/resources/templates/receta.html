@@ -105,7 +105,7 @@
 
 								<p class="mb10">
 									<i class="tiny material-icons">person</i> Creado por
-									[[${recipe.user.name}]]
+									<a th:href="@{/user/{id}(id=${recipe.user.id})}">[[${recipe.user.name}]]</a>
 								</p>
 								<i class="tiny material-icons">star</i> <i
 									class="tiny material-icons">star</i> <i
@@ -147,9 +147,8 @@
 								</ul>
 
 								<p class="mt10">
-									<i class="tiny material-icons">people</i> 300 personas la han
-									cocinado | <i class="tiny material-icons">comment</i> 5
-									comentarios | <i class="tiny material-icons">photo</i> 12 fotos
+									<i class="tiny material-icons">comment</i> [[${#lists.size(recipe.comments)}]]
+									comentarios
 								</p>
 							</div>
 
