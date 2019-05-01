@@ -88,7 +88,7 @@ body#login-container {
 	background-color: #FFFFFF;
 	margin: 0;
 	display: none;
-	min-width: 300px; /* Changed this to accomodate content width */
+	min-width: 380px; /* Changed this to accomodate content width */
 	max-height: auto;
 	margin-left: -1px;
 	/* Add this to keep dropdown in line with edge of navbar */
@@ -96,9 +96,12 @@ body#login-container {
 	/* Changed this from overflow-y:auto; to overflow:hidden; */
 	opacity: 0;
 	position: absolute;
-	white-space: nowrap;
 	z-index: 2;
 	will-change: width, height;
+}
+
+.secondary-content.cancel-notifications {
+	right: -25px !important;
 }
 
 /* ----------------------------*/

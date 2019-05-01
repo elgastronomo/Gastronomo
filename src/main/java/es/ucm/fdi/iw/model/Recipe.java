@@ -23,6 +23,8 @@ import javax.persistence.OneToMany;
 
 import org.json.JSONObject;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 /**
  * @author roberto
  *
@@ -34,7 +36,9 @@ import org.json.JSONObject;
 		@NamedQuery(name = "Recipe.ByDifficulty", query = "SELECT r FROM Recipe r WHERE r.difficulty IN :difficulty") })
 public class Recipe implements Comparable {
 
+	@JsonView(Views.Public.class)
 	private long id;
+	@JsonView(Views.Public.class)
 	private String name;
 	private String duration;
 	private String url;

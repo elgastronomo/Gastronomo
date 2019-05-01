@@ -12,11 +12,7 @@
 
 			<!-- Dropdown Structure -->
 			<ul id='notifications' class='dropdown-content collection'>
-				<li class="collection-item avatar"><img
-					src="http://materializecss.com/images/yuna.jpg" alt=""
-					class="circle"> <span class="title">Notificación #1</span>
-					<p>Texto de la notificación</p> <a href="#!" class="secondary-content"><i
-						class="material-icons">done</i></a></li>
+				
 			</ul>
 
 			<a th:href="@{/}" class="brand-logo logo">Gastrónomo</a>
@@ -26,7 +22,7 @@
 					class="waves-effect waves-dark btn grey lighten-5 grey-text text-darken-2">Crear
 						receta <i class="material-icons right">edit</i>
 				</a></li>
-				<li><a class='dropdown-trigger' href='#'
+				<li th:if="${session.user != null}"><a class='dropdown-trigger' href='#'
 					data-target='notifications'><i class="material-icons">notifications</i></a></li>
 				<li th:if="${session.user == null}"><a th:href="@{/login}"><i
 						class="material-icons right">person</i>Iniciar sesión</a></li>

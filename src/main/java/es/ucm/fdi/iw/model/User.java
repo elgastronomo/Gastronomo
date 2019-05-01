@@ -17,6 +17,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 /**
  * A user.
  * 
@@ -36,6 +38,7 @@ import javax.persistence.OneToMany;
 
 })
 public class User {
+	@JsonView(Views.Public.class)
 	private long id;
 	private String login;
 	private String password;
@@ -47,6 +50,7 @@ public class User {
 				.anyMatch(r -> r.equalsIgnoreCase(roleName));
 	}
 	// app specific fields
+	@JsonView(Views.Public.class)
 	private String name;
 	private String email;
 	private int karma;

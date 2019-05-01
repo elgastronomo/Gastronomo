@@ -33,6 +33,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.Comment;
 import es.ucm.fdi.iw.model.CommentReport;
@@ -44,6 +48,7 @@ import es.ucm.fdi.iw.model.RecipeNutrient;
 import es.ucm.fdi.iw.model.RecipeReport;
 import es.ucm.fdi.iw.model.Tag;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.model.Views;
 
 @Controller
 @RequestMapping("receta")
@@ -59,6 +64,9 @@ public class RecipeController {
 
 	@Autowired
 	private EntityManager entityManager;
+	
+	@Autowired
+	private IwSocketHandler iwSocketHandler;
 
 	@GetMapping("/{id}")
 	public String getRecipe(@PathVariable long id, Model model, HttpSession session) {
@@ -106,7 +114,7 @@ public class RecipeController {
 	@PostMapping("/{id}/comentarios")
 	@Transactional
 	public String comentar(@PathVariable long id, @RequestParam String tituloComentario,
-			@RequestParam String comentario, Model model, HttpSession session) {
+			@RequestParam String comentario, Model model, HttpSession session) throws JsonProcessingException {
 
 		// check permissions
 		User requester = (User) session.getAttribute("user");
@@ -120,6 +128,15 @@ public class RecipeController {
 
 		Comment comment = new Comment(recipe, tituloComentario, comentario, user);
 		entityManager.persist(comment);
+		
+		ObjectMapper mapper = new ObjectMapper();		
+		mapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
+		String commentAsJson = mapper
+			      .writerWithView(Views.Public.class)
+			      .writeValueAsString(comment);
+		String message = "{\"comment\": " + commentAsJson + "}";
+		
+		this.iwSocketHandler.sendText(recipe.getUser().getLogin(), message);
 
 		return "redirect:/receta/" + id;
 	}
