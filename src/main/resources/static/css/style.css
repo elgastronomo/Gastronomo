@@ -58,14 +58,14 @@ Roberto Fernández Correa
 html#login {
 	height: 100%;
 	display: table;
-    margin: auto;
+	margin: auto;
 }
 
 body#login-container {
 	height: 100%;
 	display: table-cell;
-    vertical-align: middle;
-    background: rgb(238, 110, 115);
+	vertical-align: middle;
+	background: rgb(238, 110, 115);
 }
 
 #login-page {
@@ -76,11 +76,34 @@ body#login-container {
 	width: 650px;
 }
 
+/* -------------------------------------------*/
+/*        NOTIFICATIONS AND ADMIN MENU        */
+/* -------------------------------------------*/
+
+#notifications, #menu-admin {
+	top: 63px !important; 
+}
+
+#notifications.dropdown-content {
+	background-color: #FFFFFF;
+	margin: 0;
+	display: none;
+	min-width: 300px; /* Changed this to accomodate content width */
+	max-height: auto;
+	margin-left: -1px;
+	/* Add this to keep dropdown in line with edge of navbar */
+	overflow: hidden;
+	/* Changed this from overflow-y:auto; to overflow:hidden; */
+	opacity: 0;
+	position: absolute;
+	white-space: nowrap;
+	z-index: 2;
+	will-change: width, height;
+}
 
 /* ----------------------------*/
 /*     CAMBIOS MATERIALIZE     */
 /* ----------------------------*/
-
 .buscador .input:focus {
 	border: #f4f4f4 3px solid !important;
 	-webkit-border-radius: 50px !important;
@@ -107,13 +130,13 @@ input:focus+label {
 }
 
 .buscador .chips {
-    border-bottom: none;
+	border-bottom: none;
 }
 
 .buscador .chips.focus {
-    border-bottom: none;
-    box-shadow: none;
-    -webkit-box-shadow: none;
+	border-bottom: none;
+	box-shadow: none;
+	-webkit-box-shadow: none;
 }
 
 /* label underline focus color */
@@ -131,7 +154,6 @@ input:focus {
 	border-radius: 15px;
 }
 */
-
 .card-title a {
 	color: white;
 }
