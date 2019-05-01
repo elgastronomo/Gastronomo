@@ -19,38 +19,42 @@ import org.springframework.stereotype.Component;
 import es.ucm.fdi.iw.model.User;
 
 /**
- * Called when a user is first authenticated (via login).
- * Called from SecurityConfig; see https://stackoverflow.com/a/53353324
+ * Called when a user is first authenticated (via login). Called from
+ * SecurityConfig; see https://stackoverflow.com/a/53353324
  * 
  * Adds a "u" variable to the session when a user is first authenticated.
- * Important: the user is retrieved from the database, but is not refreshed at each request. 
- * You should refresh the user's information if anything important changes; for example, after
- * updating the user's profile.
+ * Important: the user is retrieved from the database, but is not refreshed at
+ * each request. You should refresh the user's information if anything important
+ * changes; for example, after updating the user's profile.
  */
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
-    @Autowired 
-    private HttpSession session;
-    
-    @Autowired
-    private EntityManager entityManager;    
-    
+	@Autowired
+	private HttpSession session;
+
+	@Autowired
+	private EntityManager entityManager;
+
 	private static Logger log = LogManager.getLogger(LoginSuccessHandler.class);
-	
-    @Override
+
+	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-	    String login = ((org.springframework.security.core.userdetails.User)
-				authentication.getPrincipal()).getUsername();
-	    
-	    // add a 'u' session variable, accessible from thymeleaf via ${session.u}
-	    log.info("Storing user info for {} in session {}", login, session.getId());
-		User user = entityManager.createNamedQuery("User.ByLogin", User.class)
-		        .setParameter("userLogin", login)
-		        .getSingleResult();			   	
+		String login = ((org.springframework.security.core.userdetails.User) authentication.getPrincipal())
+				.getUsername();
+
+		// add a 'u' session variable, accessible from thymeleaf via ${session.u}
+		log.info("Storing user info for {} in session {}", login, session.getId());
+		User user = entityManager.createNamedQuery("User.ByLogin", User.class).setParameter("userLogin", login)
+				.getSingleResult();
 		session.setAttribute("user", user);
-		
+
+		// add a 'ws' session variable
+		session.setAttribute("ws", request.getRequestURL().toString().replaceFirst("[^:]*", "ws") // http[s]://... =>
+																									// ws://...
+				.replaceFirst("/[^/]*$", "/ws")); // .../foo => .../ws
+
 		// redirects to 'admin' or 'user/{id}', depending on the user
 		response.sendRedirect("user/" + user.getId());
 	}

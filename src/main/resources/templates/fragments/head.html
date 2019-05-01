@@ -33,6 +33,7 @@
     
     <script type="text/javascript">
 		const gastronomo = {
+			socketUrl: '[[${session.ws}?:false]]',
 			csrf: {
 				name: "[[${_csrf.parameterName}]]",
 				value: "[[${_csrf.token}]]"
@@ -42,6 +43,7 @@
 		};
 	</script>
 	
+	<script th:src="@{/js/gastroclient.js}"></script>
 </head>
 
 <body>

@@ -48,6 +48,9 @@ public class UserController {
 
 	@Autowired
 	private EntityManager entityManager;
+	
+	@Autowired
+	private IwSocketHandler iwSocketHandler;
 
 	@Autowired
 	private LocalData localData;
