@@ -73,7 +73,7 @@ public class AdminController {
 			}
 		}
 
-		return "redirect:/admin/moderar-recetas";
+		return "redirect:/admin/moderar-recetas?eliminadas";
 	}
 	
 	@PostMapping("/moderar-comentarios/eliminar")
@@ -87,7 +87,7 @@ public class AdminController {
 			}
 		}
 
-		return "redirect:/admin/moderar-comentarios";
+		return "redirect:/admin/moderar-comentarios?eliminados";
 	}
 
 	@PostMapping("/moderar-recetas/aprobar")
@@ -105,7 +105,7 @@ public class AdminController {
 			}
 		}
 
-		return "redirect:/admin/moderar-recetas";
+		return "redirect:/admin/moderar-recetas?aprobadas";
 	}
 	
 	@PostMapping("/moderar-comentarios/aprobar")
@@ -123,7 +123,7 @@ public class AdminController {
 			}
 		}
 
-		return "redirect:/admin/moderar-comentarios";
+		return "redirect:/admin/moderar-comentarios?aprobados";
 	}
 	
 	@PostMapping("/moderar-recetas/deshabilitar")
@@ -144,7 +144,7 @@ public class AdminController {
 			}
 		}
 
-		return "redirect:/admin/moderar-recetas";
+		return "redirect:/admin/moderar-recetas?deshabilitadas";
 	}
 	
 	@PostMapping("/moderar-comentarios/deshabilitar")
@@ -165,7 +165,7 @@ public class AdminController {
 			}
 		}
 
-		return "redirect:/admin/moderar-comentarios";
+		return "redirect:/admin/moderar-comentarios?deshabilitados";
 	}
 	
 	@PostMapping("/toggleuser")
