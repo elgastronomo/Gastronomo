@@ -104,6 +104,17 @@ body#login-container {
 	right: -25px !important;
 }
 
+.notification-badge {
+    position: relative;
+    right: -40px;
+    top: -80px;
+    color: #941e1e;
+    background-color: #f5f1f2;
+    margin: 0 -.8em;
+    border-radius: 50%;
+    padding: 5px 10px;
+}
+
 /* ----------------------------*/
 /*     CAMBIOS MATERIALIZE     */
 /* ----------------------------*/

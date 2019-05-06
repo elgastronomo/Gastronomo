@@ -231,6 +231,9 @@
 			<div th:each="receta: ${recipes}" class="col s12 m4">
 				<div th:replace="fragments/receta_card.html :: div"></div>
 			</div>
+			
+			<a th:href="@{/buscar}" class="waves-effect waves-light red lighten-2 btn right mt40">
+			<i class="material-icons right">add</i>Ver todas las recetas</a>
 		</div>
 	</div>
 

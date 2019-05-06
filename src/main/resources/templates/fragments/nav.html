@@ -23,7 +23,8 @@
 						receta <i class="material-icons right">edit</i>
 				</a></li>
 				<li th:if="${session.user != null}"><a class='dropdown-trigger' href='#'
-					data-target='notifications'><i class="material-icons">notifications</i></a></li>
+					data-target='notifications'><i class="material-icons">notifications</i></a>
+					<small class="notification-badge" id="notifications-count">0</small></li>
 				<li th:if="${session.user == null}"><a th:href="@{/login}"><i
 						class="material-icons right">person</i>Iniciar sesión</a></li>
 

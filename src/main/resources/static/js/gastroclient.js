@@ -54,11 +54,17 @@ const handleMessage = (o) => {
 						`;
         $("#notifications").append(not);
         
+        let count = $("#notifications-count").html();
+        $("#notifications-count").html(++count);
+        
         $('.cancel-notifications').click((elem) => {
         	let notification = $(elem.target).parent().parent();
         	let index = $("#notifications").children().index(notification);
         	notification.remove();
         	removeCommentNotification(index);
+        	
+        	let count = $("#notifications-count").html();
+            $("#notifications-count").html(--count);
         });
     }
 }

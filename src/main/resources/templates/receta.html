@@ -105,7 +105,7 @@
 
 								<p class="mb10">
 									<i class="tiny material-icons">person</i> Creado por
-									<a th:href="@{/user/{id}(id=${recipe.user.id})}">[[${recipe.user.name}]]</a>
+									[[${recipe.user.name}]]
 								</p>
 								<i class="tiny material-icons">star</i> <i
 									class="tiny material-icons">star</i> <i
@@ -149,6 +149,7 @@
 								<p class="mt10">
 									<i class="tiny material-icons">comment</i> [[${#lists.size(recipe.comments)}]]
 									comentarios
+									| <a th:href="${recipe.url}" target="blank">Ver en web original ([[${recipe.attribution}]])</a>
 								</p>
 							</div>
 
