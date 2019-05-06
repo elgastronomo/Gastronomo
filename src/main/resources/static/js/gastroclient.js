@@ -12,6 +12,15 @@ function saveNotification(notification) {
             localStorage.comments = JSON.stringify([notification]);
         }
     }
+    else if (notification.favRecipe) {
+    	if (localStorage.likes) {
+            let c = JSON.parse(localStorage.likes);
+            c.push(notification);
+            localStorage.likes = JSON.stringify(c);
+        } else {
+            localStorage.likes = JSON.stringify([notification]);
+        }
+    }
 }
 
 /**
@@ -26,15 +35,36 @@ function loadNotifications() {
             handleMessage(comment);
         });
     }
+    else if (localStorage.likes) {
+    	 let c = JSON.parse(localStorage.likes);
+
+         c.forEach((like) => {
+             handleMessage(like);
+         });
+    }
 }
 
 /**
  * Removes a comment from the LocalStorage
  */
 function removeCommentNotification(index) {
-	let c = JSON.parse(localStorage.comments);
-	c.splice(index, 1);
-	localStorage.comments = JSON.stringify(c);
+	if (index != -1) {
+		let c = JSON.parse(localStorage.comments);
+		c.splice(index, 0);
+		localStorage.comments = JSON.stringify(c);
+	}
+}
+
+/**
+ * Removes a like from the LocalStorage
+ */
+function removeLikeNotification(index) {
+	if (index != -1) {
+		let c = JSON.parse(localStorage.likes);
+		c.splice(index, 1);
+		localStorage.likes = JSON.stringify(c);
+	}
+	
 }
 
 
@@ -63,8 +93,39 @@ const handleMessage = (o) => {
         	notification.remove();
         	removeCommentNotification(index);
         	
-        	let count = $("#notifications-count").html();
-            $("#notifications-count").html(--count);
+        	if (index != -1) {
+        		let count = $("#notifications-count").html();
+                $("#notifications-count").html(--count);
+        	}
+        });
+    }
+    else if (o.favRecipe) {
+    	let not = `
+        	<li class="collection-item avatar"><img
+					src="/user/` + o.user.id + `/photo" alt=""
+					class="circle"> 
+					<a href="/receta/` + o.favRecipe.id + `/">
+					<span class="title">¡Nuevo me gusta en ` + o.favRecipe.name + `!</span></a>
+					<p>A ` + o.user.name + ` le gusta una de tus recetas</p> 
+					
+					<a href="#!" class="secondary-content cancel-notifications"><i
+						class="material-icons">done</i></a></li>
+						`;
+        $("#notifications").append(not);
+        
+        let count = $("#notifications-count").html();
+        $("#notifications-count").html(++count);
+        
+        $('.cancel-notifications').click((elem) => {
+        	let notification = $(elem.target).parent().parent();
+        	let index = $("#notifications").children().index(notification);
+        	notification.remove();
+        	removeLikeNotification(index);
+        	
+        	if (index != -1) {
+	        	let count = $("#notifications-count").html();
+	            $("#notifications-count").html(--count);
+        	}
         });
     }
 }

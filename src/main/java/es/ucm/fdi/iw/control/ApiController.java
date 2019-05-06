@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.ucm.fdi.iw.model.Recipe;
 import es.ucm.fdi.iw.model.Tag;
@@ -163,6 +165,20 @@ public class ApiController {
 		
 		Recipe recipe = entityManager.find(Recipe.class, id);
 		user.getFavRecipes().add(recipe);
+		
+		ObjectMapper mapper = new ObjectMapper();		
+		mapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
+		String recipeAsJson = mapper
+			      .writerWithView(Views.Public.class)
+			      .writeValueAsString(recipe);
+		
+		String userAsJson = mapper
+			      .writerWithView(Views.Public.class)
+			      .writeValueAsString(user);
+		
+		String message = "{\"favRecipe\": " + recipeAsJson + ", \"user\": " + userAsJson + "}";
+		
+		this.iwSocketHandler.sendText(recipe.getUser().getLogin(), message);
 	}
 		
 }
