@@ -50,7 +50,7 @@ function loadNotifications() {
 function removeCommentNotification(index) {
 	if (index != -1) {
 		let c = JSON.parse(localStorage.comments);
-		c.splice(index, 0);
+		c.splice(index, 1);
 		localStorage.comments = JSON.stringify(c);
 	}
 }

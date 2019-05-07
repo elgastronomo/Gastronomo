@@ -84,8 +84,8 @@
 							<li th:each="nutrient: ${recipe.recipeNutrients}"
 								class="collection-item"><strong
 								th:text="|${nutrient.nutrient.nutrient}: |"></strong>
-								[[|${nutrient.cuantity}${nutrient.unit}
-								(${nutrient.dailyPercentage}%)|]]</li>
+								[[|${nutrient.cuantity / recipe.rations}${nutrient.unit}
+								(${nutrient.dailyPercentage / recipe.rations}%)|]]</li>
 						</ul>
 					</div>
 

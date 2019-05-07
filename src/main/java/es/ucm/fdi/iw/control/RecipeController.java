@@ -64,7 +64,7 @@ public class RecipeController {
 
 	@Autowired
 	private EntityManager entityManager;
-	
+
 	@Autowired
 	private IwSocketHandler iwSocketHandler;
 
@@ -128,14 +128,12 @@ public class RecipeController {
 
 		Comment comment = new Comment(recipe, tituloComentario, comentario, user);
 		entityManager.persist(comment);
-		
-		ObjectMapper mapper = new ObjectMapper();		
+
+		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
-		String commentAsJson = mapper
-			      .writerWithView(Views.Public.class)
-			      .writeValueAsString(comment);
+		String commentAsJson = mapper.writerWithView(Views.Public.class).writeValueAsString(comment);
 		String message = "{\"comment\": " + commentAsJson + "}";
-		
+
 		this.iwSocketHandler.sendText(recipe.getUser().getLogin(), message);
 
 		return "redirect:/receta/" + id;
@@ -225,6 +223,8 @@ public class RecipeController {
 			}
 		}
 
+		entityManager.persist(recipe);
+
 		// This will decode the String which is encoded by using Base64 class
 		// String base64Image =
 		// 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAYAAAA+VemSAAAgAEl...=='
@@ -237,8 +237,6 @@ public class RecipeController {
 		} catch (Exception e) {
 			log.info("Error uploading " + Long.toString(recipe.getId()) + " ", e);
 		}
-
-		entityManager.persist(recipe);
 
 		for (int i = 0; i < nutriente.length; i++) {
 			RecipeNutrient recipeNutrient = new RecipeNutrient(getNutrientByPos(i));
