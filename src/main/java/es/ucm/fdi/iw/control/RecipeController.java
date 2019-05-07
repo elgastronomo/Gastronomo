@@ -179,7 +179,7 @@ public class RecipeController {
 
 	@PostMapping("/nueva")
 	@Transactional
-	public String nueva(@RequestParam String[] nutriente, @RequestParam String nombre_receta,
+	public String nueva(@RequestParam(required = false) String[] nutriente, @RequestParam String nombre_receta,
 			@RequestParam String cocina, @RequestParam String dificultad, @RequestParam String duracion,
 			@RequestParam int raciones, @RequestParam Float calorias, @RequestParam(required = false) String[] tag,
 			@RequestParam String[] ingrediente, @RequestParam Float[] pesoIngrediente, @RequestParam String[] paso,
@@ -238,12 +238,14 @@ public class RecipeController {
 			log.info("Error uploading " + Long.toString(recipe.getId()) + " ", e);
 		}
 
-		for (int i = 0; i < nutriente.length; i++) {
-			RecipeNutrient recipeNutrient = new RecipeNutrient(getNutrientByPos(i));
-			recipeNutrient.setCuantity(Float.parseFloat(nutriente[i]));
-			recipeNutrient.setRecipe(recipe);
-			entityManager.persist(recipeNutrient);
-			recipe.addRecipeNutrient(recipeNutrient);
+		if (nutriente != null) {
+			for (int i = 0; i < nutriente.length; i++) {
+				RecipeNutrient recipeNutrient = new RecipeNutrient(getNutrientByPos(i));
+				recipeNutrient.setCuantity(Float.parseFloat(nutriente[i]));
+				recipeNutrient.setRecipe(recipe);
+				entityManager.persist(recipeNutrient);
+				recipe.addRecipeNutrient(recipeNutrient);
+			}
 		}
 
 		for (int i = 0; i < ingrediente.length; i++) {

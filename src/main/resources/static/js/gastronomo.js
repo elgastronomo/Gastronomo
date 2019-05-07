@@ -20,7 +20,7 @@
 	M.AutoInit();
 
 	// Add recipe tags autocomplete
-	let autocompleteOptions = {
+	const autocompleteOptions = {
 	    data: {
 	        'Sin huevo': null,
 	        'Libre de nueces y de cacahuetes': null,
@@ -53,6 +53,7 @@
 	    addChangeImgProfile();
 	    addDeleteMenuListener();
 	    addModerarListeners();
+	    initializeRecetaNueva();
 
 	    let elems = document.querySelectorAll('.chips');
 	    let instances = M.Chips.init(elems, { onChipAdd: changeColor });
@@ -77,13 +78,6 @@
 	    if (elems.length != 0) {
 	        getFavouriteTags();
 	    }
-
-	    elems = document.querySelectorAll('.chips-tags-receta-nueva');
-	    instances = M.Chips.init(elems, {
-	        placeholder: '+Tag',
-	        secondaryPlaceholder: '+Tag',
-	        autocompleteOptions: autocompleteOptions,
-	    });
 
 	});
 
@@ -179,7 +173,7 @@
 	}
 
 	/*******************************************************
-	 * NEW RECIPE. Add ingredients and steps
+	 * NEW RECIPE FUNCTIONS
 	 *******************************************************/
 
 	function addIngredient() {
@@ -205,10 +199,10 @@
  	</li>`;
 
 	    if (Math.abs(elements % 2) == 1) {
-	        document.getElementById('secondIngredients').innerHTML += ingredientForm;
+	        $('#secondIngredients').append(ingredientForm);
 	        M.updateTextFields();
 	    } else {
-	        document.getElementById('firstIngredients').innerHTML += ingredientForm;
+	        $('#firstIngredients').append(ingredientForm);
 	        M.updateTextFields();
 	    }
 	}
@@ -277,6 +271,26 @@
 
 	    return reader;
 	}
+	
+	function initializeRecetaNueva() {
+		elems = document.querySelectorAll('.chips-tags-receta-nueva');
+	    instances = M.Chips.init(elems, {
+	        placeholder: '+Tag',
+	        secondaryPlaceholder: '+Tag',
+	        autocompleteOptions: autocompleteOptions,
+	    });
+	    
+	    $("#switch-nutricionales").change((elem) => {
+	    	if($(elem.target).prop('checked')) {
+	    		$(".valores-nutricionales").show();
+	    		$( "input[name='nutriente']" ).prop('disabled', false);
+	    	}
+	    	else {
+	    		$(".valores-nutricionales").hide();
+	    		$( "input[name='nutriente']" ).prop('disabled', true);
+	    	}
+	    });
+	} 
 
 
 	/*******************************************************
