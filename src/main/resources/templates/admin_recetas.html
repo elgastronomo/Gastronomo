@@ -11,8 +11,8 @@
 		<div class="row">
 
 			<div class="col s12">
-			
-			<div
+
+				<div
 					th:if="${param.aprobadas != null || param.eliminadas != null || param.deshabilitadas != null}"
 					class="row">
 					<div class="col s12 m12">
@@ -46,20 +46,23 @@
 
 						<form id="moderar-recetas-form"
 							th:action="@{/admin/moderar-recetas/aprobar}" method="POST">
-							<button id="moderar-recetas-eliminar"
+							<button th:disabled="${#lists.size(reports) == 0}"
+								id="moderar-recetas-eliminar"
 								class="waves-effect waves-light red btn right" type="submit"
 								name="action">
 								<i class="material-icons right">delete</i>Eliminar seleccionadas
 							</button>
 
-							<button id="moderar-recetas-deshabilitar"
+							<button th:disabled="${#lists.size(reports) == 0}"
+								id="moderar-recetas-deshabilitar"
 								class="waves-effect waves-light indigo btn right mr20"
 								type="submit" name="action">
 								<i class="material-icons right">block</i>Deshabilitar usuario y
 								eliminar
 							</button>
 
-							<button id="moderar-recetas-aprobar"
+							<button th:disabled="${#lists.size(reports) == 0}"
+								id="moderar-recetas-aprobar"
 								class="waves-effect waves-light teal btn right mr20"
 								type="submit" name="action">
 								<i class="material-icons right">done</i>Aprobar

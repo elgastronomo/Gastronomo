@@ -46,20 +46,23 @@
 
 						<form id="moderar-comentarios-form"
 							th:action="@{/admin/moderar-comentarios/aprobar}" method="POST">
-							<button id="moderar-comentarios-eliminar"
+							<button th:disabled="${#lists.size(reports) == 0}"
+								id="moderar-comentarios-eliminar"
 								class="waves-effect waves-light red btn right" type="submit"
 								name="action">
 								<i class="material-icons right">delete</i>Eliminar seleccionados
 							</button>
 
-							<button id="moderar-comentarios-deshabilitar"
+							<button th:disabled="${#lists.size(reports) == 0}"
+								id="moderar-comentarios-deshabilitar"
 								class="waves-effect waves-light indigo btn right mr20"
 								type="submit" name="action">
 								<i class="material-icons right">block</i>Deshabilitar usuario y
 								eliminar
 							</button>
 
-							<button id="moderar-comentarios-aprobar"
+							<button th:disabled="${#lists.size(reports) == 0}"
+								id="moderar-comentarios-aprobar"
 								class="waves-effect waves-light teal btn right mr20"
 								type="submit" name="action">
 								<i class="material-icons right">done</i>Aprobar
