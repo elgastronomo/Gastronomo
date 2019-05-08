@@ -158,7 +158,13 @@
 	        }
 	    });
 	}
-
+	
+	//filter by type: Carne, Pasta, Postre...
+	function filtreByType(value){
+	 	$('form[name="filtroTipos"]').append('<input type="hidden" name="recipeName" value=' + value + ' />');
+	 	document.filtroTipos.submit();
+	}
+	
 	/*******************************************************
 	 * SINGLE RECIPE PAGE
 	 *******************************************************/

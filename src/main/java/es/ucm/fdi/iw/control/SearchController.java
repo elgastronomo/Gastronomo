@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public class SearchController {
 			@RequestParam(required = false) String[] difficulty, @RequestParam(required = false) String[] cuisine,
 			@RequestParam(required = false) String[] tag, Model model, HttpSession session) {
 
-		List<String> ingredients = ingredientes != "" ? Arrays.asList(ingredientes.split(" ")) : null;
+		List<String> ingredients = !StringUtils.isBlank(ingredientes) ? Arrays.asList(ingredientes.split(" ")) : null;
 		Boolean found = true;
 
 		List<Recipe> allRecipes = entityManager.createNamedQuery("Recipe.AllRecipes", Recipe.class).getResultList();
