@@ -166,19 +166,33 @@ public class ApiController {
 		Recipe recipe = entityManager.find(Recipe.class, id);
 		user.getFavRecipes().add(recipe);
 		
-		ObjectMapper mapper = new ObjectMapper();		
-		mapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
-		String recipeAsJson = mapper
-			      .writerWithView(Views.Public.class)
-			      .writeValueAsString(recipe);
+		// Send notification when user is not the recipe creator
+		if (user.getId() != recipe.getUser().getId()) {
+			ObjectMapper mapper = new ObjectMapper();		
+			mapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
+			String recipeAsJson = mapper
+				      .writerWithView(Views.Public.class)
+				      .writeValueAsString(recipe);
+			
+			String userAsJson = mapper
+				      .writerWithView(Views.Public.class)
+				      .writeValueAsString(user);
+			
+			String message = "{\"favRecipe\": " + recipeAsJson + ", \"user\": " + userAsJson + "}";
+			
+			this.iwSocketHandler.sendText(recipe.getUser().getLogin(), message);
+		}
+	}
+	
+	@DeleteMapping("/users/{id}/delRecipe")
+	@JsonView(Views.Public.class)
+	@Transactional
+	public void removeFavouriteRecipe(@PathVariable Long id) {
+		User user = (User) session.getAttribute("user");
+		user = entityManager.find(User.class, user.getId());
 		
-		String userAsJson = mapper
-			      .writerWithView(Views.Public.class)
-			      .writeValueAsString(user);
-		
-		String message = "{\"favRecipe\": " + recipeAsJson + ", \"user\": " + userAsJson + "}";
-		
-		this.iwSocketHandler.sendText(recipe.getUser().getLogin(), message);
+		Recipe recipe = entityManager.find(Recipe.class, id);
+		user.getFavRecipes().remove(recipe);
 	}
 		
 }

@@ -52,6 +52,7 @@
 	    addDeleteCommentId();
 	    addChangeImgProfile();
 	    addDeleteMenuListener();
+	    addDeleteFavListener();
 	    addModerarListeners();
 	    initializeRecetaNueva();
 
@@ -405,6 +406,27 @@
 	    });
 
 	    M.toast({ html: 'Ingrediente eliminado de favoritos' });
+	}
+	
+	function addDeleteFavListener() {
+		$(".remove-fav-recipe").click((elem) => {
+			let recipeId = $(elem.target).attr('id');
+			
+			const headers = {
+			        "Content-Type": "application/json",
+			        "X-CSRF-TOKEN": gastronomo.csrf.value
+			    };
+
+			    fetch('/api/users/' + recipeId + '/delRecipe', {
+			        headers: headers,
+			        method: 'DELETE'
+			    }).then(function(response) {
+			        console.log(response);
+			        $("#favRecipe-" + recipeId).remove();
+			    });
+
+			    M.toast({ html: 'Receta eliminada de favoritos' });
+		});
 	}
 
 	/*******************************************************

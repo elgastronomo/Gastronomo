@@ -128,13 +128,16 @@ public class RecipeController {
 
 		Comment comment = new Comment(recipe, tituloComentario, comentario, user);
 		entityManager.persist(comment);
+		
+		// Send notification when comment author is not the recipe creator
+		if (user.getId() != recipe.getUser().getId()) {
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
+			String commentAsJson = mapper.writerWithView(Views.Public.class).writeValueAsString(comment);
+			String message = "{\"comment\": " + commentAsJson + "}";
 
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
-		String commentAsJson = mapper.writerWithView(Views.Public.class).writeValueAsString(comment);
-		String message = "{\"comment\": " + commentAsJson + "}";
-
-		this.iwSocketHandler.sendText(recipe.getUser().getLogin(), message);
+			this.iwSocketHandler.sendText(recipe.getUser().getLogin(), message);
+		}		
 
 		return "redirect:/receta/" + id;
 	}
