@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
@@ -187,12 +188,21 @@ public class ApiController {
 	@DeleteMapping("/users/{id}/delRecipe")
 	@JsonView(Views.Public.class)
 	@Transactional
-	public void removeFavouriteRecipe(@PathVariable Long id) {
+	public String removeFavouriteRecipe(@PathVariable Long id, HttpServletResponse response) {
 		User user = (User) session.getAttribute("user");
 		user = entityManager.find(User.class, user.getId());
 		
 		Recipe recipe = entityManager.find(Recipe.class, id);
-		user.getFavRecipes().remove(recipe);
+		
+		if (recipe != null) {
+			user.getFavRecipes().remove(recipe);
+			response.setStatus(HttpServletResponse.SC_ACCEPTED);
+			return "receta eliminada de favoritos";
+		}
+		else {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			return "no exise la receta";
+		}
 	}
 		
 }

@@ -8,7 +8,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
@@ -30,11 +32,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import es.ucm.fdi.iw.LocalData;
-import es.ucm.fdi.iw.model.Comment;
-import es.ucm.fdi.iw.model.CommentReport;
 import es.ucm.fdi.iw.model.Menu;
 import es.ucm.fdi.iw.model.Recipe;
-import es.ucm.fdi.iw.model.RecipeReport;
 import es.ucm.fdi.iw.model.User;
 
 @Controller()
@@ -70,6 +69,7 @@ public class UserController {
 		}
 
 		model.addAttribute("user", target);
+		model.addAttribute("stats", generateStats(target.getFavRecipes()));
 		model.addAttribute("siteName",
 				"Tu perfil - " + target.getName() + " - " + env.getProperty("es.ucm.fdi.site-title-short"));
 
@@ -206,5 +206,21 @@ public class UserController {
 		session.setAttribute("user", target);
 
 		return "redirect:/user/" + target.getId();
+	}
+	
+	private Map generateStats(List<Recipe> favRecipes) {
+		Map<String, Integer> stats = new HashMap<>();
+		
+		for (Recipe r : favRecipes) {
+			if (!stats.containsKey(r.getCuisine())) {
+				stats.put(r.getCuisine(), 1);
+			}
+			else {
+				int numberOfRecipes = stats.get(r.getCuisine()) + 1;
+				stats.put(r.getCuisine(), numberOfRecipes);
+			}
+		}		
+		
+		return stats;		
 	}
 }

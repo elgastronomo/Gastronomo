@@ -176,8 +176,8 @@
 							</div>
 							<div class="card-action">
 								<a th:href="@{/receta/} + ${receta.id}">Ver</a> <a
-									class="waves-effect waves-teal btn-flat remove-fav-recipe" th:id="${receta.id}">Ya no me
-									gusta</a>
+									class="waves-effect waves-teal btn-flat remove-fav-recipe"
+									th:id="${receta.id}">Ya no me gusta</a>
 							</div>
 						</div>
 					</div>
@@ -187,6 +187,70 @@
 			</div>
 
 		</div>
+
+		<div class="card">
+
+			<div class="card-content">
+
+				<div class="card-title">Tus estadísticas</div>
+
+
+				<canvas id="recetas-chart" width="400" height="150"></canvas>
+
+
+
+			</div>
+
+		</div>
+
+
+		<script th:inline="javascript">
+			window.onload = function() {
+				var labels = [];
+				var data = [];
+
+				/*[# th:each="n : ${stats}"]*/
+
+				labels.push("[(${n.key})]");
+				data.push(parseInt("[(${n.value})]"));
+
+				/*[/]*/
+
+				new Chart(
+						document.getElementById("recetas-chart"),
+						{
+							type : 'bar',
+							data : {
+								labels : labels,
+								datasets : [ {
+									label : "# recetas que te gustan",
+									backgroundColor : [ "#3e95cd", "#8e5ea2",
+											"#3cba9f", "#e8c3b9", "#c45850",
+											"#3e95cd", "#8e5ea2", "#3cba9f",
+											"#e8c3b9", "#c45850" ],
+									data : data
+								} ]
+							},
+							options : {
+								legend : {
+									display : false
+								},
+								title : {
+									display : true,
+									text : 'Número de recetas que te gustan por tipo de cocina'
+								},
+								scales : {
+									yAxes : [ {
+										ticks : {
+											beginAtZero : true
+										}
+									} ]
+								},
+								aspectRatio : 1
+							}
+						});
+			};
+		</script>
 	</div>
 
 </body>

@@ -28,6 +28,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" th:href="@{/css/materialize.min.css}">
+    <link rel="stylesheet" th:href="@{/css/Chart.min.css}">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/helpers.css}">
     
@@ -42,6 +43,8 @@
 			userId: [[${session.user != null}?${session.user.id}:-1]]
 		};
 	</script>
+	
+	<script th:src="@{/js/Chart.min.js}"></script>
 </head>
 
 <body>
