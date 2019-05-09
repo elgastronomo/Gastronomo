@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -34,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 		@NamedQuery(name = "User.HasLogin", query = "SELECT COUNT(u) " + "FROM User u " + "WHERE u.login = :userLogin"),
 
-		@NamedQuery(name = "User.ByEmail", query = "SELECT u FROM User u " + "WHERE u.email = :email"),
+		@NamedQuery(name = "User.ByEmail", query = "SELECT u FROM User u " + "WHERE u.email = :email"),		
 
 })
 public class User {
@@ -184,7 +185,16 @@ public class User {
 	public Set<UserIngredient> getFavIngredients() {
 		return favIngredients;
 	}
-
+	
+	@Transient
+	public List<String> getFavIngredientsString() {
+		List<String> favIngredientsString = new ArrayList<>();
+		
+		favIngredients.forEach(i -> favIngredientsString.add(i.getIngredient().getName()));
+		
+		return favIngredientsString;
+	}	
+	
 	public void setFavIngredients(Set<UserIngredient> favIngredients) {
 		this.favIngredients = favIngredients;
 	}
@@ -197,7 +207,16 @@ public class User {
 	public void setFavTags(Set<Tag> favTags) {
 		this.favTags = favTags;
 	}
-
+	
+	@Transient
+	public List<String> getFavTagsString() {
+		List<String> favTagsString = new ArrayList<>();
+		
+		favTags.forEach(t -> favTagsString.add(t.getTag()));
+		
+		return favTagsString;
+	}
+	
 	public void addFavTag(Tag tag) {
 		this.favTags.add(tag);
 	}

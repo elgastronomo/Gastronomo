@@ -78,6 +78,14 @@
 						</div>
 
 						<div class="mb10">
+							<strong>Favoritos</strong>
+							<label> <input type="checkbox" name="favoritos"									
+									th:checked="${favoritos} != null ? ${favoritos} : 'false'" />
+									<span>Ingredientes y tags favoritos</span>
+							</label>
+						</div>
+
+						<div class="mb10">
 							<strong>Dificultad </strong>
 							<p>
 								<label> <input type="checkbox" name="difficulty"
