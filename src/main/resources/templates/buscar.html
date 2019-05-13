@@ -32,24 +32,20 @@
 				[[${#lists.size(recipes)}]] resultados que incluyen <strong
 						class="ingredientes" th:each="ing: ${ingredients}">[[${ing}]]
 					</strong>
-					<a onclick="loadIngredients()"
-						class="waves-effect waves-light btn-small red ml10">Editar</a>
 				</th:block>
 				<th:block th:if="${ingredients == null && found}">
 				[[${#lists.size(recipes)}]] resultados <strong>encontrados</strong>
-					<a class="waves-effect waves-light btn-small red ml10">Editar</a>
 				</th:block>
 				<th:block th:if="${!found}">
 					<strong>No se ha encontrado</strong> ninguna receta con esas características
-				<a class="waves-effect waves-light btn-small red ml10">Editar</a>
 				</th:block>
 			</div>
 
 			<div class="input-field col l2">
 				<select>
-					<option value="1">Más relevantes</option>
-					<option value="2">Nuevos</option>
-					<option value="3">Populares</option>
+					<option value="antiguas">Más antiguas</option>
+					<option value="nuevos">Nuevos</option>
+					<option value="populares">Populares</option>
 				</select> <label>Ordenar por</label>
 			</div>
 
@@ -283,8 +279,8 @@
 			</div>
 
 			<div class="col s12 m8 l9">
-				<div class="row">
-					<div th:each="receta: ${recipes}" class="col s12 m4">
+				<div class="row recetas">
+					<div th:each="receta: ${recipes}" class="receta col s12 m4" th:id="${receta.id}">
 						<div th:replace="fragments/receta_card.html :: div"></div>
 					</div>
 				</div>

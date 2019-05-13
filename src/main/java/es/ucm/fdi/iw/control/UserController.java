@@ -208,7 +208,7 @@ public class UserController {
 		return "redirect:/user/" + target.getId();
 	}
 	
-	private Map generateStats(List<Recipe> favRecipes) {
+	private Map<String, Integer> generateStats(List<Recipe> favRecipes) {
 		Map<String, Integer> stats = new HashMap<>();
 		
 		for (Recipe r : favRecipes) {

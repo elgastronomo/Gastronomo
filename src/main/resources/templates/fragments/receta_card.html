@@ -5,7 +5,7 @@
 </head>
 <body>
 
-	
+
 
 	<div th:fragment="receta-card" class="card">
 		<div class="card-image">
@@ -15,12 +15,13 @@
 			</a> <span class="card-title"> <a
 				th:href="@{/receta/} + ${receta.id}" th:text="${receta.name}">Receta
 					6</a>
-			</span> <button th:id="recipeButton + |${receta.id}|" class="btn-floating halfway-fab waves-effect waves-light red" 
-						th:onclick=" 'addRecipeToFavourite(' + |${receta.id}| + ')'"   
-						th:disabled="${session.user == null or #lists.contains(favRecipes,receta.id)}"
-						><i
-									
-						class="material-icons">favorite</i></button>
+			</span>
+			<button th:id="recipeButton + |${receta.id}|"
+				class="btn-floating halfway-fab waves-effect waves-light red"
+				th:onclick=" 'addRecipeToFavourite(' + |${receta.id}| + ')'"
+				th:disabled="${session.user == null or #lists.contains(favRecipes,receta.id)}">
+				<i class="material-icons">favorite</i>
+			</button>
 		</div>
 		<div class="card-content">
 
@@ -54,6 +55,10 @@
 							th:text="${tag.tag} + (${i.index} eq ${i.size} - 1 ? '' : ', ')"></span>
 						<i class="secondary-content material-icons">label</i>
 					</div></li>
+
+				<li class="hidden comments">
+					[[${#lists.size(receta.comments)}]]</li>
+
 
 			</ul>
 
