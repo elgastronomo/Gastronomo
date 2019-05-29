@@ -179,7 +179,8 @@ public class SearchController {
 					for (RecipeIngredient recipeIngrediente : recipeIngredientes) {
 
 						for (String ingrediente : ingredients) {
-							if (recipeIngrediente.getIngredient().getName().contains(ingrediente))
+							if (recipeIngrediente.getIngredient().getName().toLowerCase()
+									.contains(ingrediente.toLowerCase()))
 								return true;
 						}
 
