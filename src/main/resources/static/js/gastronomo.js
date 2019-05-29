@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     addFavTagListener();
     addFavIngredientListener();
     addDeleteCommentId();
+    addIngredientName();
     addChangeImgProfile();
     addDeleteMenuListener();
     addDeleteFavListener();
@@ -82,9 +83,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-/***************************************************************************
+/*******************************************************************************
  * MAIN INGREDIENT SEARCHER
- **************************************************************************/
+ ******************************************************************************/
 
 /*
  * Extracts ingredients inside chips search bar
@@ -213,9 +214,9 @@ function orderByNumberOfComments(a, b) {
     return $(b).find(".comments").text().trim() - $(a).find(".comments").text().trim();
 }
 
-/***************************************************************************
+/*******************************************************************************
  * SINGLE RECIPE PAGE
- **************************************************************************/
+ ******************************************************************************/
 
 function addDeleteCommentId() {
 
@@ -227,9 +228,36 @@ function addDeleteCommentId() {
     });
 }
 
-/***************************************************************************
+function addIngredientName() {
+	$(".add-fav-ingredient").click((elem) => {
+		let name = $(elem.currentTarget).parent().children().get(1);
+		name = $(name).text();
+		$("#ingrediente-name").val(name);
+	});
+	
+	$("#save-fav-ingredient").click((elem) => {
+		let ingredientName = $("#ingrediente-name").val();
+		
+		const headers = {
+		        "Content-Type": "application/json",
+		        "X-CSRF-TOKEN": gastronomo.csrf.value
+		    };
+		
+		fetch('/api/users/' + gastronomo.userId + '/ingredients', {
+            headers: headers,
+            method: 'POST',
+            body: JSON.stringify({ customName: ingredientName })
+        }).then(function(response) {
+            console.log(response);
+        });
+		
+		M.toast({ html: '¡Ingrediente añadido a favoritos!' });
+	})
+}
+
+/*******************************************************************************
  * NEW RECIPE FUNCTIONS
- **************************************************************************/
+ ******************************************************************************/
 
 function addIngredient() {
     let elements = parseInt(document.getElementById('firstIngredients').childElementCount) +
@@ -371,9 +399,9 @@ function initializeRecetaNueva() {
 }
 
 
-/***************************************************************************
+/*******************************************************************************
  * AJAX API CALLS (/api)
- **************************************************************************/
+ ******************************************************************************/
 
 function getFavouriteTags() {
     let instance = M.Chips.getInstance($(".chips-tags"));
@@ -506,9 +534,9 @@ function addDeleteFavListener() {
     });
 }
 
-/***************************************************************************
+/*******************************************************************************
  * PROFILE
- **************************************************************************/
+ ******************************************************************************/
 
 function addChangeImgProfile() {
     $("#cambiar-img-perfil").change((elem) => {
@@ -555,9 +583,9 @@ function addDeleteMenuListener() {
     });
 }
 
-/***************************************************************************
+/*******************************************************************************
  * MODERACIÓN RECETAS Y COMENTARIOS
- **************************************************************************/
+ ******************************************************************************/
 
 function addModerarListeners() {
     $("#boton-reportar-receta").click(() => {
@@ -595,9 +623,9 @@ function addModerarListeners() {
 }
 
 
-/***************************************************************************
+/*******************************************************************************
  * OTHER STUFF
- **************************************************************************/
+ ******************************************************************************/
 
 // Red chip color instead of blue
 function changeColor() {

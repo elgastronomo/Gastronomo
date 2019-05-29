@@ -51,6 +51,12 @@ Roberto Fernández Correa
 	object-fit: cover;
 }
 
+.img-recortada-sm {
+	width: 350px;
+	height: 135px;
+	object-fit: cover;
+}
+
 .index-filter:hover {
 	cursor: pointer;
 }

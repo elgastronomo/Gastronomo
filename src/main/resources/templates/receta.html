@@ -184,6 +184,33 @@
 
 						<div class="row">
 							<h5>Ingredientes</h5>
+
+							<!-- Modal ingrediente favorito -->
+							<div id="ingrediente-fav" class="modal">
+								<div class="modal-content">
+									<h4>Guardar ingrediente favorito</h4>
+									<h6>¿Con qué nombre te gustaría guardar el ingrediente?</h6>
+
+									<div class="row pt20">
+										<div class="input-field col s12">
+											<input placeholder="Nombre del ingrediente"
+												id="ingrediente-name" type="text" class="validate">
+											<label for="ingrediente-name">Dale un nombre al
+												ingrediente</label>
+										</div>
+									</div>
+
+
+								</div>
+								<div class="modal-footer">
+									<a href="#!"
+										class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+									<a href="#!" id="save-fav-ingredient"
+										class="modal-close waves-effect waves-green btn-flat">Guardar</a>
+								</div>
+							</div>
+
+
 							<div class="col s12 m6">
 								<ul class="collection">
 									<li th:each="ing: ${firstIngredients}"
@@ -191,7 +218,8 @@
 										class="material-icons circle">restaurant_menu</i> <span
 										class="title">[[${ing.ingredient.name}]]</span>
 										<p>[[${ing.weight}]]g</p> <a th:if="${session.user != null}"
-										href="#!" class="tooltipped secondary-content"
+										href="#ingrediente-fav"
+										class="tooltipped secondary-content modal-trigger add-fav-ingredient"
 										data-position="bottom" data-tooltip="Ingrediente habitual"><i
 											class="material-icons">grade</i></a></li>
 								</ul>
@@ -204,7 +232,8 @@
 										class="material-icons circle">restaurant_menu</i> <span
 										class="title">[[${ing.ingredient.name}]]</span>
 										<p>[[${ing.weight}]]g</p> <a th:if="${session.user != null}"
-										href="#!" class="tooltipped secondary-content"
+										href="#ingrediente-fav"
+										class="tooltipped secondary-content modal-trigger add-fav-ingredient"
 										data-position="bottom" data-tooltip="Ingrediente habitual"><i
 											class="material-icons">grade</i></a></li>
 								</ul>
