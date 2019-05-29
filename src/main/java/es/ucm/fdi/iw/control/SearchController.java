@@ -45,10 +45,11 @@ public class SearchController {
 		// devuelve las recetas añadidas a fav para habilitar o deshabilitar el botón de
 		// favoritos.
 		List<Long> favRecipesId = new ArrayList<>();
-		User userAux = (User) session.getAttribute("user");		
-		
+		User userAux = (User) session.getAttribute("user");
+
 		if (null != userAux) {
-			User user = entityManager.find(User.class, userAux.getId()); // esta query es por que el objeto viene enmodo lazy			
+			User user = entityManager.find(User.class, userAux.getId()); // esta query es por que el objeto viene enmodo
+																			// lazy
 			if (!user.getFavRecipes().isEmpty()) {
 				favRecipesId = user.getFavRecipes().stream().map(recipe -> recipe.getId()).collect(Collectors.toList());
 			}
@@ -69,44 +70,50 @@ public class SearchController {
 	@PostMapping("/buscar")
 	@Transactional
 	public String getRecipesSearchAdvanced(@RequestParam(required = false) String recipeName,
-			@RequestParam(required = false) boolean favoritos, @RequestParam(required = false) Integer tiempo, 
+			@RequestParam(required = false) boolean favoritos, @RequestParam(required = false) Integer tiempo,
 			@RequestParam(required = false) String ingredientes, @RequestParam(required = false) String[] difficulty,
-			@RequestParam(required = false) String[] cuisine, @RequestParam(required = false) String[] tag, Model model, HttpSession session) {
+			@RequestParam(required = false) String[] cuisine, @RequestParam(required = false) String[] tag, Model model,
+			HttpSession session) {
 
-		List<String> ingredients = !StringUtils.isBlank(ingredientes) ? Arrays.asList(ingredientes.split(" ")) : new ArrayList<>();
-		Boolean found = true;		
-		
-		// devuelve las recetas añadidas a fav para habilitar o deshabilitar el botón de favoritos.
-		List<Long> favRecipesId = new ArrayList<>();		
+		List<String> ingredients = !StringUtils.isBlank(ingredientes) ? Arrays.asList(ingredientes.split(" "))
+				: new ArrayList<>();
+		Boolean found = true;
+
+		// devuelve las recetas añadidas a fav para habilitar o deshabilitar el botón de
+		// favoritos.
+		List<Long> favRecipesId = new ArrayList<>();
 		List<String> favIngredients = new ArrayList<>();
-		List<String> favTags = new ArrayList<>();		
+		List<String> favTags = new ArrayList<>();
 		User userAux = (User) session.getAttribute("user");
-		
+
 		if (null != userAux) {
-			User user = entityManager.find(User.class, userAux.getId()); // esta query es por que el objeto viene en modo lazy				
-			
-			//user.getFavIngredients().stream().forEach(i -> favIngredients.add(i.getIngredient()));
-			if (!user.getFavIngredients().isEmpty() && favoritos) {				
+			User user = entityManager.find(User.class, userAux.getId()); // esta query es por que el objeto viene en
+																			// modo lazy
+
+			// user.getFavIngredients().stream().forEach(i ->
+			// favIngredients.add(i.getIngredient()));
+			if (!user.getFavIngredients().isEmpty() && favoritos) {
 				user.getFavIngredients().stream().forEach(i -> favIngredients.add(i.getCustomName()));
 			}
-			
+
 			if (!user.getFavTags().isEmpty() && favoritos) {
 				user.getFavTags().stream().forEach(t -> favTags.add(t.getTag()));
 			}
-			
+
 			if (!user.getFavRecipes().isEmpty()) {
-				favRecipesId = user.getFavRecipes().stream().map(recipe -> recipe.getId()).collect(Collectors.toList());				
-			}		
-			
+				favRecipesId = user.getFavRecipes().stream().map(recipe -> recipe.getId()).collect(Collectors.toList());
+			}
+
 		}
 
-		
 		List<Recipe> allRecipes = entityManager.createNamedQuery("Recipe.AllRecipes", Recipe.class).getResultList();
-		Predicate<Recipe> recipePredicate = getPredicate(recipeName, tiempo, ingredients, difficulty, cuisine, tag, favIngredients, favTags);
+		Predicate<Recipe> recipePredicate = getPredicate(recipeName, tiempo, ingredients, difficulty, cuisine, tag,
+				favIngredients, favTags);
 		List<Recipe> filtredRecipes = allRecipes.stream().filter(recipePredicate).collect(Collectors.toList());
 
 		if (filtredRecipes.isEmpty()) {
-			filtredRecipes.addAll(entityManager.createNamedQuery("Recipe.AllRecipes", Recipe.class).setMaxResults(6).getResultList());
+			filtredRecipes.addAll(
+					entityManager.createNamedQuery("Recipe.AllRecipes", Recipe.class).setMaxResults(6).getResultList());
 			found = false;
 		}
 
@@ -120,7 +127,7 @@ public class SearchController {
 		model.addAttribute("favoritos", favoritos);
 		model.addAttribute("recipeName", recipeName);
 
-		model.addAttribute("siteName", "Buscador - " + env.getProperty("es.ucm.fdi.site-title-short"));		
+		model.addAttribute("siteName", "Buscador - " + env.getProperty("es.ucm.fdi.site-title-short"));
 		model.addAttribute("favRecipes", favRecipesId);
 
 		return "buscar";
@@ -133,15 +140,15 @@ public class SearchController {
 		Set<String> difficultySet = (difficulty != null) ? new HashSet<>(Arrays.asList(difficulty)) : null;
 		Set<String> cuisineSet = (cuisine != null) ? new HashSet<>(Arrays.asList(cuisine)) : null;
 		Set<String> tagList = (tag != null) ? new HashSet<>(Arrays.asList(tag)) : new HashSet<>();
-		
-		if(favIngredients != null) {	
-			favIngredients.removeAll(ingredients); //Es necesario eliminar los que estan ya en la lista de ingredients por que si no 													
-			ingredients.addAll(favIngredients);		//Salta una excepcion al añadir un elemento que ya existe en un set
-			
+
+		if (favIngredients != null) {
+			favIngredients.removeAll(ingredients); // Es necesario eliminar los que estan ya en la lista de ingredients
+													// por que si no
+			ingredients.addAll(favIngredients); // Salta una excepcion al añadir un elemento que ya existe en un set
+
 			favTags.removeAll(tagList);
-			tagList.addAll(favTags);			
+			tagList.addAll(favTags);
 		}
-		
 
 		Predicate<Recipe> predicateByRecipeName = r -> true;
 		Predicate<Recipe> predicateByTiempo = r -> true;

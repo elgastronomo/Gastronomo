@@ -341,6 +341,16 @@
 
 	</div>
 
+	<div th:if="${session.user != null}" class="fixed-action-btn">
+		<button th:id="recipeButton + |${recipe.id}|"
+			class="btn-floating btn-large red"
+			th:onclick=" 'addRecipeToFavourite(' + |${recipe.id}| + ')'"
+			th:disabled="${session.user == null or #lists.contains(favRecipes,recipe.id)}">
+			<i class="large material-icons">favorite</i>
+		</button>
+
+	</div>
+
 	<footer th:replace="fragments/footer.html :: footer"></footer>
 </body>
 </html>

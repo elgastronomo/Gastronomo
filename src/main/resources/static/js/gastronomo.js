@@ -653,4 +653,6 @@ function addRecipeToFavourite(recipeId) {
     }).then(function(response) {
         console.log(response);
     });
+    
+    M.toast({ html: '¡Receta añadida a favoritos!' });
 }

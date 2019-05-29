@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
@@ -72,6 +73,7 @@ public class RecipeController {
 	public String getRecipe(@PathVariable long id, Model model, HttpSession session) {
 
 		Recipe recipe = entityManager.find(Recipe.class, id);
+		List<Long> favRecipesId = new ArrayList<>();
 
 		if (recipe != null) {
 			// Because it's easier to split the ingredient list in two lists here than
@@ -93,6 +95,9 @@ public class RecipeController {
 			User user = (User) session.getAttribute("user");
 			if (user != null) {
 				user = entityManager.find(User.class, user.getId());
+				if (!user.getFavRecipes().isEmpty()) {
+					favRecipesId = user.getFavRecipes().stream().map(r -> r.getId()).collect(Collectors.toList());
+				}
 			}
 
 			model.addAttribute("user", user);
@@ -100,6 +105,7 @@ public class RecipeController {
 			model.addAttribute("firstIngredients", firstIngredients);
 			model.addAttribute("secondIngredients", secondIngredients);
 			model.addAttribute("steps", recipe.parseSteps());
+			model.addAttribute("favRecipes", favRecipesId);
 
 			model.addAttribute("siteName", recipe.getName() + " - " + env.getProperty("es.ucm.fdi.site-title-short"));
 		}
@@ -128,7 +134,7 @@ public class RecipeController {
 
 		Comment comment = new Comment(recipe, tituloComentario, comentario, user);
 		entityManager.persist(comment);
-		
+
 		// Send notification when comment author is not the recipe creator
 		if (user.getId() != recipe.getUser().getId()) {
 			ObjectMapper mapper = new ObjectMapper();
@@ -137,7 +143,7 @@ public class RecipeController {
 			String message = "{\"comment\": " + commentAsJson + "}";
 
 			this.iwSocketHandler.sendText(recipe.getUser().getLogin(), message);
-		}		
+		}
 
 		return "redirect:/receta/" + id;
 	}
