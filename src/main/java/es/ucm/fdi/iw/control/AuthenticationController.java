@@ -11,9 +11,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +46,9 @@ public class AuthenticationController {
 	@Autowired
 	private EntityManager entityManager;
 
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
 	@GetMapping("/login")
 	public String login() {
 		return "login";
@@ -68,7 +74,7 @@ public class AuthenticationController {
 	@PostMapping("/register")
 	@Transactional
 	public String registration(String name, String username, String email, String password, String matchPassword,
-			Model model, HttpSession session) {
+			Model model, HttpSession session, HttpServletRequest request) {
 
 		ArrayList<String> errors = new ArrayList<>();
 
@@ -97,11 +103,12 @@ public class AuthenticationController {
 			user.setEmail(email);
 			user.setLogin(username);
 			user.setPassword(finalPass);
+			user.setEnabled((byte) 1);
 			user.setRoles("USER");
 
 			entityManager.persist(user);
+			entityManager.flush();
 
-			session.setAttribute("user", user);
 			return "redirect:/";
 		}
 

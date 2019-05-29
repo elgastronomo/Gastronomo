@@ -280,7 +280,7 @@ public class RecipeController {
 			in = new BufferedInputStream(new FileInputStream(f));
 		} else {
 			in = new BufferedInputStream(
-					getClass().getClassLoader().getResourceAsStream("static/img/recetas/" + "" + id + ".jpg"));
+					getClass().getClassLoader().getResourceAsStream("static/img/image-not-found.jpg"));
 		}
 		return new StreamingResponseBody() {
 			@Override

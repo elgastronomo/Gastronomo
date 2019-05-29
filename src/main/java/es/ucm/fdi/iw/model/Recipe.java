@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 
 import org.json.JSONObject;
 
@@ -53,9 +54,9 @@ public class Recipe implements Comparable {
 	private Set<RecipeIngredient> recipeIngredients = new HashSet<>();
 	private List<Comment> comments = new ArrayList<>();
 	private List<RecipeReport> reports = new ArrayList<>();
-	private List<Valoration> valorations = new ArrayList<>();
 	private List<Tag> tags = new ArrayList<>();
 	private Set<RecipeNutrient> recipeNutrients = new HashSet<>();
+	private List<User> favUsers = new ArrayList<>();
 	private Timestamp created;
 
 	public List<String> parseSteps() {
@@ -250,22 +251,6 @@ public class Recipe implements Comparable {
 	}
 
 	/**
-	 * @return the valorations
-	 */
-	@OneToMany(targetEntity = Valoration.class)
-	@JoinColumn(name = "recipe_id")
-	public List<Valoration> getValorations() {
-		return valorations;
-	}
-
-	/**
-	 * @param valorations the valorations to set
-	 */
-	public void setValorations(List<Valoration> valorations) {
-		this.valorations = valorations;
-	}
-
-	/**
 	 * @return the tags
 	 */
 	@ManyToMany(targetEntity = Tag.class)
@@ -333,4 +318,19 @@ public class Recipe implements Comparable {
 		this.reports = reports;
 	}
 
+	@ManyToMany(targetEntity = User.class, mappedBy = "favRecipes")
+	public List<User> getFavUsers() {
+		return favUsers;
+	}
+
+	public void setFavUsers(List<User> favUsers) {
+		this.favUsers = favUsers;
+	}
+
+	@PreRemove
+	private void removeFavRecipesFromUsers() {
+		for (User u : favUsers) {
+			u.getFavRecipes().remove(this);
+		}
+	}
 }

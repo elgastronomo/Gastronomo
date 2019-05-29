@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 		@NamedQuery(name = "User.HasLogin", query = "SELECT COUNT(u) " + "FROM User u " + "WHERE u.login = :userLogin"),
 
-		@NamedQuery(name = "User.ByEmail", query = "SELECT u FROM User u " + "WHERE u.email = :email"),		
+		@NamedQuery(name = "User.ByEmail", query = "SELECT u FROM User u " + "WHERE u.email = :email"),
 
 })
 public class User {
@@ -47,23 +48,23 @@ public class User {
 	private byte enabled;
 
 	public boolean hasRole(String roleName) {
-		return Arrays.stream(roles.split(","))
-				.anyMatch(r -> r.equalsIgnoreCase(roleName));
+		return Arrays.stream(roles.split(",")).anyMatch(r -> r.equalsIgnoreCase(roleName));
 	}
+
 	// app specific fields
 	@JsonView(Views.Public.class)
 	private String name;
 	private String email;
 	private int karma;
 	private List<Comment> comments = new ArrayList<>();
-	private List<Valoration> valorations = new ArrayList<>();
 	private List<Recipe> recipes = new ArrayList<>();
 	private List<Recipe> favRecipes = new ArrayList<>();
 	private Set<UserIngredient> favIngredients = new HashSet<>();
 	private Set<Tag> favTags = new HashSet<>();
 	private List<Menu> menus = new ArrayList<>();
-	
-	public User() {}
+
+	public User() {
+	}
 
 	public User(int karma) {
 		this.karma = 0;
@@ -147,19 +148,6 @@ public class User {
 	}
 
 	/**
-	 * @return the valorations
-	 */
-	@OneToMany(targetEntity = Valoration.class)
-	@JoinColumn(name = "user_id")
-	public List<Valoration> getValorations() {
-		return valorations;
-	}
-
-	public void setValorations(List<Valoration> valorations) {
-		this.valorations = valorations;
-	}
-
-	/**
 	 * @return the recipes
 	 */
 	@OneToMany(targetEntity = Recipe.class)
@@ -185,16 +173,16 @@ public class User {
 	public Set<UserIngredient> getFavIngredients() {
 		return favIngredients;
 	}
-	
+
 	@Transient
 	public List<String> getFavIngredientsString() {
 		List<String> favIngredientsString = new ArrayList<>();
-		
+
 		favIngredients.forEach(i -> favIngredientsString.add(i.getIngredient().getName()));
-		
+
 		return favIngredientsString;
-	}	
-	
+	}
+
 	public void setFavIngredients(Set<UserIngredient> favIngredients) {
 		this.favIngredients = favIngredients;
 	}
@@ -207,16 +195,16 @@ public class User {
 	public void setFavTags(Set<Tag> favTags) {
 		this.favTags = favTags;
 	}
-	
+
 	@Transient
 	public List<String> getFavTagsString() {
 		List<String> favTagsString = new ArrayList<>();
-		
+
 		favTags.forEach(t -> favTagsString.add(t.getTag()));
-		
+
 		return favTagsString;
 	}
-	
+
 	public void addFavTag(Tag tag) {
 		this.favTags.add(tag);
 	}
@@ -234,7 +222,7 @@ public class User {
 	public void setMenus(List<Menu> menus) {
 		this.menus = menus;
 	}
-	
+
 	public void addMenu(Menu menu) {
 		this.menus.add(menu);
 	}
