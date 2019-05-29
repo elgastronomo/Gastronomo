@@ -50,7 +50,7 @@
 							class="secondary-content material-icons">fastfood</i>
 					</div></li>
 
-				<li class="collection-item"><div>
+				<li class="collection-item tag-list"><div>
 						<strong>Tags: </strong><span th:each="tag, i: ${receta.tags}"
 							th:text="${tag.tag} + (${i.index} eq ${i.size} - 1 ? '' : ', ')"></span>
 						<i class="secondary-content material-icons">label</i>

@@ -57,7 +57,7 @@ public class SearchController {
 		model.addAttribute("favRecipes", favRecipesId);
 
 		model.addAttribute("recipes",
-				entityManager.createNamedQuery("Recipe.AllRecipes", Recipe.class).setMaxResults(6).getResultList());
+				entityManager.createNamedQuery("Recipe.AllRecipes", Recipe.class).getResultList());
 		model.addAttribute("found", true);
 
 		model.addAttribute("siteName", "Buscador - " + env.getProperty("es.ucm.fdi.site-title-short"));
