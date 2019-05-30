@@ -120,11 +120,16 @@ body#login-container {
 	padding: 5px 10px;
 }
 
+
 .tag-list {
 	overflow: hidden;
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
+}
+
+.receta-card {
+	min-height: 375px;
 }
 
 /* ----------------------------*/
