@@ -139,7 +139,7 @@ public class AdminController {
 					User u = entityManager.find(User.class, rReport.getRecipe().getUser().getId());
 					u.setEnabled((byte) 0);
 					
-					entityManager.remove(entityManager.find(Recipe.class, rReport.getRecipe().getId()));
+					deleteUserActivity(u);					
 				}
 			}
 		}
@@ -160,7 +160,7 @@ public class AdminController {
 					User u = entityManager.find(User.class, cReport.getComment().getUser().getId());
 					u.setEnabled((byte) 0);
 					
-					entityManager.remove(entityManager.find(Comment.class, cReport.getComment().getId()));
+					deleteUserActivity(u);
 				}
 			}
 		}
@@ -184,6 +184,20 @@ public class AdminController {
 			target.setEnabled((byte)1);
 		}
 		return "redirect:/user/" + id;
-	}	
+	}
+	
+	@Transactional
+	private void deleteUserActivity(User u) {
+		List<Recipe> recipesUser = u.getRecipes();
+		List<Comment> commentsUser = u.getComments();
+		
+		for (Recipe r : recipesUser) {
+			entityManager.remove(r);
+		}
+		
+		for (Comment c : commentsUser) {
+			entityManager.remove(c);
+		}
+	}
 
 }

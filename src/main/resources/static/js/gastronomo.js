@@ -291,11 +291,17 @@ function addIngredient() {
 }
 
 function removeIngredient(ingredient) {
-    if (Math.abs(ingredient % 2) == 1) {
-        document.getElementById('firstIngredients').removeChild(document.getElementById('ingredient_form_' + ingredient));
-    } else {
-        document.getElementById('secondIngredients').removeChild(document.getElementById('ingredient_form_' + ingredient));
-    }
+	if ((document.getElementById('firstIngredients').childElementCount
+			+ document.getElementById('secondIngredients').childElementCount) > 1) {
+		if (Math.abs(ingredient % 2) == 1) {
+	        document.getElementById('firstIngredients').removeChild(document.getElementById('ingredient_form_' + ingredient));
+	    } else {
+	        document.getElementById('secondIngredients').removeChild(document.getElementById('ingredient_form_' + ingredient));
+	    }
+	}
+	else {
+		M.toast({ html: 'No puedes borrar todos los ingredientes' });
+	}
 }
 
 function addStep() {
@@ -318,7 +324,12 @@ function addStep() {
 }
 
 function removeStep(step) {
-    document.getElementById('stepsForm').removeChild(document.getElementById('step_form_' + step));
+	if (document.getElementById('stepsForm').childElementCount > 1) {
+		document.getElementById('stepsForm').removeChild(document.getElementById('step_form_' + step));
+	}
+	else {
+		M.toast({ html: 'No puedes borrar todos los pasos' });
+	}
 }
 
 function nuevaReceta() {
