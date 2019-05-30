@@ -113,7 +113,7 @@ public class SearchController {
 
 		if (filtredRecipes.isEmpty()) {
 			filtredRecipes.addAll(
-					entityManager.createNamedQuery("Recipe.AllRecipes", Recipe.class).setMaxResults(6).getResultList());
+					entityManager.createNamedQuery("Recipe.AllRecipes", Recipe.class).getResultList());
 			found = false;
 		}
 

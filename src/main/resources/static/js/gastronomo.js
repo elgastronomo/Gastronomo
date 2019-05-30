@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
     sortRecipesListener()
 
     let elems = document.querySelectorAll('.chips');
-    let instances = M.Chips.init(elems, { onChipAdd: changeColor });
+    // let instances = M.Chips.init(elems, { onChipAdd: changeColor });
 
     elems = document.querySelectorAll('.chips-ingredientes');
     instances = M.Chips.init(elems, {
@@ -333,6 +333,14 @@ function nuevaReceta() {
     $(".file-path-wrapper").append(
         '<input type="hidden" name="photo" value="' + document.getElementById("nueva-receta-img").src + '">'
     )
+    
+    let horas = $("#duracion-horas").val() + " H";
+    let minutos = $("#duracion-minutos").val() + " Min";
+    let duracion = horas + ' ' + minutos;
+    
+    
+    $("#duracion").append(
+    		'<input type="hidden" name="duracion" value="' + duracion + '">');
 }
 
 function loadImgNueva() {
