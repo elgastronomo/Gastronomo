@@ -21,19 +21,16 @@
 		rápida y sencilla, la aplicación te desglosa una serie de platos que
 		podrías cocinar con lo que tienes en la nevera sin tener que ir al
 		supermercado. Además, los más foodies pueden colaborar con la
-		plataforma añadiendo nuevos platos, valorar los que ha probado, subir
-		fotos y compartir en redes sociales.</p>
+		plataforma añadiendo nuevos platos.</p>
 	<p>Soporta los siguientes roles:</p>
 	<p>
 		<strong>Administrador</strong>
 	</p>
 	<ul>
 		<li><strong>Gestión de contenidos:</strong> moderar los nuevos
-			platos que añaden los usuarios.</li>
+			platos y comentarios que añaden los usuarios.</li>
 		<li><strong>Gestión de usuarios:</strong> bloquear usuarios que
 			incumplan las normas.</li>
-		<li><strong>Estadísticas:</strong> platos más valorados, visitas,
-			etc.</li>
 	</ul>
 
 	<p>
@@ -44,6 +41,7 @@
 			registrado puede realizar búsquedas por ingrediente, tiempo de
 			preparación, dificultad, tipo de plato, alérgenos, ordenar por
 			valoraciones, etc.</li>
+			<li><strong>Compartir en redes sociales</strong></li>
 	</ul>
 
 
@@ -56,24 +54,22 @@
 			comunidad añadiendo un nuevo plato (ingredientes, tipo, tiempo de
 			preparación, imágenes, descripción).</li>
 		<li><strong>Crear menús personalizados:</strong> ​ elige una
-			serie de platos que quieres añadir a tus menús semanales y con la
-			posibilidad de generar una lista de la compra.</li>
+			serie de platos que quieres añadir a tus menús semanales.</li>
 		<li><strong>Guardar ingredientes habituales:</strong> escoge una
 			serie de ingredientes que sueles tener siempre en la nevera para que
 			Gastrónomo personalice tu experiencia y te muestre primero las
 			recetas que más te puedan interesar.</li>
-		<li><strong>Valorar:</strong> ​ valorar platos que haya probado y
-			añadir a favoritos. Posibilidad de añadir texto e imágenes. Similar a
-			las valoraciones de Amazon.</li>
-		<li><strong>Moderar:</strong> ​ los comentarios, imágenes o
+		<li><strong>Valorar:</strong> ​ añadir platos que hayas probado a
+			favoritos.</li>
+		<li><strong>Reportar:</strong> ​ los comentarios, imágenes o
 			recetas de otros usuarios que no cumplan con las políticas de la
 			comunidad</li>
-		<li><strong>Compartir en redes sociales:</strong> subir a la
-			redes sociales una imagen y enlaces del plato elegido.</li>
 		<li><strong>Añadir tags a favoritos: </strong>añadir tags a
-			favoritos, muy util para restricciones(vegan).</li>
+			favoritos, muy util para restricciones (vegan, bajo en sodio, etc.).</li>
 		<li><strong>Comentar: </strong>Posibilidad de añadir comentarios
 			en las recetas.</li>
+		<li><strong>Estadísticas: </strong>Ver gráficas (en la vista de
+			perfil) de cuales son los tipos de cocina que más te gustan.</li>
 	</ul>
 
 
@@ -96,8 +92,8 @@
 			resultados del buscador. Se pueden aplicar filtro más avanzados que
 			los de la home,si esl usuario esta registrado, las recetas mostradas
 			se podrán añadir a favoritos</li>
-		<li><a href="http://localhost:8080/receta">receta</a> - vista de
-			una receta concreta. Se muestra una descripción, ingredientes,
+		<li><a href="http://localhost:8080/receta/1">receta</a> - vista
+			de una receta concreta. Se muestra una descripción, ingredientes,
 			información nutricional y los pasos que se deben seguir. Además, si
 			el usuario esta registrado puede comentar en la receta</li>
 		<li><a href="http://localhost:8080/receta/nueva">crear receta</a>
@@ -106,21 +102,28 @@
 			- vista del perfil del usuario, en esta pantalla el usuario podra
 			modificar su informacion personal, añadir ingredientes habituales y
 			tags favoritos,</li>
-		<li><a href=http://localhost:8080/login>ventana de login </a> -
+		<li><a href="http://localhost:8080/login">ventana de login </a> -
 			Ventana para iniciar sesión</li>
-		<li><a href=http://localhost:8080/register>ventana de
+		<li><a href="http://localhost:8080/register">ventana de
 				registro </a> - Ventana registrarse</li>
+		<li><a href="http://localhost:8080/admin/moderar-recetas">moderar
+				recetas </a> - vista de moderación de recetas reportadas (administrador)</li>
+		<li><a href="http://localhost:8080/admin/moderar-comentarios">moderar
+				comentarios </a> - vista de moderación de comentarios reportados
+			(administrador)</li>
 	</ul>
 
 	<h2>Recursos</h2>
 	<ul>
 		<li><a href="https://developer.edamam.com/edamam-recipe-api">EDAMAM
-				API</a> - Todas las recetas e imágenes han sido extraídas de esta API. Licencia: 
-				<a href="https://developer.edamam.com/attribution">atribución necesaria</a></li>
+				API</a> - Todas las recetas e imágenes han sido extraídas de esta API.
+			Licencia: <a href="https://developer.edamam.com/attribution">atribución
+				necesaria</a></li>
 		<li><a href="https://fonts.googleapis.com/css?family=Pacifico">Logotipo
 				utilizando fuente de Google Fonts. </a> - Licencia: Apache License 2.0</li>
 		<li><a href="https://materializecss.com/">Materialize</a> - A
-			modern responsive front-end framework based on Material Design  - Licencia: MIT</li>
+			modern responsive front-end framework based on Material Design -
+			Licencia: MIT</li>
 		<li><a href="https://jquery.com/">jQuery</a> - Licencia: MIT</li>
 
 	</ul>
@@ -129,9 +132,18 @@
 	<h2 class="nota">Notas</h2>
 	<ul class="nota">
 		<li>
-			<p>Somos conscientes de que nos falta mejorar la validación de
-				formularios tanto en el cliente como en el servidor. Lo
-				solucionaremos en las siguientes versiones.</p>
+			<p>Las imágenes de las recetas se encuentran en una carpeta
+				comprimida (Gastronomo/src/main/resources/static/img/recetas.zip).
+				Las imágenes deben ser extraídas en /tmp/iw/recipe/</p>
+		</li>
+		<li>
+			<p>Se han utilizado WebSockets para implementar el sistema de
+				notificaciones que avisa de "me gustas" y comentarios recibidos en
+				las recetas publicadas.</p>
+		</li>
+		<li>
+			<p>Se ha utilizado el LocalStorage del navegador para almacenar
+				las notificaciones y que no se pierdan si se cambia de vista.</p>
 		</li>
 	</ul>
 
